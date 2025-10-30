@@ -50,6 +50,20 @@ public class DisplayEntityManager {
         return displayGroups.asMap().values();
     }
     
+    public DisplayGroup getGroupByEntity(Entity entity) {
+        for (DisplayGroup group : displayGroups.asMap().values()) {
+            if (group.getRootEntity() != null && group.getRootEntity().equals(entity)) {
+                return group;
+            }
+            for (Display display : group.getDisplays()) {
+                if (display.equals(entity)) {
+                    return group;
+                }
+            }
+        }
+        return null;
+    }
+    
     public BlockDisplay createBlockDisplay(Location location, org.bukkit.Material material) {
         BlockDisplay display = (BlockDisplay) location.getWorld().spawnEntity(location, EntityType.BLOCK_DISPLAY);
         display.setBlock(material.createBlockData());

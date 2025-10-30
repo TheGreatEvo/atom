@@ -5,6 +5,7 @@ import co.aikar.commands.annotation.*;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Location;
+import org.bukkit.entity.Display;
 import org.bukkit.entity.Player;
 import org.shotrush.atom.Atom;
 import org.shotrush.atom.display.DisplayGroup;
@@ -89,6 +90,7 @@ public class ModelCommand extends BaseCommand {
     @CommandPermission("atom.model.spawn")
     @Syntax("<id>")
     @Description("Spawn a saved model at your location and rotation")
+    @CommandCompletion("@models")
     public void onSpawn(Player player, String id) {
         try {
             ModelManager mm = Atom.getInstance().getModelManager();
@@ -106,6 +108,7 @@ public class ModelCommand extends BaseCommand {
     @CommandPermission("atom.model.give")
     @Syntax("<id> [amount]")
     @Description("Get a placeable item for a model")
+    @CommandCompletion("@models")
     public void onGive(Player player, String id, @Default("1") int amount) {
         try {
             ModelManager mm = Atom.getInstance().getModelManager();
@@ -255,27 +258,88 @@ public class ModelCommand extends BaseCommand {
             .append(Component.text(id, NamedTextColor.GOLD)));
     }
     
-    @Subcommand("animate")
-    @CommandPermission("atom.model.animate")
-    @Syntax("<id> <speed>")
-    @Description("Set model animation")
-    @CommandCompletion("@models")
-    public void onAnimate(Player player, String id, @Default("1.0") float speed) {
-        ModelManager mm = Atom.getInstance().getModelManager();
-        Optional<DisplayModel> modelOpt = mm.loadModel(id);
-        
-        if (modelOpt.isEmpty()) {
-            player.sendMessage(Component.text("✗ Model not found: " + id, NamedTextColor.RED));
+    @Subcommand("rotate continuous")
+    @CommandPermission("atom.model.rotate")
+    @Syntax("<speed> [axis]")
+    @Description("Start continuous rotation")
+    @CommandCompletion("45 x|y|z")
+    public void onRotateContinuous(Player player, float speed, @Default("y") String axis) {
+        DisplayGroup group = findTargetModel(player);
+        if (group == null) {
+            player.sendMessage(Component.text("✗ No model found. Look at a model!", NamedTextColor.RED));
             return;
         }
         
-        DisplayModel model = modelOpt.get();
-        model.getMetadata().setAnimated(true);
-        model.getMetadata().setDefaultRotationSpeed(speed);
-        mm.saveModel(model);
+        if (!axis.matches("[xyzXYZ]")) {
+            player.sendMessage(Component.text("✗ Invalid axis! Use x, y, or z", NamedTextColor.RED));
+            return;
+        }
         
-        player.sendMessage(Component.text("✓ Model animation updated: ", NamedTextColor.GREEN)
-            .append(Component.text(id, NamedTextColor.GOLD))
-            .append(Component.text(" (speed: " + speed + ")", NamedTextColor.GRAY)));
+        group.startContinuousRotation(speed, axis);
+        player.sendMessage(Component.text("✓ Started continuous rotation: ", NamedTextColor.GREEN)
+            .append(Component.text(speed + "°/s on " + axis.toUpperCase() + " axis", NamedTextColor.GOLD)));
     }
+    
+    @Subcommand("rotate stop")
+    @CommandPermission("atom.model.rotate")
+    @Description("Stop continuous rotation")
+    public void onRotateStop(Player player) {
+        DisplayGroup group = findTargetModel(player);
+        if (group == null) {
+            player.sendMessage(Component.text("✗ No model found. Look at a model!", NamedTextColor.RED));
+            return;
+        }
+        
+        group.stopContinuousRotation();
+        player.sendMessage(Component.text("✓ Stopped continuous rotation", NamedTextColor.GREEN));
+    }
+    
+    @Subcommand("rotate set")
+    @CommandPermission("atom.model.rotate")
+    @Syntax("<degrees> [axis]")
+    @Description("Set rotation by degrees")
+    @CommandCompletion("90 x|y|z")
+    public void onRotateSet(Player player, float degrees, @Default("y") String axis) {
+        DisplayGroup group = findTargetModel(player);
+        if (group == null) {
+            player.sendMessage(Component.text("✗ No model found. Look at a model!", NamedTextColor.RED));
+            return;
+        }
+        
+        if (!axis.matches("[xyzXYZ]")) {
+            player.sendMessage(Component.text("✗ Invalid axis! Use x, y, or z", NamedTextColor.RED));
+            return;
+        }
+        
+        if (axis.equalsIgnoreCase("y")) {
+            group.rotate(degrees);
+        } else {
+            group.stopContinuousRotation();
+            group.startContinuousRotation(degrees * 20, axis);
+            org.bukkit.Bukkit.getScheduler().runTaskLater(Atom.getInstance(), () -> {
+                group.stopContinuousRotation();
+            }, 1);
+        }
+        
+        player.sendMessage(Component.text("✓ Rotated ", NamedTextColor.GREEN)
+            .append(Component.text(degrees + "° on " + axis.toUpperCase() + " axis", NamedTextColor.GOLD)));
+    }
+    
+    
+    private DisplayGroup findTargetModel(Player player) {
+        org.bukkit.util.RayTraceResult result = player.getWorld().rayTraceEntities(
+            player.getEyeLocation(),
+            player.getLocation().getDirection(),
+            10,
+            0.5,
+            entity -> entity instanceof Display
+        );
+        
+        if (result != null && result.getHitEntity() != null) {
+            return Atom.getInstance().getDisplayManager().getGroupByEntity(result.getHitEntity());
+        }
+        
+        return null;
+    }
+    
 }

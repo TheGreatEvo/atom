@@ -38,18 +38,18 @@ public class ModelPlaceListener implements Listener {
         float pitch = event.getPlayer().getLocation().getPitch();
         
         yaw = ((yaw % 360) + 360) % 360;
-        float snappedYaw = Math.round(yaw / 90.0f) * 90.0f;
-        float snappedPitch = Math.round(pitch / 90.0f) * 90.0f;
-        snappedPitch = Math.max(-90, Math.min(90, snappedPitch));
+        final float snappedYaw = Math.round(yaw / 90.0f) * 90.0f;
+        final float snappedPitch = Math.max(-90, Math.min(90, Math.round(pitch / 90.0f) * 90.0f));
+        
+        placeLoc.setYaw(snappedYaw);
+        placeLoc.setPitch(snappedPitch);
         
         Atom.getInstance().getSchedulerManager().runAtLocationDelayed(placeLoc, () -> {
             try {
                 org.shotrush.atom.display.DisplayGroup group = Atom.getInstance().getModelManager().spawnModel(modelId, placeLoc);
                 
-                if (group != null && Math.abs(snappedYaw) > 0.1f) {
-                    Atom.getInstance().getSchedulerManager().runAtLocationDelayed(placeLoc, () -> {
-                        group.rotate(snappedYaw);
-                    }, 1);
+                if (group != null && (Math.abs(snappedYaw) > 0.1f || Math.abs(snappedPitch) > 0.1f)) {
+                    group.applyRotation(snappedYaw, snappedPitch);
                 }
                 
                 if (event.getPlayer().getGameMode() != org.bukkit.GameMode.CREATIVE) {

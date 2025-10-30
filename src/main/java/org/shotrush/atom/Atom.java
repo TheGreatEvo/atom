@@ -11,7 +11,6 @@ import org.shotrush.atom.world.*;
 import org.shotrush.atom.player.*;
 import org.shotrush.atom.recipe.*;
 import org.shotrush.atom.test.*;
-import org.shotrush.atom.example.*;
 
 public final class Atom extends JavaPlugin {
     @Getter private static Atom instance;
@@ -53,26 +52,26 @@ public final class Atom extends JavaPlugin {
         modelManager.listModels();
         
         PaperCommandManager commandManager = new PaperCommandManager(this);
-        commandManager.registerCommand(new RotatingStructureExample());
         commandManager.registerCommand(new ModelCommand());
 
         commandManager.getCommandCompletions().registerCompletion("models", c -> 
             modelManager.getModels().asMap().keySet());
         
         getServer().getPluginManager().registerEvents(new org.shotrush.atom.listener.ModelPlaceListener(), this);
+        getServer().getPluginManager().registerEvents(new org.shotrush.atom.listener.DisplayCollisionListener(), this);
         
-        getCommand("atom").setExecutor(new AtomCommand());
         getCommand("atom").setTabCompleter(new AtomCommand());
         
         testManager.runTests();
         
         getLogger().info("Atom initialized in " + (System.currentTimeMillis() - start) + "ms");
+        
+        modelManager.loadPlacedModelsDelayed();
     }
     
     @Override
     public void onDisable() {
         if (displayManager != null) displayManager.shutdown();
-        if (interactionManager != null) interactionManager.shutdown();
         if (worldManager != null) worldManager.shutdown();
         if (playerManager != null) playerManager.shutdown();
         if (recipeManager != null) recipeManager.shutdown();

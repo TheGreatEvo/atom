@@ -21,6 +21,7 @@ public class ModelManager {
     private final DataManager dataManager;
     @Getter private final Cache<String, DisplayModel> models;
     private final File modelsDir;
+    private final java.util.Map<java.util.UUID, PlacedModel> placedModels = new java.util.HashMap<>();
     
     public ModelManager(JavaPlugin plugin) {
         this.plugin = plugin;
@@ -33,6 +34,10 @@ public class ModelManager {
         if (!modelsDir.exists()) {
             modelsDir.mkdirs();
         }
+    }
+    
+    public void loadPlacedModelsDelayed() {
+        loadPlacedModels();
     }
     
     public DisplayModel createFromCommand(String command, String modelId, String modelName) {
@@ -198,14 +203,12 @@ public class ModelManager {
         
         group.setRoot(root);
         
-        if (model.getMetadata().isAnimated()) {
-            float speed = model.getMetadata().getDefaultRotationSpeed();
-            Atom.getInstance().getSchedulerManager().runAtLocationDelayed(location, () -> {
-                group.startAnimation(speed);
-            }, 2);
-        }
         
         plugin.getLogger().info("✓ Spawned model " + model.getId() + " with " + group.getDisplays().size() + " displays");
+        
+        PlacedModel placed = new PlacedModel(model.getId(), location, group.getId());
+        placedModels.put(group.getId(), placed);
+        savePlacedModels();
         
         return group;
     }
@@ -220,10 +223,57 @@ public class ModelManager {
         File[] files = modelsDir.listFiles((dir, name) -> name.endsWith(".json"));
         if (files != null) {
             for (File file : files) {
-                String id = file.getName().replace(".json", "");
-                loadModel(id);
+                String modelId = file.getName().replace(".json", "");
+                plugin.getLogger().info("  - " + modelId);
             }
         }
     }
+    
+    private void savePlacedModels() {
+        dataManager.save("placed_models.json", new java.util.ArrayList<>(placedModels.values()));
+    }
+    
+    private void loadPlacedModels() {
+        try {
+            java.io.File file = new java.io.File(plugin.getDataFolder(), "placed_models.json");
+            if (!file.exists()) return;
+            
+            java.io.Reader reader = new java.io.FileReader(file);
+            com.google.gson.Gson gson = new com.google.gson.Gson();
+            java.util.List<PlacedModel> loaded = gson.fromJson(reader, 
+                new com.google.gson.reflect.TypeToken<java.util.List<PlacedModel>>(){}.getType());
+            reader.close();
+            
+            if (loaded != null && !loaded.isEmpty()) {
+                plugin.getLogger().info("Loading " + loaded.size() + " placed models...");
+                int successCount = 0;
+                for (PlacedModel placed : loaded) {
+                    try {
+                        Location loc = placed.toLocation();
+                        if (loc != null && loc.getWorld() != null) {
+                            DisplayGroup group = spawnModel(placed.getModelId(), loc);
+                            if (group != null) {
+                                placedModels.put(group.getId(), placed);
+                                successCount++;
+                            }
+                        }
+                    } catch (Exception e) {
+                        plugin.getLogger().warning("Failed to load model " + placed.getModelId() + ": " + e.getMessage());
+                    }
+                }
+                plugin.getLogger().info("Successfully loaded " + successCount + "/" + loaded.size() + " placed models");
+            }
+        } catch (Exception e) {
+            plugin.getLogger().warning("Failed to load placed models file: " + e.getMessage());
+        }
+    }
+    
+    public void removePlacedModel(java.util.UUID groupId) {
+        placedModels.remove(groupId);
+        savePlacedModels();
+    }
+    
+    public PlacedModel getPlacedModel(java.util.UUID groupId) {
+        return placedModels.get(groupId);
+    }
 }
-

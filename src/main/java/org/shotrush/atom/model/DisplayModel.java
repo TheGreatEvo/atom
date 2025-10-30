@@ -73,6 +73,7 @@ public class DisplayModel {
         }
     }
     
+    
     @Data
     public static class BoundingBox {
         private float minX, minY, minZ;
