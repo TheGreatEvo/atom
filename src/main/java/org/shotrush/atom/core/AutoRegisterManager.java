@@ -51,8 +51,16 @@ public class AutoRegisterManager {
         for (Class<?> clazz : sortedClasses) {
             if (BlockType.class.isAssignableFrom(clazz)) {
                 try {
-                    Constructor<?> constructor = clazz.getConstructor(Plugin.class);
-                    BlockType blockType = (BlockType) constructor.newInstance(plugin);
+                    Constructor<?> constructor;
+                    BlockType blockType;
+                    try {
+                        constructor = clazz.getConstructor(org.shotrush.atom.Atom.class);
+                        blockType = (BlockType) constructor.newInstance(plugin);
+                    } catch (NoSuchMethodException e) {
+                        constructor = clazz.getConstructor(Plugin.class);
+                        blockType = (BlockType) constructor.newInstance(plugin);
+                    }
+                    
                     blockRegistry.register(blockType.getIdentifier(), blockType);
                 } catch (Exception e) {
                     plugin.getLogger().warning("Failed to auto-register block type: " + clazz.getName());

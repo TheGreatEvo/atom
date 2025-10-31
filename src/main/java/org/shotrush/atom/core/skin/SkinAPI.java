@@ -14,9 +14,9 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 public class SkinAPI {
-    
-    private static final String BLACK_SKIN_VALUE = "ewogICJ0aW1lc3RhbXAiIDogMTYxMzU4Mzg3MjQyMCwKICAicHJvZmlsZUlkIiA6ICI0ZWQ4MjMzNzFhMmU0YmI3YTVlYWJmY2ZmZGE4NDk1NyIsCiAgInByb2ZpbGVOYW1lIiA6ICJGYWJyaWNhdGlvbiIsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS8zZjQ3NmVhNzc0ZGE0ZWE1ZmQ0MWVlNGRkNjUxOWE1MjEyMzRhYmM2ZDIzMjgzZjU2ZTk3ZTc3ZjA2YjI0YWQwIgogICAgfQogIH0KfQ==";
-    private static final String BLACK_SKIN_SIGNATURE = "";
+    private static final String DEFAULT_SKIN_VALUE = "ewogICJ0aW1lc3RhbXAiIDogMTc2MTk1Mjg2NTgyNSwKICAicHJvZmlsZUlkIiA6ICIzOWQ4ZWJhY2NmZmU0ZTA4YTRiMWQ4NmQ4YWIwNGM4OSIsCiAgInByb2ZpbGVOYW1lIiA6ICJBemRhcmlhaCIsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9jOTYwZWNiYTQ4MzljY2JiYzAwM2NkYjMyYTViYzJiMmFmNjdlZDlmNzZjYmE1OGY3NWE1MDkxNDlmNGIwMjQzIiwKICAgICAgIm1ldGFkYXRhIiA6IHsKICAgICAgICAibW9kZWwiIDogInNsaW0iCiAgICAgIH0KICAgIH0KICB9Cn0=";
+    private static final String DEFAULT_SKIN_SIGNATURE = "";
+
     public static void setPlayerSkin(Player player, String value, String signature) {
         PlayerProfile profile = player.getPlayerProfile();
         profile.getProperties().removeIf(prop -> prop.getName().equals("textures"));
@@ -28,8 +28,8 @@ public class SkinAPI {
         player.setPlayerProfile(profile);
     }
     
-    public static void setDefaultBlackSkin(Player player) {
-        setPlayerSkin(player, BLACK_SKIN_VALUE, BLACK_SKIN_SIGNATURE);
+    public static void setDefaultSkin(Player player) {
+        setPlayerSkin(player, DEFAULT_SKIN_VALUE, DEFAULT_SKIN_SIGNATURE);
     }
     
     public static CompletableFuture<Boolean> setSkinFromUsername(Player player, String username) {

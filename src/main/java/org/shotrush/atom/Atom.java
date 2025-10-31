@@ -52,6 +52,7 @@ public final class Atom extends JavaPlugin {
         commandManager.registerCommand(new RemoveCogsCommand());
         commandManager.registerCommand(new AnvilCommand());
         commandManager.registerCommand(new AgeCommand(this));
+        commandManager.registerCommand(new SkinCommand());
     }
 
     @Override
