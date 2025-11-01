@@ -118,7 +118,7 @@ public class Cog extends CustomBlock {
     }
 
     @Override
-    public void remove() {
+    protected void removeEntities() {
         Entity interaction = Bukkit.getEntity(interactionUUID);
         if (interaction != null) {
             interaction.remove();
@@ -127,10 +127,6 @@ public class Cog extends CustomBlock {
         Entity display = Bukkit.getEntity(displayUUID);
         if (display != null) {
             display.remove();
-        }
-
-        if (blockLocation.getBlock().getType() == Material.BARRIER) {
-            blockLocation.getBlock().setType(Material.AIR);
         }
     }
 

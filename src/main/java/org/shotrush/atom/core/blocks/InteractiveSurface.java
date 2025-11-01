@@ -37,6 +37,14 @@ public abstract class InteractiveSurface extends CustomBlock {
         return true;
     }
     
+    public boolean placeItem(Player player, ItemStack item, Vector3f position, float yaw) {
+        if (placeItem(item, position, yaw)) {
+            player.swingMainHand();
+            return true;
+        }
+        return false;
+    }
+    
     public ItemStack removeLastItem() {
         if (placedItems.isEmpty()) return null;
         PlacedItem item = placedItems.remove(placedItems.size() - 1);
@@ -44,8 +52,44 @@ public abstract class InteractiveSurface extends CustomBlock {
         return item.getItem();
     }
     
-    protected abstract void spawnItemDisplay(PlacedItem item);
-    protected abstract void removeItemDisplay(PlacedItem item);
+    protected void spawnItemDisplay(PlacedItem item) {
+        Location itemLoc = spawnLocation.clone().add(item.getPosition().x, item.getPosition().y, item.getPosition().z);
+        org.bukkit.Bukkit.getRegionScheduler().run(org.shotrush.atom.Atom.getInstance(), itemLoc, task -> {
+            org.bukkit.entity.ItemDisplay display = (org.bukkit.entity.ItemDisplay) itemLoc.getWorld().spawnEntity(itemLoc, org.bukkit.entity.EntityType.ITEM_DISPLAY);
+            display.setItemStack(item.getItem());
+            
+            org.joml.AxisAngle4f rotation = getItemDisplayRotation(item);
+            org.joml.Vector3f translation = getItemDisplayTranslation(item);
+            org.joml.Vector3f scale = getItemDisplayScale(item);
+            
+            display.setTransformation(new org.bukkit.util.Transformation(
+                translation,
+                rotation,
+                scale,
+                new org.joml.AxisAngle4f()
+            ));
+            item.setDisplayUUID(display.getUniqueId());
+        });
+    }
+    
+    protected org.joml.AxisAngle4f getItemDisplayRotation(PlacedItem item) {
+        return new org.joml.AxisAngle4f((float) Math.toRadians(90), 1, 0, 0);
+    }
+    
+    protected org.joml.Vector3f getItemDisplayTranslation(PlacedItem item) {
+        return new org.joml.Vector3f(0, 0, 0);
+    }
+    
+    protected org.joml.Vector3f getItemDisplayScale(PlacedItem item) {
+        return new org.joml.Vector3f(0.5f, 0.5f, 0.5f);
+    }
+    
+    protected void removeItemDisplay(PlacedItem item) {
+        if (item.getDisplayUUID() != null) {
+            org.bukkit.entity.Entity entity = org.bukkit.Bukkit.getEntity(item.getDisplayUUID());
+            if (entity != null) entity.remove();
+        }
+    }
     
     public List<PlacedItem> getPlacedItems() {
         return new ArrayList<>(placedItems);

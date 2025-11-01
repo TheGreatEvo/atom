@@ -45,7 +45,7 @@ public class GroundStick extends CustomBlock {
     }
 
     @Override
-    public void remove() {
+    protected void removeEntities() {
         Entity interaction = Bukkit.getEntity(interactionUUID);
         if (interaction != null) {
             interaction.remove();
@@ -55,7 +55,6 @@ public class GroundStick extends CustomBlock {
         if (display != null) {
             display.remove();
         }
-        
     }
 
     @Override

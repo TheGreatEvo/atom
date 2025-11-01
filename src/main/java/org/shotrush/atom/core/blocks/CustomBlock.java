@@ -59,7 +59,13 @@ public abstract class CustomBlock implements BlockType {
     public abstract void update(float globalAngle);
 
     
-    public abstract void remove();
+    public final void remove() {
+        removeEntities();
+        blockLocation.getBlock().setType(Material.AIR);
+    }
+    
+    
+    protected abstract void removeEntities();
 
     
     public abstract boolean isValid();
