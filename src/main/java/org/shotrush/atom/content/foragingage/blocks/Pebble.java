@@ -67,16 +67,6 @@ public class Pebble extends CustomBlock {
         return interaction != null && display != null && !interaction.isDead() && !display.isDead();
     }
 
-    @Override
-    public String serialize() {
-        return String.format("%s;%f;%f;%f;%s",
-            spawnLocation.getWorld().getName(),
-            spawnLocation.getX(),
-            spawnLocation.getY(),
-            spawnLocation.getZ(),
-            blockFace.name()
-        );
-    }
 
     @Override
     public String getIdentifier() {

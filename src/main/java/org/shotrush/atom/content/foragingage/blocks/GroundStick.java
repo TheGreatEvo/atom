@@ -66,16 +66,6 @@ public class GroundStick extends CustomBlock {
     }
 
     @Override
-    public String serialize() {
-        return String.format("%s;%f;%f;%f;%s",
-            spawnLocation.getWorld().getName(),
-            spawnLocation.getX(),
-            spawnLocation.getY(),
-            spawnLocation.getZ(),
-            blockFace.name()
-        );
-    }
-    @Override
     public String getIdentifier() {
         return "ground_stick";
     }

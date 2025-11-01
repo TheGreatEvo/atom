@@ -51,6 +51,20 @@ public abstract class InteractiveSurface extends CustomBlock {
         return new ArrayList<>(placedItems);
     }
     
+    @Override
+    protected String serializeAdditionalData() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(placedItems.size());
+        for (PlacedItem item : placedItems) {
+            sb.append(";").append(item.getItem().getType().name());
+            sb.append(",").append(item.getPosition().x);
+            sb.append(",").append(item.getPosition().y);
+            sb.append(",").append(item.getPosition().z);
+            sb.append(",").append(item.getYaw());
+        }
+        return sb.toString();
+    }
+    
     public static class PlacedItem {
         private final ItemStack item;
         private final Vector3f position;

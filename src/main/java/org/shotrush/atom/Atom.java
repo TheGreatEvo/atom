@@ -34,6 +34,7 @@ public final class Atom extends JavaPlugin {
         itemRegistry = new CustomItemRegistry(this);
         blockManager = new CustomBlockManager(this);
         
+        AutoRegisterManager.registerAges(this, ageManager);
         AutoRegisterManager.registerItems(this, itemRegistry);
         AutoRegisterManager.registerBlocks(this, blockManager.getRegistry());
         

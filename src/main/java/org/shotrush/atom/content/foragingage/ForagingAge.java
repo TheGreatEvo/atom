@@ -2,11 +2,14 @@ package org.shotrush.atom.content.foragingage;
 
 import net.kyori.adventure.text.format.TextColor;
 import org.shotrush.atom.core.age.Age;
-import org.shotrush.atom.core.age.AgeManager;
+import org.shotrush.atom.core.age.AgeProvider;
+import org.shotrush.atom.core.age.annotation.AutoRegisterAge;
 
-public class ForagingAge {
+@AutoRegisterAge(order = 0)
+public class ForagingAge implements AgeProvider {
     
-    public static Age create() {
+    @Override
+    public Age createAge() {
         return Age.builder()
                 .id("foraging_age")
                 .displayName("Foraging")
@@ -16,11 +19,5 @@ public class ForagingAge {
                 .titleColor(TextColor.color(34, 139, 34))
                 .description("Gathering resources from nature")
                 .build();
-    }
-    
-    public static void register(AgeManager manager) {
-        Age foragingAge = create();
-        manager.registerAges(foragingAge);
-        manager.setAge(foragingAge);
     }
 }

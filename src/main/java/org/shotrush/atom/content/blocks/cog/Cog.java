@@ -50,15 +50,8 @@ public class Cog extends CustomBlock {
     }
 
     @Override
-    public String serialize() {
-        return String.format("%s;%f;%f;%f;%s;%b",
-            spawnLocation.getWorld().getName(),
-            spawnLocation.getX(),
-            spawnLocation.getY(),
-            spawnLocation.getZ(),
-            blockFace.name(),
-            isPowerSource
-        );
+    protected String serializeAdditionalData() {
+        return String.valueOf(isPowerSource);
     }
 
     @Override

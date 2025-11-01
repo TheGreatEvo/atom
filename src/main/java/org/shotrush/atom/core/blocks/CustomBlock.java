@@ -76,6 +76,15 @@ public abstract class CustomBlock implements BlockType {
     
     public void onRemoved() {
     }
+    
+    protected String serializeAdditionalData() {
+        return "";
+    }
+    
+    protected String deserializeAdditionalData(String[] parts, int startIndex) {
+        return null;
+    }
+    
     @Override
     public abstract String getIdentifier();
 
@@ -116,7 +125,21 @@ public abstract class CustomBlock implements BlockType {
     }
 
     
-    public abstract String serialize();
+    public String serialize() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(spawnLocation.getWorld().getName()).append(";");
+        sb.append(spawnLocation.getX()).append(";");
+        sb.append(spawnLocation.getY()).append(";");
+        sb.append(spawnLocation.getZ()).append(";");
+        sb.append(blockFace.name());
+        
+        String additionalData = serializeAdditionalData();
+        if (!additionalData.isEmpty()) {
+            sb.append(";").append(additionalData);
+        }
+        
+        return sb.toString();
+    }
 
     
     protected ItemStack createItemWithCustomModel(Material material, String modelName) {
@@ -135,9 +158,14 @@ public abstract class CustomBlock implements BlockType {
     protected void spawnDisplay(ItemDisplay display, Atom plugin, ItemStack itemStack,
                                 Vector3f translation, AxisAngle4f initialRotation, Vector3f scale, 
                                 boolean placeBarrier, float interactionWidth, float interactionHeight) {
+        plugin.getLogger().info("[CustomBlock] spawnDisplay called for: " + getIdentifier());
+        plugin.getLogger().info("[CustomBlock] ItemStack: " + itemStack.getType() + ", Display UUID: " + display.getUniqueId());
+        
         if (placeBarrier) {
             blockLocation.getBlock().setType(Material.BARRIER);
+            plugin.getLogger().info("[CustomBlock] Placed barrier at: " + blockLocation);
         }
+        
         display.setItemStack(itemStack);
         display.setInterpolationDuration(0);
         display.setInterpolationDelay(0);
@@ -148,6 +176,8 @@ public abstract class CustomBlock implements BlockType {
                 new AxisAngle4f()
         ));
         display.setGravity(false);
+        
+        plugin.getLogger().info("[CustomBlock] Display configured, spawning interaction...");
         Interaction interaction = (Interaction) spawnLocation.getWorld().spawnEntity(spawnLocation, EntityType.INTERACTION);
         interaction.setInteractionWidth(interactionWidth);
         interaction.setInteractionHeight(interactionHeight);

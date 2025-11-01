@@ -129,25 +129,6 @@ public class AnvilSurface extends InteractiveSurface {
     }
     
     @Override
-    public String serialize() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(spawnLocation.getWorld().getName()).append(";");
-        sb.append(spawnLocation.getX()).append(";");
-        sb.append(spawnLocation.getY()).append(";");
-        sb.append(spawnLocation.getZ()).append(";");
-        sb.append(blockFace.name()).append(";");
-        sb.append(placedItems.size());
-        for (PlacedItem item : placedItems) {
-            sb.append(";").append(item.getItem().getType().name());
-            sb.append(",").append(item.getPosition().x);
-            sb.append(",").append(item.getPosition().y);
-            sb.append(",").append(item.getPosition().z);
-            sb.append(",").append(item.getYaw());
-        }
-        return sb.toString();
-    }
-    
-    @Override
     public boolean onWrenchInteract(Player player, boolean sneaking) {
         if (sneaking) {
             ItemStack removed = removeLastItem();

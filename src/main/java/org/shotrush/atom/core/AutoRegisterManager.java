@@ -4,6 +4,9 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.PaperCommandManager;
 import org.bukkit.plugin.Plugin;
 import org.reflections.Reflections;
+import org.shotrush.atom.core.age.Age;
+import org.shotrush.atom.core.age.AgeManager;
+import org.shotrush.atom.core.age.AgeProvider;
 import org.shotrush.atom.core.blocks.BlockType;
 import org.shotrush.atom.core.blocks.CustomBlockRegistry;
 import org.shotrush.atom.core.items.CustomItem;
@@ -107,6 +110,38 @@ public class AutoRegisterManager {
                     e.printStackTrace();
                 }
             }
+        }
+    }
+    
+    public static void registerAges(Plugin plugin, AgeManager ageManager) {
+        Reflections reflections = new Reflections("org.shotrush.atom");
+        Set<Class<?>> annotatedClasses = reflections.getTypesAnnotatedWith(
+            org.shotrush.atom.core.age.annotation.AutoRegisterAge.class
+        );
+        
+        List<Class<?>> sortedClasses = new ArrayList<>(annotatedClasses);
+        sortedClasses.sort(Comparator.comparingInt(cls -> 
+            cls.getAnnotation(org.shotrush.atom.core.age.annotation.AutoRegisterAge.class).order()
+        ));
+        
+        List<Age> ages = new ArrayList<>();
+        for (Class<?> clazz : sortedClasses) {
+            if (AgeProvider.class.isAssignableFrom(clazz)) {
+                try {
+                    AgeProvider provider = (AgeProvider) clazz.getConstructor().newInstance();
+                    Age age = provider.createAge();
+                    ages.add(age);
+                    plugin.getLogger().info("Auto-registered age: " + age.getDisplayName() + " (order: " + age.getOrder() + ")");
+                } catch (Exception e) {
+                    plugin.getLogger().warning("Failed to auto-register age: " + clazz.getName());
+                    e.printStackTrace();
+                }
+            }
+        }
+        
+        if (!ages.isEmpty()) {
+            ageManager.registerAges(ages.toArray(new Age[0]));
+            ageManager.setAge(ages.get(0));
         }
     }
 }
