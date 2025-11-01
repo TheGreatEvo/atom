@@ -38,7 +38,7 @@ public class KnappingStation extends InteractiveSurface {
 
     @Override
     public Vector3f calculatePlacement(Player player, int itemCount) {
-        return new Vector3f(-0.1f, 0.77f, 0.1f);
+        return new Vector3f(-0.2f, 1f, 0.2f);
     }
 
     @Override
@@ -46,38 +46,23 @@ public class KnappingStation extends InteractiveSurface {
         ItemDisplay display = (ItemDisplay) accessor.spawnEntity(spawnLocation, EntityType.ITEM_DISPLAY);
         ItemStack stationItem = createItemWithCustomModel(Material.DIAMOND, "knapping_station");
 
-        spawnDisplay(display, plugin, stationItem, new Vector3f(0, 0.5f, 0), new AxisAngle4f(), new Vector3f(1f, 1f, 1f), false, 0.65f, 0.75f);
+        spawnDisplay(display, plugin, stationItem, new Vector3f(0, 0.5f, 0), new AxisAngle4f(), new Vector3f(1f, 1f, 1f), true, 0.65f, 0.75f);
 
         for (PlacedItem item : placedItems) {
             spawnItemDisplay(item);
         }
     }
 
+
     @Override
-    protected void spawnItemDisplay(PlacedItem item) {
-        Location itemLoc = spawnLocation.clone().add(item.getPosition().x, item.getPosition().y, item.getPosition().z);
-        Bukkit.getRegionScheduler().run(Atom.getInstance(), itemLoc, task -> {
-            ItemDisplay display = (ItemDisplay) itemLoc.getWorld().spawnEntity(itemLoc, EntityType.ITEM_DISPLAY);
-            display.setItemStack(item.getItem());
+    protected AxisAngle4f getItemDisplayRotation(PlacedItem item) {
+        float randomYaw = (float) (Math.random() * Math.PI * 2);
+        AxisAngle4f yawRotation = new AxisAngle4f(randomYaw, 0, 1, 0);
 
             AxisAngle4f flatRotation = new AxisAngle4f((float) Math.toRadians(90), 1, 0, 0);
 
-            display.setTransformation(new org.bukkit.util.Transformation(
-                    new Vector3f(0, 0, 0),
-                    flatRotation,
-                    new Vector3f(0.5f, 0.5f, 0.5f),
-                    new AxisAngle4f()
-            ));
-            item.setDisplayUUID(display.getUniqueId());
-        });
-    }
-
-    @Override
-    protected void removeItemDisplay(PlacedItem item) {
-        if (item.getDisplayUUID() != null) {
-            Entity entity = Bukkit.getEntity(item.getDisplayUUID());
-            if (entity != null) entity.remove();
-        }
+            return org.shotrush.atom.core.blocks.util.BlockRotationUtil.combineRotations(yawRotation,
+                    flatRotation);
     }
 
     @Override
@@ -85,7 +70,7 @@ public class KnappingStation extends InteractiveSurface {
     }
 
     @Override
-    public void remove() {
+    protected void removeEntities() {
         for (PlacedItem item : placedItems) {
             removeItemDisplay(item);
             spawnLocation.getWorld().dropItemNaturally(spawnLocation, item.getItem());
@@ -108,12 +93,11 @@ public class KnappingStation extends InteractiveSurface {
         ItemStack hand = player.getInventory().getItemInMainHand();
 
         if (hand.getType() == Material.BRUSH) {
-            if (!placedItems.isEmpty()) {
-                player.swingMainHand();
-                player.sendMessage("§7*knapping sounds*");
-            } else {
+            if (placedItems.isEmpty()) {
                 player.sendMessage("§cPlace flint first!");
+                return true;
             }
+            player.swingMainHand();
             return false;
         }
 
@@ -129,7 +113,7 @@ public class KnappingStation extends InteractiveSurface {
         if (hand.getType() == Material.WOODEN_HOE || hand.getType() == Material.AIR) return false;
         if (hand.getType() != Material.FLINT) return false;
 
-        if (placeItem(hand, calculatePlacement(player, placedItems.size()), 0)) {
+        if (placeItem(player, hand, calculatePlacement(player, placedItems.size()), 0)) {
             hand.setAmount(hand.getAmount() - 1);
             return true;
         }
@@ -164,6 +148,10 @@ public class KnappingStation extends InteractiveSurface {
         try {
             String[] parts = data.split(";");
             World world = Bukkit.getWorld(parts[0]);
+            if (world == null) {
+                Atom.getInstance().getLogger().warning("World '" + parts[0] + "' not loaded, skipping KnappingStation deserialization");
+                return null;
+            }
             Location location = new Location(world,
                     Double.parseDouble(parts[1]),
                     Double.parseDouble(parts[2]),

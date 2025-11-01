@@ -38,8 +38,8 @@ public class CraftingBasket extends InteractiveSurface {
     @Override
     public Vector3f calculatePlacement(Player player, int itemCount) {
         float[][] positions = {
-                {-0.2f, 0.2f, 0f},
-                {0.2f, 0.2f, 0f}
+                {-0.3f, 0.3f, 0f},
+                {0.3f, 0.3f, 0f}
         };
 
         if (itemCount < positions.length) {
@@ -60,39 +60,13 @@ public class CraftingBasket extends InteractiveSurface {
         }
     }
 
-    @Override
-    protected void spawnItemDisplay(PlacedItem item) {
-        Location itemLoc = spawnLocation.clone().add(item.getPosition().x, item.getPosition().y, item.getPosition().z);
-        Bukkit.getRegionScheduler().run(Atom.getInstance(), itemLoc, task -> {
-            ItemDisplay display = (ItemDisplay) itemLoc.getWorld().spawnEntity(itemLoc, EntityType.ITEM_DISPLAY);
-            display.setItemStack(item.getItem());
-
-            AxisAngle4f flatRotation = new AxisAngle4f((float) Math.toRadians(90), 1, 0, 0);
-
-            display.setTransformation(new org.bukkit.util.Transformation(
-                    new Vector3f(0, 0, 0),
-                    flatRotation,
-                    new Vector3f(0.5f, 0.5f, 0.5f),
-                    new AxisAngle4f()
-            ));
-            item.setDisplayUUID(display.getUniqueId());
-        });
-    }
-
-    @Override
-    protected void removeItemDisplay(PlacedItem item) {
-        if (item.getDisplayUUID() != null) {
-            Entity entity = Bukkit.getEntity(item.getDisplayUUID());
-            if (entity != null) entity.remove();
-        }
-    }
 
     @Override
     public void update(float globalAngle) {
     }
 
     @Override
-    public void remove() {
+    protected void removeEntities() {
         for (PlacedItem item : placedItems) {
             removeItemDisplay(item);
             spawnLocation.getWorld().dropItemNaturally(spawnLocation, item.getItem());
@@ -125,7 +99,7 @@ public class CraftingBasket extends InteractiveSurface {
 
         if (hand.getType() == Material.WOODEN_HOE || hand.getType() == Material.AIR) return false;
 
-        if (placeItem(hand, calculatePlacement(player, placedItems.size()), 0)) {
+        if (placeItem(player, hand, calculatePlacement(player, placedItems.size()), 0)) {
             hand.setAmount(hand.getAmount() - 1);
             return true;
         }

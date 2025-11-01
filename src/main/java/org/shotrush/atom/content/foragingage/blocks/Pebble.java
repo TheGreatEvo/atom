@@ -45,7 +45,7 @@ public class Pebble extends CustomBlock {
     }
 
     @Override
-    public void remove() {
+    protected void removeEntities() {
         Entity interaction = Bukkit.getEntity(interactionUUID);
         if (interaction != null) {
             interaction.remove();

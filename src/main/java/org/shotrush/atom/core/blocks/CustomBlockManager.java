@@ -348,8 +348,8 @@ public class CustomBlockManager implements Listener {
                            plugin.getItemRegistry().getItem("wrench").isCustomItem(itemInHand);
 
         if (block instanceof org.shotrush.atom.core.blocks.InteractiveSurface) {
-            event.setCancelled(true);
             if (hasWrench) {
+                event.setCancelled(true);
                 if (player.isSneaking()) {
                     if (block.onWrenchInteract(player, true)) {
                         return;
@@ -364,7 +364,10 @@ public class CustomBlockManager implements Listener {
                     return;
                 }
             } else {
-                block.onWrenchInteract(player, false);
+                boolean shouldCancel = block.onWrenchInteract(player, false);
+                if (shouldCancel) {
+                    event.setCancelled(true);
+                }
                 return;
             }
         }
