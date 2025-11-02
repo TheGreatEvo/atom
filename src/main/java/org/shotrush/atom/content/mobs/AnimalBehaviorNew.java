@@ -12,6 +12,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.shotrush.atom.Atom;
 import org.shotrush.atom.content.mobs.ai.config.SpeciesBehavior;
 import org.shotrush.atom.content.mobs.ai.goals.*;
+import org.bukkit.entity.EntityType;
 import org.shotrush.atom.content.mobs.herd.Herd;
 import org.shotrush.atom.content.mobs.herd.HerdManager;
 import org.shotrush.atom.content.mobs.herd.HerdRole;
@@ -143,7 +144,39 @@ public class AnimalBehaviorNew implements Listener {
             goalSelector.addGoal(mob, 6, new HerdLeaderWanderGoal(mob, plugin, herdManager));
         }
         
+        registerSpecialGoals(mob, behavior, goalSelector, isAggressive);
+        
         plugin.getLogger().info("Registered goals for " + mob.getType() + " (aggressive: " + isAggressive + ", role: " + role + ")");
+    }
+    
+    private void registerSpecialGoals(Mob mob, SpeciesBehavior behavior, com.destroystokyo.paper.entity.ai.MobGoals goalSelector, boolean isAggressive) {
+        if (!isAggressive) return;
+        
+        switch (behavior.specialMechanic()) {
+            case RAM_CHARGE:
+                if (mob.getType() == EntityType.SHEEP || mob.getType() == EntityType.GOAT) {
+                    goalSelector.addGoal(mob, 2, new RamChargeGoal(mob, plugin));
+                    plugin.getLogger().info("  + Added Ram Charge");
+                }
+                break;
+                
+            case KICK_ATTACK:
+                if (mob.getType() == EntityType.HORSE || mob.getType() == EntityType.DONKEY || mob.getType() == EntityType.MULE) {
+                    goalSelector.addGoal(mob, 2, new KickAttackGoal(mob, plugin));
+                    plugin.getLogger().info("  + Added Kick Attack");
+                }
+                break;
+                
+            case SPIT_ATTACK:
+                if (mob.getType() == EntityType.LLAMA) {
+                    goalSelector.addGoal(mob, 2, new SpitAttackGoal(mob, plugin));
+                    plugin.getLogger().info("  + Added Spit Attack");
+                }
+                break;
+                
+            default:
+                break;
+        }
     }
     
     private void startStaminaRegeneration(Animals animal) {
