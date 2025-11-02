@@ -131,6 +131,10 @@ public class LifeCycleManager {
         familyRelationships.removeRelationships(animalId);
     }
     
+    public FamilyRelationships getFamilyRelationships() {
+        return familyRelationships;
+    }
+    
     private int getAgePercent(Animals animal) {
         Long birthTime = birthTimes.get(animal.getUniqueId());
         if (birthTime == null) {

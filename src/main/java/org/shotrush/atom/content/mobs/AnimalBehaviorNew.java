@@ -18,7 +18,6 @@ import org.shotrush.atom.content.mobs.ai.config.SpeciesBehavior;
 import org.shotrush.atom.content.mobs.ai.environment.EnvironmentalContext;
 import org.shotrush.atom.content.mobs.ai.goals.*;
 import org.bukkit.entity.EntityType;
-import org.shotrush.atom.content.mobs.ai.lifecycle.FamilyRelationships;
 import org.shotrush.atom.content.mobs.ai.lifecycle.LifeCycleManager;
 import org.shotrush.atom.content.mobs.ai.needs.NeedsManager;
 import org.shotrush.atom.content.mobs.herd.Herd;
@@ -280,6 +279,7 @@ public class AnimalBehaviorNew implements Listener {
     public void onAnimalDamage(EntityDamageByEntityEvent event) {
         if (!(event.getEntity() instanceof Animals animal)) return;
         if (!COMMON_ANIMALS.contains(animal.getType())) return;
+        if (!(animal instanceof Mob mob)) return;
         
         final Player attacker;
         if (event.getDamager() instanceof Player) {
@@ -293,6 +293,10 @@ public class AnimalBehaviorNew implements Listener {
         } else {
             return;
         }
+        
+        injurySystem.applyInjuryEffects(mob);
+        
+        moraleSystem.checkMorale(mob);
         
         herdManager.getHerd(animal.getUniqueId()).ifPresent(herd -> {
             SpeciesBehavior behavior = SpeciesBehavior.get(animal.getType());
@@ -312,8 +316,14 @@ public class AnimalBehaviorNew implements Listener {
         if (!(event.getEntity() instanceof Animals animal)) return;
         if (!COMMON_ANIMALS.contains(animal.getType())) return;
         
-        herdManager.leaveHerd(animal.getUniqueId());
-        trackedAnimals.remove(animal.getUniqueId());
+        UUID animalId = animal.getUniqueId();
+        
+        herdManager.leaveHerd(animalId);
+        needsManager.removeNeeds(animalId);
+        lifeCycleManager.removeAnimal(animalId);
+        trackedAnimals.remove(animalId);
+        
+        plugin.getLogger().info(">>> Animal died: " + animal.getType() + " - cleaned up all systems");
     }
     
     @EventHandler
@@ -369,6 +379,10 @@ public class AnimalBehaviorNew implements Listener {
         animal.setMetadata("fleeing", new FixedMetadataValue(plugin, false));
         
         herdManager.getPersistence().saveHerdData(animal, herd.id(), role == HerdRole.LEADER, isAggressive, maxStamina, stamina);
+        
+        needsManager.getNeeds(animal);
+        
+        lifeCycleManager.registerAnimal(animal);
         
         trackedAnimals.add(animal.getUniqueId());
         
