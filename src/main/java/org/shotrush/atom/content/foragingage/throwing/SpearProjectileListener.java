@@ -48,8 +48,6 @@ public class SpearProjectileListener implements Listener {
         
         trident.remove();
         
-        ItemStack stickItem = new ItemStack(Material.STICK);
-        
         org.joml.Quaternionf baseRotation = new org.joml.Quaternionf()
             .rotateY((float) Math.toRadians(90))
             .rotateZ((float) Math.toRadians(45));
@@ -61,10 +59,10 @@ public class SpearProjectileListener implements Listener {
             .damage(8.0)
             .interpolation(5, -1)
             .baseRotation(baseRotation)
-            .scale(1.5f);
+            .scale(1.2f);
         
         CustomProjectile projectile = new CustomProjectile(
-            plugin, startLoc, velocity, stickItem, item, shooter, config
+            plugin, startLoc, velocity, item, item, shooter, config
         );
         
         projectile.onEntityHit(hitEntity -> {
