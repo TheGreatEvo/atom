@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.RegionAccessor;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -52,14 +53,26 @@ public abstract class CustomBlock implements BlockType {
         this.blockFace = blockFace;
     }
 
-    
-    public abstract void spawn(Atom plugin);
+
+    public void spawn(Atom plugin) {
+        Bukkit.getRegionScheduler().run(plugin, spawnLocation, task -> {
+            spawn(plugin, spawnLocation.getWorld());
+        });
+    }
+
+    public abstract void spawn(Atom plugin, RegionAccessor accessor);
 
     
     public abstract void update(float globalAngle);
 
     
-    public abstract void remove();
+    public final void remove() {
+        removeEntities();
+        blockLocation.getBlock().setType(Material.AIR);
+    }
+    
+    
+    protected abstract void removeEntities();
 
     
     public abstract boolean isValid();

@@ -1,9 +1,6 @@
 package org.shotrush.atom.content.blocks.anvil;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -52,47 +49,34 @@ public class AnvilSurface extends InteractiveSurface {
         float offset = itemCount * 0.15f - 0.3f;
         return new Vector3f(offset, 0.6f, 0);
     }
-    
+
     @Override
-    public void spawn(Atom plugin) {
-        Bukkit.getRegionScheduler().run(plugin, spawnLocation, task -> {
-            ItemDisplay base = (ItemDisplay) spawnLocation.getWorld().spawnEntity(spawnLocation, EntityType.ITEM_DISPLAY);
-            ItemStack anvilItem = new ItemStack(Material.ANVIL);
-            
-            spawnDisplay(base, plugin, anvilItem, new Vector3f(0, 0.5f, 0), new AxisAngle4f(), new Vector3f(1, 1, 1), true, 1f, 1f);
-            for (PlacedItem item : placedItems) {
-                spawnItemDisplay(item);
-            }
-        });
-    }
-    
-    @Override
-    protected void spawnItemDisplay(PlacedItem item) {
-        Location itemLoc = spawnLocation.clone().add(item.getPosition().x, item.getPosition().y, item.getPosition().z);
-        Bukkit.getRegionScheduler().run(Atom.getInstance(), itemLoc, task -> {
-            ItemDisplay display = (ItemDisplay) itemLoc.getWorld().spawnEntity(itemLoc, EntityType.ITEM_DISPLAY);
-            display.setItemStack(item.getItem());
-            
-            float yawRadians = (float) Math.toRadians(item.getYaw());
-            AxisAngle4f yawRotation = new AxisAngle4f(yawRadians, 0, 1, 0);
-            AxisAngle4f tiltRotation = new AxisAngle4f((float) Math.PI / 2, 1, 0, 0);
-            
-            display.setTransformation(new Transformation(
-                new Vector3f(0, 0.45f, 0),
-                BlockRotationUtil.combineRotations(yawRotation, tiltRotation),
-                new Vector3f(0.3f, 0.3f, 0.3f),
-                new AxisAngle4f()
-            ));
-            item.setDisplayUUID(display.getUniqueId());
-        });
-    }
-    
-    @Override
-    protected void removeItemDisplay(PlacedItem item) {
-        if (item.getDisplayUUID() != null) {
-            Entity entity = Bukkit.getEntity(item.getDisplayUUID());
-            if (entity != null) entity.remove();
+    public void spawn(Atom plugin, RegionAccessor accessor) {
+        ItemDisplay base = (ItemDisplay) accessor.spawnEntity(spawnLocation, EntityType.ITEM_DISPLAY);
+        ItemStack anvilItem = new ItemStack(Material.ANVIL);
+
+        spawnDisplay(base, plugin, anvilItem, new Vector3f(0, 0.5f, 0), new AxisAngle4f(), new Vector3f(1, 1, 1), true, 1f, 1f);
+        for (PlacedItem item : placedItems) {
+            spawnItemDisplay(item);
         }
+    }
+
+    @Override
+    protected AxisAngle4f getItemDisplayRotation(PlacedItem item) {
+        float yawRadians = (float) Math.toRadians(item.getYaw());
+        AxisAngle4f yawRotation = new AxisAngle4f(yawRadians, 0, 1, 0);
+        AxisAngle4f tiltRotation = new AxisAngle4f((float) Math.PI / 2, 1, 0, 0);
+        return BlockRotationUtil.combineRotations(yawRotation, tiltRotation);
+    }
+    
+    @Override
+    protected Vector3f getItemDisplayTranslation(PlacedItem item) {
+        return new Vector3f(0, 0.45f, 0);
+    }
+    
+    @Override
+    protected Vector3f getItemDisplayScale(PlacedItem item) {
+        return new Vector3f(0.3f, 0.3f, 0.3f);
     }
     
     
@@ -100,7 +84,7 @@ public class AnvilSurface extends InteractiveSurface {
     public void update(float globalAngle) {}
     
     @Override
-    public void remove() {
+    protected void removeEntities() {
         for (PlacedItem item : placedItems) {
             removeItemDisplay(item);
             blockLocation.getWorld().dropItemNaturally(blockLocation, item.getItem());
@@ -113,7 +97,6 @@ public class AnvilSurface extends InteractiveSurface {
             Entity entity = Bukkit.getEntity(interactionUUID);
             if (entity != null) entity.remove();
         }
-        blockLocation.getBlock().setType(Material.AIR);
     }
     
     @Override
@@ -145,7 +128,7 @@ public class AnvilSurface extends InteractiveSurface {
         if (hand.getType() == Material.AIR) return false;
         
         Vector3f pos = calculatePlacement(player, placedItems.size());
-        if (placeItem(hand, pos, player.getLocation().getYaw())) {
+        if (placeItem(player, hand, pos, player.getLocation().getYaw())) {
             hand.setAmount(hand.getAmount() - 1);
             player.sendMessage("§aPlaced item (" + placedItems.size() + "/" + getMaxItems() + ")");
             return true;

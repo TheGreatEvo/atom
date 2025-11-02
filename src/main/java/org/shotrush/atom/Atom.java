@@ -2,21 +2,29 @@ package org.shotrush.atom;
 
 import co.aikar.commands.PaperCommandManager;
 import lombok.Getter;
+
+import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import org.shotrush.atom.core.AutoRegisterManager;
 import org.shotrush.atom.core.blocks.CustomBlockManager;
-import org.shotrush.atom.commands.*;
+import org.shotrush.atom.content.mobs.AnimalBehavior;
+import org.shotrush.atom.content.mobs.AnimalDomestication;
+import org.shotrush.atom.content.mobs.MobScale;
 import org.shotrush.atom.core.age.AgeManager;
 import org.shotrush.atom.core.items.CustomItemRegistry;
 import org.shotrush.atom.core.storage.DataStorage;
 import org.shotrush.atom.core.skin.SkinListener;
+import org.shotrush.atom.world.RockChunkGenerator;
 
 public final class Atom extends JavaPlugin {
 
     @Getter
-    private static Atom instance;
+    public static Atom instance;
     @Getter
-    private CustomBlockManager blockManager;
+    public CustomBlockManager blockManager;
     @Getter
     private CustomItemRegistry itemRegistry;
     @Getter
@@ -27,8 +35,7 @@ public final class Atom extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        
-        
+
         dataStorage = new DataStorage(this);
         ageManager = new AgeManager(this, dataStorage);
         itemRegistry = new CustomItemRegistry(this);
@@ -39,6 +46,9 @@ public final class Atom extends JavaPlugin {
         AutoRegisterManager.registerBlocks(this, blockManager.getRegistry());
         
         getServer().getPluginManager().registerEvents(new SkinListener(), this);
+        getServer().getPluginManager().registerEvents(new MobScale(this), this);
+        getServer().getPluginManager().registerEvents(new AnimalBehavior(this), this);
+        getServer().getPluginManager().registerEvents(new AnimalDomestication(this), this);
         
         setupCommands();
         getLogger().info("Atom plugin has been enabled!");
@@ -57,4 +67,8 @@ public final class Atom extends JavaPlugin {
         getLogger().info("Atom plugin has been disabled!");
     }
 
+    @Override
+    public ChunkGenerator getDefaultWorldGenerator(@NotNull String worldName, @Nullable String id) {
+        return RockChunkGenerator.INSTANCE;
+    }
 }
