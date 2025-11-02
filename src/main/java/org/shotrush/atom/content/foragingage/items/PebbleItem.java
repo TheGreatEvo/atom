@@ -40,11 +40,9 @@ public class PebbleItem extends CustomItem {
             "§8[Foraging Age Tool]"
         );
     }
-    
+
     @Override
     protected void applyCustomMeta(ItemMeta meta) {
-        org.bukkit.inventory.meta.components.CustomModelDataComponent component = meta.getCustomModelDataComponent();
-        component.setStrings(java.util.List.of("pebble"));
-        meta.setCustomModelDataComponent(component);
+        org.shotrush.atom.core.util.ItemUtil.setCustomModelName(meta, "pebble");
     }
 }

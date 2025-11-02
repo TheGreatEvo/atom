@@ -40,11 +40,9 @@ public class SharpenedFlint extends CustomItem {
             "§8[Foraging Age Tool]"
         );
     }
-    
+
     @Override
     protected void applyCustomMeta(ItemMeta meta) {
-        org.bukkit.inventory.meta.components.CustomModelDataComponent component = meta.getCustomModelDataComponent();
-        component.setStrings(java.util.List.of("sharpened_flint"));
-        meta.setCustomModelDataComponent(component);
+        org.shotrush.atom.core.util.ItemUtil.setCustomModelName(meta, "sharpened_flint");
     }
 }

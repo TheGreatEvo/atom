@@ -3,6 +3,7 @@ package org.shotrush.atom.core.util;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.components.CustomModelDataComponent;
 
 public class ItemUtil {
     
@@ -10,11 +11,15 @@ public class ItemUtil {
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
-            org.bukkit.inventory.meta.components.CustomModelDataComponent component = meta.getCustomModelDataComponent();
-            component.setStrings(java.util.List.of(modelName));
-            meta.setCustomModelDataComponent(component);
+            setCustomModelName(meta, modelName);
             item.setItemMeta(meta);
         }
         return item;
+    }
+    
+    public static void setCustomModelName(ItemMeta meta, String modelName) {
+        CustomModelDataComponent component = meta.getCustomModelDataComponent();
+        component.setStrings(java.util.List.of(modelName));
+        meta.setCustomModelDataComponent(component);
     }
 }

@@ -1,4 +1,4 @@
-package org.shotrush.atom.content.foragingage.throwing;
+package org.shotrush.atom.content.foragingage.items;
 
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -41,9 +41,9 @@ public class WoodSpear extends CustomItem {
             "§8[Foraging Age Tool]"
         );
     }
-    
+
     @Override
     protected void applyCustomMeta(ItemMeta meta) {
-        meta.setItemModel(NamespacedKey.minecraft("stick"));
+        org.shotrush.atom.core.util.ItemUtil.setCustomModelName(meta, "wood_spear");
     }
 }
