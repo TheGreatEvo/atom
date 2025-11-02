@@ -9,8 +9,13 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Animals;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Mob;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 import org.shotrush.atom.content.mobs.herd.Herd;
 import org.shotrush.atom.content.mobs.herd.HerdManager;
@@ -27,6 +32,10 @@ public class StampedeGoal implements Goal<Mob> {
     private Location stampedeThreat;
     private Vector stampedeDirection;
     private static final double STAMPEDE_SPEED = 1.6;
+    private static final double GROUND_SHAKE_RADIUS = 8.0;
+    private static final double TRAMPLE_RADIUS = 2.0;
+    private static final double TRAMPLE_DAMAGE = 3.0;
+    private int soundCooldown;
     
     public StampedeGoal(Mob mob, Plugin plugin, HerdManager herdManager) {
         this.mob = mob;
@@ -72,6 +81,7 @@ public class StampedeGoal implements Goal<Mob> {
         if (mobLoc != null && mobLoc.getWorld() != null) {
             mobLoc.getWorld().playSound(mobLoc, Sound.ENTITY_RAVAGER_STEP, 0.8f, 0.9f);
         }
+        soundCooldown = 0;
     }
     
     @Override
@@ -92,8 +102,18 @@ public class StampedeGoal implements Goal<Mob> {
         
         mob.getPathfinder().moveTo(target, STAMPEDE_SPEED);
         
-        if (Math.random() < 0.1) {
-            mobLoc.getWorld().spawnParticle(Particle.DUST_PLUME, mobLoc.clone().add(0, 0.1, 0), 3, 0.2, 0.1, 0.2);
+        if (Math.random() < 0.3) {
+            mobLoc.getWorld().spawnParticle(Particle.DUST_PLUME, mobLoc.clone().add(0, 0.1, 0), 8, 0.5, 0.2, 0.5, 0.02);
+        }
+        
+        applyGroundShakeEffects(mobLoc);
+        trampleEntitiesInPath(mobLoc);
+        
+        if (soundCooldown <= 0) {
+            mobLoc.getWorld().playSound(mobLoc, Sound.ENTITY_GENERIC_EXPLODE, 0.3f, 0.5f);
+            soundCooldown = 15;
+        } else {
+            soundCooldown--;
         }
         
         Optional<Herd> herdOpt = herdManager.getHerd(mob.getUniqueId());
@@ -113,6 +133,39 @@ public class StampedeGoal implements Goal<Mob> {
                         memberMob.getPathfinder().moveTo(syncTarget, STAMPEDE_SPEED);
                     }
                 }
+            }
+        }
+    }
+    
+    private void applyGroundShakeEffects(Location mobLoc) {
+        for (Entity nearby : mobLoc.getWorld().getNearbyEntities(mobLoc, GROUND_SHAKE_RADIUS, GROUND_SHAKE_RADIUS, GROUND_SHAKE_RADIUS)) {
+            if (nearby instanceof Player player) {
+                player.addPotionEffect(new PotionEffect(PotionEffectType.NAUSEA, 60, 0, false, false));
+                
+                Vector shakeVelocity = new Vector(
+                    (Math.random() - 0.5) * 0.15,
+                    0.1,
+                    (Math.random() - 0.5) * 0.15
+                );
+                player.setVelocity(player.getVelocity().add(shakeVelocity));
+            }
+        }
+    }
+    
+    private void trampleEntitiesInPath(Location mobLoc) {
+        for (Entity nearby : mobLoc.getWorld().getNearbyEntities(mobLoc, TRAMPLE_RADIUS, TRAMPLE_RADIUS, TRAMPLE_RADIUS)) {
+            if (nearby instanceof LivingEntity target && !nearby.equals(mob)) {
+                if (nearby instanceof Animals) {
+                    Optional<Herd> targetHerd = herdManager.getHerd(nearby.getUniqueId());
+                    Optional<Herd> mobHerd = herdManager.getHerd(mob.getUniqueId());
+                    if (targetHerd.isPresent() && mobHerd.isPresent() && targetHerd.get().equals(mobHerd.get())) {
+                        continue;
+                    }
+                }
+                
+                target.damage(TRAMPLE_DAMAGE, mob);
+                mobLoc.getWorld().spawnParticle(Particle.BLOCK, target.getLocation(), 10, 0.3, 0.3, 0.3, 
+                    org.bukkit.Material.DIRT.createBlockData());
             }
         }
     }
