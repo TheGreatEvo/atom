@@ -101,18 +101,46 @@ public class ThirstSystem implements Listener {
     }
     
     @EventHandler
+    public void onEntityAirChange(org.bukkit.event.entity.EntityAirChangeEvent event) {
+        if (!(event.getEntity() instanceof Player player)) return;
+        
+        int thirst = thirstLevels.getOrDefault(player.getUniqueId(), MAX_THIRST);
+        int targetAir = (thirst * 300) / MAX_THIRST;
+        
+        if (player.isInWater() || player.getEyeLocation().getBlock().getType() == Material.WATER) {
+            if (event.getAmount() > targetAir) {
+                event.setAmount(targetAir);
+            }
+        } else {
+            int currentAir = player.getRemainingAir();
+            if (event.getAmount() != targetAir && currentAir != targetAir) {
+                event.setAmount(Math.min(299, targetAir));
+            }
+        }
+    }
+    
+    @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (!event.getAction().isRightClick()) return;
         
         Player player = event.getPlayer();
+        ItemStack item = player.getInventory().getItemInMainHand();
         
-        if (event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.WATER) {
-            drinkRawWater(player);
-            event.setCancelled(true);
-            return;
+        if (item.getType() == Material.AIR || item.getType() == Material.BUCKET) {
+            org.bukkit.block.Block targetBlock = player.getTargetBlockExact(5);
+            if (targetBlock != null && targetBlock.getType() == Material.WATER) {
+                drinkRawWater(player);
+                event.setCancelled(true);
+                return;
+            }
+            
+            if (event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.WATER) {
+                drinkRawWater(player);
+                event.setCancelled(true);
+                return;
+            }
         }
         
-        ItemStack item = player.getInventory().getItemInMainHand();
         if (item.getType() == Material.POTION) {
             org.bukkit.inventory.meta.PotionMeta meta = (org.bukkit.inventory.meta.PotionMeta) item.getItemMeta();
             if (meta != null && meta.hasCustomEffect(PotionEffectType.REGENERATION)) {
@@ -158,8 +186,15 @@ public class ThirstSystem implements Listener {
     
     private void updateThirstDisplay(Player player) {
         int thirst = thirstLevels.getOrDefault(player.getUniqueId(), MAX_THIRST);
-        player.setRemainingAir(thirst * 15);
-        player.setMaximumAir(MAX_THIRST * 15);
+        
+        player.setMaximumAir(300);
+        
+        if (player.isInWater() || player.getEyeLocation().getBlock().getType() == Material.WATER) {
+            player.setRemainingAir(Math.min(300, (thirst * 300) / MAX_THIRST));
+        } else {
+            int airValue = (thirst * 300) / MAX_THIRST;
+            player.setRemainingAir(Math.min(299, airValue));
+        }
     }
     
     public void addThirst(Player player, int amount) {

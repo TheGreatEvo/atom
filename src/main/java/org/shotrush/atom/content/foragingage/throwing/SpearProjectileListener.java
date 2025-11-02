@@ -36,6 +36,17 @@ public class SpearProjectileListener implements Listener {
         Player shooter = (Player) trident.getShooter();
 
         assert shooter != null;
+        
+        ItemStack thrownItem = item.clone();
+        
+        org.shotrush.atom.core.items.ItemQuality quality = org.shotrush.atom.core.api.ItemQualityAPI.getQuality(thrownItem);
+        org.shotrush.atom.core.util.DurabilityUtil.applyQualityBasedDamage(thrownItem, quality);
+        
+        if (thrownItem.getType() == Material.AIR || thrownItem.getAmount() <= 0) {
+            trident.remove();
+            return;
+        }
+        
         ItemStack itemInHand = shooter.getInventory().getItemInMainHand();
         if (itemInHand.isSimilar(item)) {
             itemInHand.setAmount(itemInHand.getAmount() - 1);
@@ -62,19 +73,19 @@ public class SpearProjectileListener implements Listener {
             .scale(1.2f);
         
         CustomProjectile projectile = new CustomProjectile(
-            plugin, startLoc, velocity, item, item, shooter, config
+            plugin, startLoc, velocity, thrownItem, thrownItem, shooter, config
         );
         
         projectile.onEntityHit(hitEntity -> {
             hitEntity.damage(8.0, shooter);
             projectile.getDisplay().getLocation().getWorld().dropItemNaturally(
-                projectile.getDisplay().getLocation(), item
+                projectile.getDisplay().getLocation(), thrownItem
             );
         });
         
         projectile.onBlockHit(blockHit -> {
             blockHit.getHitPosition().toLocation(startLoc.getWorld())
-                .getWorld().dropItemNaturally(blockHit.getHitPosition().toLocation(startLoc.getWorld()), item);
+                .getWorld().dropItemNaturally(blockHit.getHitPosition().toLocation(startLoc.getWorld()), thrownItem);
         });
         
         projectile.start();
