@@ -19,10 +19,14 @@ import org.shotrush.atom.content.mobs.ai.environment.EnvironmentalContext;
 import org.shotrush.atom.content.mobs.ai.goals.*;
 import org.bukkit.entity.EntityType;
 import org.shotrush.atom.content.mobs.ai.lifecycle.LifeCycleManager;
+import org.shotrush.atom.content.mobs.ai.memory.MemoryManager;
 import org.shotrush.atom.content.mobs.ai.needs.NeedsManager;
 import org.shotrush.atom.content.mobs.herd.Herd;
 import org.shotrush.atom.content.mobs.herd.HerdManager;
 import org.shotrush.atom.content.mobs.herd.HerdRole;
+import org.shotrush.atom.content.mobs.ai.debug.DebugCategory;
+import org.shotrush.atom.content.mobs.ai.debug.DebugLevel;
+import org.shotrush.atom.content.mobs.ai.debug.DebugManager;
 
 import java.util.*;
 
@@ -34,6 +38,7 @@ public class AnimalBehaviorNew implements Listener {
     private final FatigueSystem fatigueSystem;
     private final MoraleSystem moraleSystem;
     private final NeedsManager needsManager;
+    private final MemoryManager memoryManager;
     private final LifeCycleManager lifeCycleManager;
     private static final Set<EntityType> COMMON_ANIMALS = new HashSet<>();
     private final Set<UUID> trackedAnimals = new HashSet<>();
@@ -71,6 +76,7 @@ public class AnimalBehaviorNew implements Listener {
         this.fatigueSystem = new FatigueSystem(plugin);
         this.moraleSystem = new MoraleSystem(plugin, herdManager);
         this.needsManager = new NeedsManager(plugin);
+        this.memoryManager = new MemoryManager(plugin);
         this.lifeCycleManager = new LifeCycleManager(plugin);
     }
     
@@ -352,6 +358,10 @@ public class AnimalBehaviorNew implements Listener {
         double domesticationFactor = AnimalDomestication.getDomesticationFactor(animal);
         SpeciesBehavior behavior = SpeciesBehavior.get(animal.getType());
         
+        DebugManager.log(String.format("Initializing %s#%d (domestication: %.1f%%)", 
+            animal.getType().name(), animal.getEntityId(), domesticationFactor * 100),
+            DebugCategory.GOALS, DebugLevel.MINIMAL);
+        
         enhanceAnimalStats(animal, domesticationFactor, behavior);
         
         Herd herd = herdManager.getOrCreateHerd(animal);
@@ -370,6 +380,10 @@ public class AnimalBehaviorNew implements Listener {
         }
         
         plugin.getLogger().info(">>> Initializing: Aggressive=" + isAggressive + ", Role=" + role);
+        
+        DebugManager.logSocial(mob, "Herd Assignment", 
+            String.format("Role: %s, Herd size: %d, Aggressive: %s", 
+                role.name(), herd.size(), isAggressive));
         
         double maxStamina = herdManager.getPersistence().getMaxStamina(animal, 100 + (Math.random() * 100));
         double stamina = herdManager.getPersistence().getStamina(animal, maxStamina);
@@ -399,6 +413,14 @@ public class AnimalBehaviorNew implements Listener {
     
     public HerdManager getHerdManager() {
         return herdManager;
+    }
+    
+    public NeedsManager getNeedsManager() {
+        return needsManager;
+    }
+    
+    public MemoryManager getMemoryManager() {
+        return memoryManager;
     }
     
     private boolean isHerbivore(EntityType type) {

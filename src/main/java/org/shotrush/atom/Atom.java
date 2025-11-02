@@ -18,6 +18,8 @@ import org.shotrush.atom.content.mobs.AnimalBehaviorNew;
 import org.shotrush.atom.content.mobs.AnimalDomestication;
 import org.shotrush.atom.content.mobs.commands.HerdCommand;
 import org.shotrush.atom.content.mobs.MobScale;
+import org.shotrush.atom.content.mobs.ai.debug.MobAIDebugCommand;
+import org.shotrush.atom.content.mobs.ai.debug.VisualDebugger;
 import org.shotrush.atom.content.foragingage.throwing.SpearProjectileListener;
 import org.shotrush.atom.core.age.AgeManager;
 import org.shotrush.atom.core.items.CustomItemRegistry;
@@ -77,6 +79,14 @@ public final class Atom extends JavaPlugin {
         PaperCommandManager commandManager = new PaperCommandManager(this);
         AutoRegisterManager.registerCommands(this, commandManager);
         commandManager.registerCommand(new HerdCommand(animalBehavior.getHerdManager()));
+        
+        VisualDebugger visualDebugger = new VisualDebugger(this);
+        commandManager.registerCommand(new MobAIDebugCommand(
+            visualDebugger,
+            animalBehavior.getNeedsManager(),
+            animalBehavior.getMemoryManager(),
+            animalBehavior.getHerdManager()
+        ));
     }
     public void onDisable() {
         if (blockManager != null) {
