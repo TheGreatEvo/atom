@@ -33,8 +33,8 @@ public class RamChargeGoal implements Goal<Mob> {
     private static final int COOLDOWN_TICKS = 100;
     private static final double CHARGE_DISTANCE = 5.0;
     private static final double CHARGE_SPEED = 2.0;
-    private static final double DAMAGE = 8.0;
-    private static final double KNOCKBACK = 3.5;
+    private static final double DAMAGE = 6.0;
+    private static final double KNOCKBACK = 1.2;
     private static final double RECOIL_DAMAGE = 4.0;
     private static final int STUN_TICKS = 40;
     
@@ -187,7 +187,7 @@ public class RamChargeGoal implements Goal<Mob> {
         target.damage(DAMAGE, mob);
         
         Vector knockbackDirection = target.getLocation().toVector().subtract(mobLoc.toVector()).normalize();
-        knockbackDirection.setY(0.6);
+        knockbackDirection.setY(0.15);
         target.setVelocity(knockbackDirection.multiply(KNOCKBACK));
         
         mobLoc.getWorld().playSound(mobLoc, Sound.ENTITY_IRON_GOLEM_ATTACK, 1.0f, 0.8f);
