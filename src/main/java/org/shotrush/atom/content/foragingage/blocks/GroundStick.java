@@ -25,10 +25,11 @@ public class GroundStick extends CustomBlock {
     }
 
     @Override
-    public void spawn(Atom plugin, RegionAccessor accessor) {
-        ItemDisplay display = (ItemDisplay) accessor.spawnEntity(spawnLocation, EntityType.ITEM_DISPLAY);
-
-        ItemStack stickItem = createItemWithCustomModel(Material.DIAMOND, "ground_stick");
+    public void spawn(Atom plugin) {
+        Bukkit.getRegionScheduler().run(plugin, spawnLocation, task -> {
+            ItemDisplay display = (ItemDisplay) spawnLocation.getWorld().spawnEntity(spawnLocation, EntityType.ITEM_DISPLAY);
+            
+            ItemStack stickItem = createItemWithCustomModel(Material.STONE_BUTTON, "ground_stick");
 
         float randomYaw = (float) (Math.random() * Math.PI * 2);
         AxisAngle4f randomRotation = new AxisAngle4f(randomYaw, 0, 1, 0);
@@ -72,7 +73,7 @@ public class GroundStick extends CustomBlock {
 
     @Override
     public Material getItemMaterial() {
-        return Material.OAK_PLANKS;
+        return Material.STONE_BUTTON;
     }
 
     @Override
