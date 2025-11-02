@@ -112,7 +112,10 @@ public class StalkPreyGoal implements Goal<Mob> {
             }
             
             Location targetPos = preyLoc.clone().add(rightVector.multiply(3));
-            targetPos.setY(mobLoc.getWorld().getHighestBlockYAt(targetPos));
+            if (targetPos.getWorld() != null) {
+                int highestY = targetPos.getWorld().getHighestBlockYAt(targetPos.getBlockX(), targetPos.getBlockZ());
+                targetPos.setY(highestY);
+            }
             return targetPos;
         }
         

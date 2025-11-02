@@ -83,6 +83,7 @@ public class FamilyRelationships {
     }
     
     public void updateBondStrength(Animals animal, long ticksElapsed) {
+        if (animal == null || !animal.isValid()) return;
         bondStrengths.computeIfPresent(animal.getUniqueId(), (id, strength) -> 
                 Math.max(0, strength - (BOND_DECAY_PER_TICK * ticksElapsed)));
     }

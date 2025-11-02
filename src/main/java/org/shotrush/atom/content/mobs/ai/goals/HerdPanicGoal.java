@@ -145,7 +145,10 @@ public class HerdPanicGoal implements Goal<Mob> {
         double distance = 20.0 + (Math.random() * 10.0);
         
         fleeTarget = current.clone().add(awayFromThreat.multiply(distance));
-        fleeTarget.setY(current.getWorld().getHighestBlockYAt(fleeTarget));
+        if (fleeTarget.getWorld() != null) {
+            int highestY = fleeTarget.getWorld().getHighestBlockYAt(fleeTarget.getBlockX(), fleeTarget.getBlockZ());
+            fleeTarget.setY(highestY);
+        }
         
         if (fleeTarget.getWorld() == null) {
             fleeTarget = null;

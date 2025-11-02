@@ -128,7 +128,10 @@ public class FlankAndSurroundGoal implements Goal<Mob> {
             );
             
             Location surroundPosition = targetLoc.clone().add(offset);
-            surroundPosition.setY(targetLoc.getWorld().getHighestBlockYAt(surroundPosition));
+            if (surroundPosition.getWorld() != null) {
+                int highestY = surroundPosition.getWorld().getHighestBlockYAt(surroundPosition.getBlockX(), surroundPosition.getBlockZ());
+                surroundPosition.setY(highestY);
+            }
             
             if (packMember.getUniqueId().equals(mob.getUniqueId())) {
                 assignedPosition = surroundPosition;
