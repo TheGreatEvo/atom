@@ -1,4 +1,4 @@
-package org.shotrush.atom.core.api;
+package org.shotrush.atom.core.api.world;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -40,7 +40,7 @@ public class EnvironmentalFactorAPI {
     public static double getDayNightModifier(World world) {
         long time = world.getTime();
         boolean isNight = time >= 13000 && time <= 23000;
-        return isNight ? -1.1 : 0.22;
+        return isNight ? -2.0 : 1.0;
     }
     
     public static double getLightLevelModifier(Location location) {

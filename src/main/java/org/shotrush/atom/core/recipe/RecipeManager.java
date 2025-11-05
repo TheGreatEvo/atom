@@ -10,7 +10,6 @@ public class RecipeManager {
     
     public void registerRecipe(Recipe recipe) {
         recipes.put(recipe.getId(), recipe);
-        System.out.println("[DEBUG] Registered recipe: " + recipe.getId() + " -> " + recipe.getResult());
     }
     
     public void unregisterRecipe(String id) {
@@ -22,15 +21,11 @@ public class RecipeManager {
     }
     
     public ItemStack findMatch(List<ItemStack> items) {
-        System.out.println("[DEBUG] Finding match for " + items.size() + " items among " + recipes.size() + " recipes");
         for (Recipe recipe : recipes.values()) {
-            System.out.println("[DEBUG] Checking recipe: " + recipe.getId());
             if (recipe.matches(items)) {
-                System.out.println("[DEBUG] Recipe " + recipe.getId() + " matches!");
                 return recipe.getResult();
             }
         }
-        System.out.println("[DEBUG] No matching recipe found");
         return null;
     }
     

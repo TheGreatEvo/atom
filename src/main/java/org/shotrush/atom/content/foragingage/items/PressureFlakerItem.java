@@ -13,54 +13,54 @@ import java.util.Arrays;
 import java.util.List;
 
 @AutoRegister(priority = 4)
-public class PebbleItem extends CustomItem {
-
-    public PebbleItem(Plugin plugin) {
+public class PressureFlakerItem extends CustomItem {
+    
+    public PressureFlakerItem(Plugin plugin) {
         super(plugin);
     }
-
+    
     @Override
     public String getIdentifier() {
-        return "pebble";
+        return "pressure_flaker";
     }
-
+    
     @Override
     public Material getMaterial() {
         return Material.IRON_NUGGET;
     }
-
+    
     @Override
     public String getDisplayName() {
-        return "§7Pebble";
+        return "§fPressure Flaker";
     }
-
+    
     @Override
     public List<String> getLore() {
         return Arrays.asList(
-                "§7A small stone pebble",
-                "§7Can be used for knapping",
-                "§8• Tool",
-                "§8[Foraging Age Tool]"
+            "§7A bone tool for precision knapping",
+            "§7Used to create high quality flint",
+            "§8• Tool",
+            "§8[Foraging Age Tool]"
         );
     }
 
     @Override
     protected void applyCustomMeta(ItemMeta meta) {
-        org.shotrush.atom.core.util.ItemUtil.setCustomModelName(meta, "pebble");
+        org.shotrush.atom.core.util.ItemUtil.setCustomModelName(meta, "bone");
     }
-
+    
     @Override
     public org.bukkit.inventory.ItemStack create() {
         org.bukkit.inventory.ItemStack item = super.create();
-
+        
         
         Consumable consumable = Consumable.consumable()
-                .consumeSeconds(10000.0f)
-                .animation(ItemUseAnimation.BOW)
-                .hasConsumeParticles(false)
-                .build();
+            .consumeSeconds(10000.0f)
+            .animation(ItemUseAnimation.BOW)
+            .hasConsumeParticles(false)
+            .build();
         item.setData(DataComponentTypes.CONSUMABLE, consumable);
-
+        
         return item;
     }
 }

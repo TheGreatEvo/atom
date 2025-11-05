@@ -41,26 +41,7 @@ public class GroundStick extends CustomBlock {
     public void update(float globalAngle) {
     }
 
-    @Override
-    protected void removeEntities() {
-        Entity interaction = Bukkit.getEntity(interactionUUID);
-        if (interaction != null) {
-            interaction.remove();
-        }
-
-        Entity display = Bukkit.getEntity(displayUUID);
-        if (display != null) {
-            display.remove();
-        }
-    }
-
-    @Override
-    public boolean isValid() {
-        if (interactionUUID == null || displayUUID == null) return false;
-        Entity interaction = Bukkit.getEntity(interactionUUID);
-        Entity display = Bukkit.getEntity(displayUUID);
-        return interaction != null && display != null && !interaction.isDead() && !display.isDead();
-    }
+    
 
     @Override
     public String getIdentifier() {

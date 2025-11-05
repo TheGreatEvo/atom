@@ -1,4 +1,4 @@
-package org.shotrush.atom.core.api;
+package org.shotrush.atom.core.api.combat;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

@@ -46,9 +46,7 @@ public class ThirstSystem implements Listener {
         Player player = event.getPlayer();
         UUID playerId = player.getUniqueId();
         
-        org.bukkit.configuration.file.YamlConfiguration config = 
-            org.shotrush.atom.Atom.getInstance().getDataStorage().getPlayerData(playerId);
-        int savedThirst = config.getInt("thirst.level", MAX_THIRST);
+        int savedThirst = org.shotrush.atom.core.api.player.PlayerDataAPI.getInt(player, "thirst.level", MAX_THIRST);
         
         thirstLevels.put(playerId, savedThirst);
         updateThirstDisplay(player);
@@ -61,18 +59,14 @@ public class ThirstSystem implements Listener {
         UUID playerId = player.getUniqueId();
         
         int thirst = thirstLevels.getOrDefault(playerId, MAX_THIRST);
-        
-        org.bukkit.configuration.file.YamlConfiguration config = 
-            org.shotrush.atom.Atom.getInstance().getDataStorage().getPlayerData(playerId);
-        config.set("thirst.level", thirst);
-        org.shotrush.atom.Atom.getInstance().getDataStorage().savePlayerData(playerId, config);
+        org.shotrush.atom.core.api.player.PlayerDataAPI.setInt(player, "thirst.level", thirst);
         
         thirstLevels.remove(playerId);
         thirstAccelerationEnd.remove(playerId);
     }
     
     private void startThirstTickForPlayer(Player player) {
-        player.getScheduler().runAtFixedRate(plugin, task -> {
+        org.shotrush.atom.core.api.scheduler.SchedulerAPI.runTaskTimer(player, task -> {
             if (!player.isOnline()) {
                 task.cancel();
                 return;
@@ -131,7 +125,7 @@ public class ThirstSystem implements Listener {
             checkWaterPurification(player);
             
             updateThirstDisplay(player);
-        }, null, THIRST_DECREASE_INTERVAL, THIRST_DECREASE_INTERVAL);
+        }, THIRST_DECREASE_INTERVAL, THIRST_DECREASE_INTERVAL);
     }
     
     @EventHandler(ignoreCancelled = true)
@@ -185,8 +179,8 @@ public class ThirstSystem implements Listener {
         ItemStack item = player.getInventory().getItemInMainHand();
         
         if (item.getType() == Material.AIR || item.getType() == Material.BUCKET) {
-            org.bukkit.block.Block targetBlock = player.getTargetBlockExact(5);
-            if (targetBlock != null && isWaterBlock(targetBlock)) {
+            org.bukkit.util.RayTraceResult result = player.rayTraceBlocks(5, org.bukkit.FluidCollisionMode.ALWAYS);
+            if (result != null && result.getHitBlock() != null && isWaterBlock(result.getHitBlock())) {
                 drinkRawWater(player);
                 event.setCancelled(true);
                 return;

@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import org.shotrush.atom.Atom;
 import org.shotrush.atom.commands.annotation.AutoRegister;
 import org.shotrush.atom.core.skin.SkinAPI;
-import org.shotrush.atom.core.util.MessageUtil;
+import org.shotrush.atom.core.ui.ActionBarManager;
 
 @AutoRegister(priority = 60)
 @CommandAlias("skin")
@@ -19,13 +19,13 @@ public class SkinCommand extends BaseCommand {
     @Subcommand("set")
     @CommandPermission("atom.skin.set")
     public void setSkin(Player player, String username) {
-        MessageUtil.send(player, "§7Fetching skin from §e" + username + "§7...");
+        ActionBarManager.send(player, "§7Fetching skin from §e" + username + "§7...");
         
         SkinAPI.setSkinFromUsername(player, username).thenAccept(success -> {
             if (success) {
-                MessageUtil.send(player, "§aSkin changed to " + username + "'s skin!");
+                ActionBarManager.send(player, "§aSkin changed to " + username + "'s skin!");
             } else {
-                MessageUtil.send(player, "§cFailed to fetch skin from " + username);
+                ActionBarManager.send(player, "§cFailed to fetch skin from " + username);
             }
         });
     }
@@ -33,7 +33,7 @@ public class SkinCommand extends BaseCommand {
     @Subcommand("setdefault")
     @CommandPermission("atom.skin.setdefault")
     public void setDefaultSkin(Player player, String username) {
-        MessageUtil.send(player, "§7Setting default skin to §e" + username + "§7...");
+        ActionBarManager.send(player, "§7Setting default skin to §e" + username + "§7...");
         
         SkinAPI.setSkinFromUsername(player, username).thenAccept(success -> {
             if (success) {
@@ -41,10 +41,10 @@ public class SkinCommand extends BaseCommand {
                 serverData.set("default_skin_username", username);
                 Atom.getInstance().getDataStorage().saveServerData(serverData);
                 
-                MessageUtil.send(player, "§aDefault skin set to " + username + "'s skin!");
-                MessageUtil.send(player, "§7All players will receive this skin on join.");
+                ActionBarManager.send(player, "§aDefault skin set to " + username + "'s skin!");
+                ActionBarManager.send(player, "§7All players will receive this skin on join.");
             } else {
-                MessageUtil.send(player, "§cFailed to fetch skin from " + username);
+                ActionBarManager.send(player, "§cFailed to fetch skin from " + username);
             }
         });
     }
@@ -53,6 +53,6 @@ public class SkinCommand extends BaseCommand {
     @CommandPermission("atom.skin.reset")
     public void resetSkin(Player player) {
         SkinAPI.setDefaultSkin(player);
-        MessageUtil.send(player, "§aSkin reset to default!");
+        ActionBarManager.send(player, "§aSkin reset to default!");
     }
 }

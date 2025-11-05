@@ -3,7 +3,6 @@ package org.shotrush.atom.content.mobs.ai.goals;
 import com.destroystokyo.paper.entity.ai.Goal;
 import com.destroystokyo.paper.entity.ai.GoalKey;
 import com.destroystokyo.paper.entity.ai.GoalType;
-import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -107,14 +106,14 @@ public class RamChargeGoal implements Goal<Mob> {
             mobLoc.getWorld().spawnParticle(Particle.ANGRY_VILLAGER, mobLoc.clone().add(0, mob.getHeight() + 0.5, 0), 3, 0.3, 0.3, 0.3, 0);
         }
         
-        mob.getScheduler().runDelayed(plugin, task -> {
+        org.shotrush.atom.core.api.scheduler.SchedulerAPI.runTaskLater(mob, () -> {
             isWindingUp = false;
             isCharging = true;
             Location loc = mob.getLocation();
             if (loc != null && loc.getWorld() != null) {
                 loc.getWorld().playSound(loc, Sound.ENTITY_RAVAGER_STEP, 1.0f, 0.8f);
             }
-        }, null, 20);
+        }, 20L);
     }
     
     @Override

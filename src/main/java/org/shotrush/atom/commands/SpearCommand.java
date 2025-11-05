@@ -7,7 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import org.shotrush.atom.Atom;
 import org.shotrush.atom.commands.annotation.AutoRegister;
 import org.shotrush.atom.core.items.CustomItem;
-import org.shotrush.atom.core.util.MessageUtil;
+import org.shotrush.atom.core.ui.ActionBarManager;
 
 @AutoRegister(priority = 6)
 @CommandAlias("spear|woodspear")
@@ -21,9 +21,9 @@ public class SpearCommand extends BaseCommand {
         if (spearItem != null) {
             ItemStack spear = spearItem.create();
             player.getInventory().addItem(spear);
-            MessageUtil.send(player, "§aYou received a Wooden Spear!");
+            ActionBarManager.send(player, "§aYou received a Wooden Spear!");
         } else {
-            MessageUtil.send(player, "§cWooden spear not found!");
+            ActionBarManager.send(player, "§cWooden spear not found!");
         }
     }
 }

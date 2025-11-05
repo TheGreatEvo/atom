@@ -2,27 +2,21 @@ package org.shotrush.atom.content.blocks.cog;
 
 import lombok.Getter;
 import lombok.Setter;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.RegionAccessor;
+import org.bukkit.*;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Interaction;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Transformation;
-import org.bukkit.World;
-
 import org.joml.AxisAngle4f;
 import org.joml.Vector3f;
 import org.shotrush.atom.Atom;
-import org.shotrush.atom.core.util.MessageUtil;
-import org.shotrush.atom.core.blocks.*;
+import org.shotrush.atom.core.blocks.CustomBlock;
 import org.shotrush.atom.core.blocks.annotation.AutoRegister;
 import org.shotrush.atom.core.blocks.util.BlockRotationUtil;
+import org.shotrush.atom.core.ui.ActionBarManager;
+
 ;
 
 @AutoRegister(priority = 10)
@@ -106,31 +100,11 @@ public class Cog extends CustomBlock {
             display.setItemStack(diamondItem);
             display.setTransformation(currentTransform);
 
-
             display.teleportAsync(display.getLocation());
         }
     }
 
-    @Override
-    protected void removeEntities() {
-        Entity interaction = Bukkit.getEntity(interactionUUID);
-        if (interaction != null) {
-            interaction.remove();
-        }
-
-        Entity display = Bukkit.getEntity(displayUUID);
-        if (display != null) {
-            display.remove();
-        }
-    }
-
-    @Override
-    public boolean isValid() {
-        if (interactionUUID == null || displayUUID == null) return false;
-        Entity interaction = Bukkit.getEntity(interactionUUID);
-        Entity display = Bukkit.getEntity(displayUUID);
-        return interaction != null && display != null && !interaction.isDead() && !display.isDead();
-    }
+    
 
 
     public void setPowerSource(boolean powerSource) {
@@ -177,7 +151,7 @@ public class Cog extends CustomBlock {
         }
 
         togglePowerSource();
-        MessageUtil.send(player, isPowerSource ?
+        ActionBarManager.send(player, isPowerSource ?
                 "§aCog is now a power source!" :
                 "§7Cog is no longer a power source");
 
@@ -254,14 +228,5 @@ public class Cog extends CustomBlock {
         return true;
     }
 
-    /*
-    @Override
-    public ItemStack getDropItem() {
-        org.shotrush.atom.core.items.CustomItem item = Atom.getInstance().getItemRegistry().getItem(getIdentifier());
-        if (item != null) {
-            return item.create();
-        }
-        return createItemWithCustomModel(Material.STONE_BUTTON, getIdentifier());
-    }
-     */
+    
 }

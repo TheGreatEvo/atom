@@ -78,6 +78,18 @@ public class AnimalBehaviorNew implements Listener {
         if (!(entity instanceof Animals animal)) return;
         if (!(entity instanceof Mob mob)) return;
         
+        mob.setRemoveWhenFarAway(false);
+        mob.setPersistent(true);
+        
+        if (animal.getAttribute(Attribute.STEP_HEIGHT) != null) {
+            Objects.requireNonNull(animal.getAttribute(Attribute.STEP_HEIGHT)).setBaseValue(1.0);
+        }
+        
+        if (animal.getAttribute(Attribute.ATTACK_DAMAGE) == null) {
+            animal.registerAttribute(Attribute.ATTACK_DAMAGE);
+            Objects.requireNonNull(animal.getAttribute(Attribute.ATTACK_DAMAGE)).setBaseValue(2.0);
+        }
+        
         plugin.getLogger().info(">>> Animal spawn detected: " + animal.getType() + " (Reason: " + event.getSpawnReason() + ")");
         
         if (AnimalDomestication.isFullyDomesticated(animal)) {
@@ -253,7 +265,7 @@ public class AnimalBehaviorNew implements Listener {
     }
     
     private void startStaminaRegeneration(Animals animal) {
-        animal.getScheduler().runAtFixedRate(plugin, scheduledTask -> {
+        org.shotrush.atom.core.api.scheduler.SchedulerAPI.runTaskTimer(animal, scheduledTask -> {
             if (animal.isDead() || !animal.isValid()) {
                 trackedAnimals.remove(animal.getUniqueId());
                 scheduledTask.cancel();
@@ -261,7 +273,7 @@ public class AnimalBehaviorNew implements Listener {
             }
             
             regenerateStamina(animal);
-        }, null, 1L, 40L);
+        }, 1L, 40L);
     }
     
     private void regenerateStamina(Animals animal) {

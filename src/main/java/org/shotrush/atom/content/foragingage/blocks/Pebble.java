@@ -38,33 +38,13 @@ public class Pebble extends CustomBlock {
         float randomZ = (float) (Math.random() * 0.4 - 0.2);
 
         spawnDisplay(display, plugin, pebbleItem, new Vector3f(randomX, 0.05f, randomZ), randomRotation, new Vector3f(0.7f, 0.4f, 0.7f), false, 0.5f, 0.2f);
-
     }
 
     @Override
     public void update(float globalAngle) {
     }
 
-    @Override
-    protected void removeEntities() {
-        Entity interaction = Bukkit.getEntity(interactionUUID);
-        if (interaction != null) {
-            interaction.remove();
-        }
-
-        Entity display = Bukkit.getEntity(displayUUID);
-        if (display != null) {
-            display.remove();
-        }
-    }
-
-    @Override
-    public boolean isValid() {
-        if (interactionUUID == null || displayUUID == null) return false;
-        Entity interaction = Bukkit.getEntity(interactionUUID);
-        Entity display = Bukkit.getEntity(displayUUID);
-        return interaction != null && display != null && !interaction.isDead() && !display.isDead();
-    }
+    
 
 
     @Override

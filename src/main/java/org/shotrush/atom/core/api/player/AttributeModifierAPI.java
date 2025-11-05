@@ -1,4 +1,4 @@
-package org.shotrush.atom.core.api;
+package org.shotrush.atom.core.api.player;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;

@@ -6,8 +6,8 @@ import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.ItemStack;
-import org.shotrush.atom.core.api.ItemQualityAPI;
-import org.shotrush.atom.core.api.QualityInheritanceAPI;
+import org.shotrush.atom.core.api.item.ItemQualityAPI;
+import org.shotrush.atom.core.api.item.QualityInheritanceAPI;
 import org.shotrush.atom.core.items.ItemQuality;
 import org.shotrush.atom.core.systems.annotation.AutoRegisterSystem;
 

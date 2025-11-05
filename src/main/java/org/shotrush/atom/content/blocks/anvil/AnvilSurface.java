@@ -11,7 +11,7 @@ import org.bukkit.util.Transformation;
 import org.joml.AxisAngle4f;
 import org.joml.Vector3f;
 import org.shotrush.atom.Atom;
-import org.shotrush.atom.core.util.MessageUtil;
+import org.shotrush.atom.core.ui.ActionBarManager;
 import org.shotrush.atom.core.blocks.CustomBlock;
 import org.shotrush.atom.core.blocks.InteractiveSurface;
 import org.shotrush.atom.core.blocks.annotation.AutoRegister;
@@ -58,11 +58,7 @@ public class AnvilSurface extends InteractiveSurface {
         ItemStack anvilItem = new ItemStack(Material.ANVIL);
 
         spawnDisplay(base, plugin, anvilItem, new Vector3f(0, 0.5f, 0), new AxisAngle4f(), new Vector3f(1, 1, 1), true, 1f, 1f);
-        /*
-        for (PlacedItem item : placedItems) {
-            spawnItemDisplay(item);
-        }
-         */
+        
     }
 
     @Override
@@ -83,32 +79,24 @@ public class AnvilSurface extends InteractiveSurface {
         return new Vector3f(0.3f, 0.3f, 0.3f);
     }
     
-    
     @Override
     public void update(float globalAngle) {}
     
     @Override
     protected void removeEntities() {
+        
         for (PlacedItem item : placedItems) {
             removeItemDisplay(item);
-            blockLocation.getWorld().dropItemNaturally(blockLocation, item.getItem());
+            if (blockLocation.getWorld() != null) {
+                blockLocation.getWorld().dropItemNaturally(blockLocation, item.getItem());
+            }
         }
-        if (displayUUID != null) {
-            Entity entity = Bukkit.getEntity(displayUUID);
-            if (entity != null) entity.remove();
-        }
-        if (interactionUUID != null) {
-            Entity entity = Bukkit.getEntity(interactionUUID);
-            if (entity != null) entity.remove();
-        }
+        
+        
+        super.removeEntities();
     }
     
-    @Override
-    public boolean isValid() {
-        if (interactionUUID == null) return false;
-        Entity entity = Bukkit.getEntity(interactionUUID);
-        return entity != null && entity.isValid();
-    }
+    
     
     @Override
     public String getBlockType() {
@@ -121,7 +109,7 @@ public class AnvilSurface extends InteractiveSurface {
             ItemStack removed = removeLastItem();
             if (removed != null) {
                 player.getInventory().addItem(removed);
-                MessageUtil.send(player, "§7Removed item (" + placedItems.size() + "/" + getMaxItems() + ")");
+                ActionBarManager.send(player, "§7Removed item (" + placedItems.size() + "/" + getMaxItems() + ")");
                 return true;
             }
             return false;
@@ -134,11 +122,11 @@ public class AnvilSurface extends InteractiveSurface {
         Vector3f pos = calculatePlacement(player, placedItems.size());
         if (placeItem(player, hand, pos, player.getLocation().getYaw())) {
             hand.setAmount(hand.getAmount() - 1);
-            MessageUtil.send(player, "§aPlaced item (" + placedItems.size() + "/" + getMaxItems() + ")");
+            ActionBarManager.send(player, "§aPlaced item (" + placedItems.size() + "/" + getMaxItems() + ")");
             return true;
         }
         
-        MessageUtil.send(player, "§cSurface is full!");
+        ActionBarManager.send(player, "§cSurface is full!");
         return false;
     }
     @Override
@@ -177,10 +165,5 @@ public class AnvilSurface extends InteractiveSurface {
         return surface;
     }
 
-    /*
-    @Override
-    public ItemStack getDropItem() {
-        return new ItemStack(Material.ANVIL);
-    }
-    */
+    
 }

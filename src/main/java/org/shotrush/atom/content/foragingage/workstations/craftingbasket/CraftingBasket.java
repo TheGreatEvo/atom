@@ -1,8 +1,10 @@
 package org.shotrush.atom.content.foragingage.workstations.craftingbasket;
 
-import org.bukkit.*;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.RegionAccessor;
+import org.bukkit.Sound;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
@@ -55,20 +57,11 @@ public class CraftingBasket extends InteractiveSurface {
 
     @Override
     public void spawn(Atom plugin, RegionAccessor accessor) {
-        System.out.println("[DEBUG] CraftingBasket.spawn() called at " + spawnLocation);
         cleanupExistingEntities();
         ItemDisplay display = (ItemDisplay) accessor.spawnEntity(spawnLocation, EntityType.ITEM_DISPLAY);
         ItemStack basketItem = createItemWithCustomModel(Material.STONE_BUTTON, "crafting_basket");
 
         spawnDisplay(display, plugin, basketItem, new Vector3f(0, 0.5f, 0), new AxisAngle4f(), new Vector3f(1f, 1f, 1f), false, 1f, 0.2f);
-        
-        System.out.println("[DEBUG] Basket spawned with display UUID: " + displayUUID + ", interaction UUID: " + interactionUUID);
-
-        /*
-        for (PlacedItem item : placedItems) {
-            spawnItemDisplay(item);
-        }
-         */
     }
 
 
@@ -78,36 +71,23 @@ public class CraftingBasket extends InteractiveSurface {
 
     @Override
     protected void removeEntities() {
+        
         for (PlacedItem item : placedItems) {
             removeItemDisplay(item);
-            spawnLocation.getWorld().dropItemNaturally(spawnLocation, item.getItem());
+            if (spawnLocation.getWorld() != null) {
+                spawnLocation.getWorld().dropItemNaturally(spawnLocation, item.getItem());
+            }
         }
-        Entity display = Bukkit.getEntity(displayUUID);
-        if (display != null) display.remove();
-        Entity interaction = Bukkit.getEntity(interactionUUID);
-        if (interaction != null) interaction.remove();
+        
+        
+        super.removeEntities();
     }
 
-    @Override
-    public boolean isValid() {
-        if (interactionUUID == null || displayUUID == null) {
-            System.out.println("[DEBUG] CraftingBasket.isValid() - UUIDs are null");
-            return false;
-        }
-        Entity interaction = Bukkit.getEntity(interactionUUID);
-        Entity display = Bukkit.getEntity(displayUUID);
-        boolean valid = interaction != null && display != null && !interaction.isDead() && !display.isDead();
-        if (!valid) {
-            System.out.println("[DEBUG] CraftingBasket.isValid() - Entities not found or dead. interaction=" + interaction + ", display=" + display);
-        }
-        return valid;
-    }
-
-    @Override
+    
+    
     protected ItemStack checkRecipe() {
         RecipeManager recipeManager = Atom.getInstance().getRecipeManager();
         if (recipeManager == null) {
-            System.out.println("[DEBUG] RecipeManager is null!");
             return null;
         }
 
@@ -115,44 +95,72 @@ public class CraftingBasket extends InteractiveSurface {
         for (PlacedItem placedItem : placedItems) {
             items.add(placedItem.getItem());
         }
-        
-        System.out.println("[DEBUG] Checking recipe with " + items.size() + " items:");
-        for (ItemStack item : items) {
-            System.out.println("[DEBUG]   - " + item.getType() + " x" + item.getAmount() + 
-                (item.hasItemMeta() && item.getItemMeta().hasDisplayName() ? 
-                " (" + item.getItemMeta().getDisplayName() + ")" : ""));
-        }
 
         ItemStack result = recipeManager.findMatch(items);
         if (result != null) {
-            System.out.println("[DEBUG] Recipe match found: " + result);
             applyQualityInheritance(result);
-        } else {
-            System.out.println("[DEBUG] No recipe match found");
         }
         return result;
     }
+    
+    @Override
+    protected boolean onCrouchRightClick(Player player) {
+        ItemStack result = checkRecipe();
+        
+        if (result != null) {
+            int craftCount = org.shotrush.atom.core.api.player.PlayerDataAPI.getInt(player, "crafting.basket_count", 0);
+            double successRate = Math.min(0.95, 0.45 + (craftCount * 0.01));
+            
+            if (Math.random() < successRate) {
+                org.shotrush.atom.core.api.player.PlayerDataAPI.incrementInt(player, "crafting.basket_count", 0);
+                
+                clearAllItems();
+                spawnLocation.getWorld().dropItemNaturally(spawnLocation, result);
+                player.playSound(spawnLocation, Sound.BLOCK_BAMBOO_WOOD_BUTTON_CLICK_ON, 1.0f, 1.0f);
+                
+                org.shotrush.atom.core.ui.ActionBarManager.send(player, 
+                    String.format("§aSuccessful craft! §7(%.0f%% success rate)", successRate * 100));
+                return true;
+            } else {
+                clearAllItems();
+                player.playSound(spawnLocation, Sound.BLOCK_BAMBOO_WOOD_BUTTON_CLICK_OFF, 1.0f, 0.5f);
+                
+                org.shotrush.atom.core.ui.ActionBarManager.send(player, 
+                    String.format("§cCrafting failed! §7(%.0f%% success rate)", successRate * 100));
+                return true;
+            }
+        } else {
+            player.playSound(spawnLocation, Sound.BLOCK_BAMBOO_WOOD_BUTTON_CLICK_OFF, 1.0f, 0.5f);
+            return false;
+        }
+    }
 
     @Override
-    public boolean onWrenchInteract(Player player, boolean sneaking) {
+    public boolean onInteract(Player player, boolean sneaking) {
         ItemStack hand = player.getInventory().getItemInMainHand();
 
         if (sneaking) {
             ItemStack removed = removeLastItem();
             if (removed != null) {
-                player.getInventory().addItem(removed);
+                spawnLocation.getWorld().dropItemNaturally(spawnLocation, removed);
                 return true;
             }
             return false;
         }
 
-        if (hand.getType() == Material.WOODEN_HOE || hand.getType() == Material.AIR) return false;
+        if (hand.getType() == Material.AIR) return false;
 
         if (placeItem(player, hand, calculatePlacement(player, placedItems.size()), 0)) {
             hand.setAmount(hand.getAmount() - 1);
             return true;
         }
         return false;
+    }
+    
+    @Override
+    public boolean onWrenchInteract(Player player, boolean sneaking) {
+        
+        return onInteract(player, sneaking);
     }
 
     @Override
@@ -180,18 +188,14 @@ public class CraftingBasket extends InteractiveSurface {
 
     @Override
     public org.shotrush.atom.core.blocks.CustomBlock deserialize(String data) {
-        System.out.println("[DEBUG] Deserializing CraftingBasket from: " + data);
         Object[] parsed = parseDeserializeData(data);
         if (parsed == null) {
-            System.out.println("[DEBUG] Failed to parse base data");
             return null;
         }
 
         CraftingBasket basket = new CraftingBasket((Location) parsed[1], (BlockFace) parsed[2]);
         String[] parts = data.split(";");
         basket.deserializeAdditionalData(parts, 5);
-        
-        System.out.println("[DEBUG] Deserialized basket with " + basket.placedItems.size() + " items");
 
         return basket;
     }

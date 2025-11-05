@@ -1,10 +1,7 @@
 package org.shotrush.atom.core.blocks;
 
-import com.mojang.logging.LogUtils;
 import lombok.Setter;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Interaction;
@@ -15,16 +12,14 @@ import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
 import org.joml.Vector3f;
 import org.shotrush.atom.Atom;
-import org.shotrush.atom.core.util.MessageUtil;
+import org.shotrush.atom.core.ui.ActionBarManager;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
 
 public abstract class InteractiveSurface extends CustomBlock {
     protected final List<PlacedItem> placedItems = new ArrayList<>();
@@ -59,7 +54,7 @@ public abstract class InteractiveSurface extends CustomBlock {
         ));
 
 
-        Bukkit.getRegionScheduler().run(plugin, spawnLocation, task -> {
+        org.shotrush.atom.core.api.scheduler.SchedulerAPI.runTask(spawnLocation, () -> {
 
             cleanupExistingEntities();
 
@@ -94,7 +89,7 @@ public abstract class InteractiveSurface extends CustomBlock {
         if (result != null) {
             clearAllItems();
             player.getWorld().dropItemNaturally(spawnLocation, result);
-            MessageUtil.send(player, "§aCrafted: " + result.getType().name());
+            ActionBarManager.send(player, "§aCrafted: " + result.getType().name());
             return true;
         } else {
             releaseAllItems(player);
@@ -113,7 +108,7 @@ public abstract class InteractiveSurface extends CustomBlock {
             .map(PlacedItem::getItem)
             .toArray(ItemStack[]::new);
 
-        org.shotrush.atom.core.api.QualityInheritanceAPI.applyInheritedQuality(result, ingredients);
+        org.shotrush.atom.core.api.item.QualityInheritanceAPI.applyInheritedQuality(result, ingredients);
     }
 
     protected void releaseAllItems(Player player) {
@@ -168,7 +163,7 @@ public abstract class InteractiveSurface extends CustomBlock {
             Atom.getInstance().getLogger().warning("Cannot spawn item display - world is null");
             return;
         }
-        org.bukkit.Bukkit.getRegionScheduler().run(Atom.getInstance(), itemLoc, task -> {
+        org.shotrush.atom.core.api.scheduler.SchedulerAPI.runTask(itemLoc, () -> {
             org.bukkit.entity.ItemDisplay display = (org.bukkit.entity.ItemDisplay) itemLoc.getWorld().spawnEntity(itemLoc, org.bukkit.entity.EntityType.ITEM_DISPLAY);
             display.setItemStack(item.getItem());
             org.joml.AxisAngle4f rotation = getItemDisplayRotation(item);
@@ -204,7 +199,7 @@ public abstract class InteractiveSurface extends CustomBlock {
             
             if (entity != null) {
 
-                Bukkit.getRegionScheduler().run(Atom.getInstance(), entity.getLocation(), task -> {
+                org.shotrush.atom.core.api.scheduler.SchedulerAPI.runTask(entity.getLocation(), () -> {
 
                     org.bukkit.entity.Entity ent = org.bukkit.Bukkit.getEntity(item.getDisplayUUID());
                     if (ent != null) {
@@ -228,10 +223,12 @@ public abstract class InteractiveSurface extends CustomBlock {
 
                 Location expectedLoc = spawnLocation.clone().add(item.getPosition().x, item.getPosition().y, item.getPosition().z);
                 
-                Bukkit.getRegionScheduler().run(Atom.getInstance(), expectedLoc, task -> {
+                org.shotrush.atom.core.api.scheduler.SchedulerAPI.runTask(expectedLoc, () -> {
                     boolean found = false;
-                    for (Entity nearby : expectedLoc.getWorld().getNearbyEntities(expectedLoc, 0.5, 0.5, 0.5)) {
-                        if (nearby instanceof ItemDisplay) {
+                 
+                    for (Entity nearby : expectedLoc.getWorld().getNearbyEntities(expectedLoc, 1.0, 1.0, 1.0)) {
+                        if (nearby instanceof ItemDisplay && !nearby.getUniqueId().equals(displayUUID)) {
+
                             nearby.remove();
                             found = true;
                             Atom.getInstance().getLogger().info("Removed item display by location (UUID was stale)");
@@ -243,7 +240,24 @@ public abstract class InteractiveSurface extends CustomBlock {
                 });
             }
         } else {
-            Atom.getInstance().getLogger().warning("PlacedItem has null display UUID, cannot remove");
+            
+            Vector3f pos = item.getPosition();
+            Location expectedLoc = spawnLocation.clone().add(pos.x, pos.y, pos.z);
+            if (expectedLoc.getWorld() != null) {
+                org.shotrush.atom.core.api.scheduler.SchedulerAPI.runTask(expectedLoc, () -> {
+                    boolean found = false;
+                    for (Entity nearby : expectedLoc.getWorld().getNearbyEntities(expectedLoc, 1.0, 1.0, 1.0)) {
+                        if (nearby instanceof ItemDisplay && !nearby.getUniqueId().equals(displayUUID)) {
+                            
+                            nearby.remove();
+                            found = true;
+                        }
+                    }
+                    
+                    expectedLoc.getWorld().dropItemNaturally(spawnLocation, item.getItem());
+                    Atom.getInstance().getLogger().info("Dropped item with null UUID naturally");
+                });
+            }
         }
     }
 
@@ -284,7 +298,7 @@ public abstract class InteractiveSurface extends CustomBlock {
         }
         
 
-        Bukkit.getRegionScheduler().runDelayed(Atom.getInstance(), spawnLocation, task -> {
+        org.shotrush.atom.core.api.scheduler.SchedulerAPI.runTaskLater(spawnLocation, () -> {
             for (PlacedItem item : placedItems) {
                 spawnItemDisplay(item);
             }

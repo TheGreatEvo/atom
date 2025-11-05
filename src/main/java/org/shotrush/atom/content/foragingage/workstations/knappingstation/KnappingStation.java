@@ -1,8 +1,9 @@
 package org.shotrush.atom.content.foragingage.workstations.knappingstation;
 
-import org.bukkit.*;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.RegionAccessor;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
@@ -12,7 +13,8 @@ import org.joml.Vector3f;
 import org.shotrush.atom.Atom;
 import org.shotrush.atom.core.blocks.InteractiveSurface;
 import org.shotrush.atom.core.blocks.annotation.AutoRegister;
-import org.shotrush.atom.core.util.MessageUtil;
+import org.shotrush.atom.core.items.CustomItem;
+import org.shotrush.atom.core.ui.ActionBarManager;
 
 @AutoRegister(priority = 32)
 public class KnappingStation extends InteractiveSurface {
@@ -32,7 +34,13 @@ public class KnappingStation extends InteractiveSurface {
 
     @Override
     public boolean canPlaceItem(ItemStack item) {
-        return item != null && item.getType() == Material.FLINT;
+        if (item == null) return false;
+        
+        
+        if (item.getType() == Material.FLINT) return true;
+        
+        CustomItem sharpenedFlint = Atom.getInstance().getItemRegistry().getItem("sharpened_flint");
+        return sharpenedFlint != null && sharpenedFlint.isCustomItem(item);
     }
 
     @Override
@@ -48,12 +56,6 @@ public class KnappingStation extends InteractiveSurface {
 
         spawnDisplay(display, plugin, stationItem, new Vector3f(0, 0.5f, 0), new AxisAngle4f(), new Vector3f(1f, 1f, 1f), true, 0.65f, 0.75f);
 
-        /*
-        for (PlacedItem item : placedItems) {
-            spawnItemDisplay(item);
-        }
-         */
-
     }
 
 
@@ -68,37 +70,39 @@ public class KnappingStation extends InteractiveSurface {
                     flatRotation);
     }
 
-    @Override
     public void update(float globalAngle) {
     }
 
     @Override
     protected void removeEntities() {
+        
         for (PlacedItem item : placedItems) {
             removeItemDisplay(item);
-            spawnLocation.getWorld().dropItemNaturally(spawnLocation, item.getItem());
+            if (spawnLocation.getWorld() != null) {
+                spawnLocation.getWorld().dropItemNaturally(spawnLocation, item.getItem());
+            }
         }
-        Entity display = Bukkit.getEntity(displayUUID);
-        if (display != null) display.remove();
-        Entity interaction = Bukkit.getEntity(interactionUUID);
-        if (interaction != null) interaction.remove();
+        
+        
+        super.removeEntities();
     }
 
-    @Override
-    public boolean isValid() {
-        if (interactionUUID == null || displayUUID == null) return false;
-        Entity interaction = Bukkit.getEntity(interactionUUID);
-        Entity display = Bukkit.getEntity(displayUUID);
-        return interaction != null && display != null && !interaction.isDead() && !display.isDead();
-    }
+    
 
     @Override
     public boolean onWrenchInteract(Player player, boolean sneaking) {
         ItemStack hand = player.getInventory().getItemInMainHand();
 
-        if (hand.getType() == Material.BRUSH) {
+        CustomItem pebbleItem = Atom.getInstance().getItemRegistry().getItem("pebble");
+        if (pebbleItem != null && pebbleItem.isCustomItem(hand)) {
             if (placedItems.isEmpty()) {
-                MessageUtil.send(player, "§cPlace flint first!");
+                ActionBarManager.send(player, "§cPlace flint first!");
+                return true;
+            }
+            
+            PlacedItem placedFlint = placedItems.get(0);
+            if (placedFlint.getItem().getType() != Material.FLINT) {
+                ActionBarManager.send(player, "§cYou can only knap regular flint with a pebble!");
                 return true;
             }
             
@@ -106,7 +110,30 @@ public class KnappingStation extends InteractiveSurface {
                 KnappingHandler.startKnapping(player, spawnLocation, () -> removeLastItem());
             }
             
-            return true;
+            return false;
+        }
+        
+        CustomItem pressureFlakerItem = Atom.getInstance().getItemRegistry().getItem("pressure_flaker");
+        if (pressureFlakerItem != null && pressureFlakerItem.isCustomItem(hand)) {
+            if (placedItems.isEmpty()) {
+                ActionBarManager.send(player, "§cPlace sharpened flint first!");
+                return true;
+            }
+            
+            PlacedItem placedFlint = placedItems.get(0);
+            CustomItem sharpenedFlint = Atom.getInstance().getItemRegistry().getItem("sharpened_flint");
+            
+            if (sharpenedFlint == null || !sharpenedFlint.isCustomItem(placedFlint.getItem())) {
+                ActionBarManager.send(player, "§cYou need sharpened flint for pressure flaking!");
+                return true;
+            }
+            
+            if (!KnappingHandler.isKnapping(player)) {
+                ItemStack inputFlint = placedFlint.getItem().clone();
+                KnappingHandler.startPressureFlaking(player, spawnLocation, inputFlint, () -> removeLastItem());
+            }
+            
+            return false;
         }
 
         if (sneaking) {
@@ -119,7 +146,9 @@ public class KnappingStation extends InteractiveSurface {
         }
 
         if (hand.getType() == Material.WOODEN_HOE || hand.getType() == Material.AIR) return false;
-        if (hand.getType() != Material.FLINT) return false;
+        
+        
+        if (!canPlaceItem(hand)) return false;
 
         if (placeItem(player, hand, calculatePlacement(player, placedItems.size()), 0)) {
             hand.setAmount(hand.getAmount() - 1);

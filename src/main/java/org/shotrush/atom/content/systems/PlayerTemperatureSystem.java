@@ -40,9 +40,7 @@ public class PlayerTemperatureSystem implements Listener {
         Player player = event.getPlayer();
         UUID playerId = player.getUniqueId();
         
-        org.bukkit.configuration.file.YamlConfiguration config = 
-            org.shotrush.atom.Atom.getInstance().getDataStorage().getPlayerData(playerId);
-        double savedTemp = config.getDouble("temperature.body", NORMAL_TEMP);
+        double savedTemp = org.shotrush.atom.core.api.player.PlayerDataAPI.getDouble(player, "temperature.body", NORMAL_TEMP);
         
         playerTemperatures.put(playerId, savedTemp);
         startTemperatureTickForPlayer(player);
@@ -54,23 +52,19 @@ public class PlayerTemperatureSystem implements Listener {
         UUID playerId = player.getUniqueId();
         
         double temp = playerTemperatures.getOrDefault(playerId, NORMAL_TEMP);
-        
-        org.bukkit.configuration.file.YamlConfiguration config = 
-            org.shotrush.atom.Atom.getInstance().getDataStorage().getPlayerData(playerId);
-        config.set("temperature.body", temp);
-        org.shotrush.atom.Atom.getInstance().getDataStorage().savePlayerData(playerId, config);
+        org.shotrush.atom.core.api.player.PlayerDataAPI.setDouble(player, "temperature.body", temp);
         
         playerTemperatures.remove(playerId);
     }
     
     private void startTemperatureTickForPlayer(Player player) {
-        player.getScheduler().runAtFixedRate(plugin, task -> {
+        org.shotrush.atom.core.api.scheduler.SchedulerAPI.runTaskTimer(player, task -> {
             if (!player.isOnline()) {
                 task.cancel();
                 return;
             }
             updatePlayerTemperature(player);
-        }, null, 1L, 20L);
+        }, 1L, 20L);
     }
     
     private void updatePlayerTemperature(Player player) {
@@ -78,10 +72,10 @@ public class PlayerTemperatureSystem implements Listener {
         double currentTemp = playerTemperatures.getOrDefault(playerId, NORMAL_TEMP);
         org.bukkit.Location loc = player.getLocation();
         
-        double envChange = org.shotrush.atom.core.api.EnvironmentalFactorAPI
+        double envChange = org.shotrush.atom.core.api.world.EnvironmentalFactorAPI
             .calculateEnvironmentalTemperatureChange(player, loc, 0.0125);
         
-        double armorInsulation = org.shotrush.atom.core.api.ArmorProtectionAPI.getInsulationValue(player);
+        double armorInsulation = org.shotrush.atom.core.api.combat.ArmorProtectionAPI.getInsulationValue(player);
         envChange *= (1.0 - armorInsulation * 0.7);
         
         double naturalRegulation = 0.0;
@@ -120,13 +114,13 @@ public class PlayerTemperatureSystem implements Listener {
     }
     
     private void applyTemperatureEffects(Player player, double temp) {
-        org.shotrush.atom.core.api.TemperatureEffectsAPI.applyBodyTemperatureEffects(player, temp);
+        org.shotrush.atom.core.api.combat.TemperatureEffectsAPI.applyBodyTemperatureEffects(player, temp);
         
         org.shotrush.atom.core.ui.ActionBarManager manager = org.shotrush.atom.core.ui.ActionBarManager.getInstance();
         if (manager == null) return;
         
         String tempDisplay = String.format("%.1f°C", temp);
-        String color = org.shotrush.atom.core.api.TemperatureEffectsAPI.getBodyTempColor(temp);
+        String color = org.shotrush.atom.core.api.combat.TemperatureEffectsAPI.getBodyTempColor(temp);
         String message = "§7Body: " + color + tempDisplay;
         manager.setMessage(player, "body_temp", message);
     }

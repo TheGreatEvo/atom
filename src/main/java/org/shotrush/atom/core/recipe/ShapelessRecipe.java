@@ -5,6 +5,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.shotrush.atom.Atom;
 import org.shotrush.atom.core.items.CustomItem;
+import org.shotrush.atom.core.items.ItemQuality;
 
 import java.util.*;
 
@@ -32,9 +33,7 @@ public class ShapelessRecipe implements Recipe {
     
     @Override
     public boolean matches(List<ItemStack> items) {
-        System.out.println("[DEBUG] ShapelessRecipe.matches for " + id + ": items=" + items.size() + ", ingredients=" + ingredients.size());
         if (items.size() != ingredients.size()) {
-            System.out.println("[DEBUG]   Size mismatch!");
             return false;
         }
         
@@ -46,22 +45,14 @@ public class ShapelessRecipe implements Recipe {
             
             for (int i = 0; i < itemsCopy.size(); i++) {
                 ItemStack item = itemsCopy.get(i);
-                System.out.println("[DEBUG]   Checking ingredient " + 
-                    (ingredient.getCustomItemId() != null ? ingredient.getCustomItemId() : ingredient.getMaterial()) + 
-                    " against " + item.getType());
                 if (ingredient.matches(item)) {
                     itemsCopy.remove(i);
                     found = true;
-                    System.out.println("[DEBUG]     Match!");
                     break;
-                } else {
-                    System.out.println("[DEBUG]     No match");
                 }
             }
             
             if (!found) {
-                System.out.println("[DEBUG]   Ingredient not found: " + 
-                    (ingredient.getCustomItemId() != null ? ingredient.getCustomItemId() : ingredient.getMaterial()));
                 return false;
             }
         }
@@ -99,9 +90,18 @@ public class ShapelessRecipe implements Recipe {
             return this;
         }
         
+        public Builder addIngredient(String customItemId, ItemQuality requiredQuality) {
+            ingredients.add(new RecipeIngredient(customItemId, requiredQuality));
+            return this;
+        }
+        
         public Builder addIngredient(RecipeIngredient ingredient) {
             ingredients.add(ingredient);
             return this;
+        }
+        
+        public AnyOfBuilder anyOf() {
+            return new AnyOfBuilder(this);
         }
         
         public ShapelessRecipe build() {
@@ -109,6 +109,30 @@ public class ShapelessRecipe implements Recipe {
                 throw new IllegalStateException("Recipe must have id, result, and at least one ingredient");
             }
             return new ShapelessRecipe(id, result, ingredients);
+        }
+    }
+    
+    public static class AnyOfBuilder {
+        private final Builder parent;
+        private final List<RecipeIngredient> alternatives = new ArrayList<>();
+        
+        AnyOfBuilder(Builder parent) {
+            this.parent = parent;
+        }
+        
+        public AnyOfBuilder add(Material material) {
+            alternatives.add(new RecipeIngredient(material));
+            return this;
+        }
+        
+        public AnyOfBuilder add(String customItemId) {
+            alternatives.add(new RecipeIngredient(customItemId));
+            return this;
+        }
+        
+        public Builder done() {
+            parent.addIngredient(RecipeIngredient.anyOf(alternatives.toArray(new RecipeIngredient[0])));
+            return parent;
         }
     }
 }

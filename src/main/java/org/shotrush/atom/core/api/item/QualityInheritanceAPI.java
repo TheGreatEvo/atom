@@ -1,4 +1,4 @@
-package org.shotrush.atom.core.api;
+package org.shotrush.atom.core.api.item;
 
 import org.bukkit.inventory.ItemStack;
 import org.shotrush.atom.core.items.ItemQuality;

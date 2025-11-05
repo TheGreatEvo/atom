@@ -134,7 +134,7 @@ public class VisualDebugger {
     }
     
     private void startVisualUpdateTask() {
-        plugin.getServer().getGlobalRegionScheduler().runAtFixedRate(plugin, task -> {
+        org.shotrush.atom.core.api.scheduler.SchedulerAPI.runGlobalTaskTimer(() -> {
             for (TrackedMob tracked : trackedMobs.values()) {
                 Mob mob = (Mob) plugin.getServer().getEntity(tracked.mobId);
                 if (mob == null || !mob.isValid()) {

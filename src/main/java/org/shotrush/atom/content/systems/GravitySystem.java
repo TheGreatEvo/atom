@@ -33,7 +33,7 @@ public class GravitySystem implements Listener {
         
         if (!placed.getType().isSolid()) return;
         
-        plugin.getServer().getRegionScheduler().runDelayed(plugin, placed.getLocation(), task -> {
+        org.shotrush.atom.core.api.scheduler.SchedulerAPI.runTaskLater(placed.getLocation(), () -> {
             if (!placed.getType().isSolid()) return;
             
             int horizontalDistance = getHorizontalDistanceFromSupport(placed);
@@ -57,7 +57,7 @@ public class GravitySystem implements Listener {
         event.setDropItems(false);
         Location loc = broken.getLocation();
         
-        plugin.getServer().getRegionScheduler().runDelayed(plugin, loc, task -> {
+        org.shotrush.atom.core.api.scheduler.SchedulerAPI.runTaskLater(loc, () -> {
             Set<Block> affectedBlocks = new HashSet<>();
             
             Block above = loc.getBlock().getRelative(BlockFace.UP);

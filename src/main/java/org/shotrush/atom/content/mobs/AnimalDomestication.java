@@ -44,7 +44,7 @@ public class AnimalDomestication implements Listener {
             plugin.getLogger().info("Baby is fully domesticated!");
         }
         
-        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+        org.shotrush.atom.core.api.scheduler.SchedulerAPI.runTaskLater(baby.getLocation(), () -> {
             if (baby.isValid() && !baby.isDead()) {
                 Optional<Herd> motherHerd = herdManager.getHerd(mother.getUniqueId());
                 Optional<Herd> fatherHerd = herdManager.getHerd(father.getUniqueId());

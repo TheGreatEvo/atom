@@ -2,23 +2,25 @@ package org.shotrush.atom.core.blocks;
 
 import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
 import lombok.Getter;
-import org.bukkit.*;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.block.Block;
-import org.bukkit.entity.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Interaction;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.reflections.Reflections;
 import org.shotrush.atom.Atom;
-import org.shotrush.atom.core.data.PersistentData;
 import org.shotrush.atom.content.blocks.cog.CogManager;
 import org.shotrush.atom.core.blocks.annotation.AutoRegister;
-import org.reflections.Reflections;
-import org.shotrush.atom.core.util.MessageUtil;
+import org.shotrush.atom.core.data.PersistentData;
+import org.shotrush.atom.core.ui.ActionBarManager;
 
 import java.lang.reflect.Constructor;
 import java.util.*;
@@ -49,9 +51,8 @@ public class CustomBlockManager implements Listener {
 
         
         Bukkit.getPluginManager().registerEvents(this, plugin);
-        Bukkit.getPluginManager().registerEvents(new BarrierBreakHandler(plugin, this), plugin);
 
-        Bukkit.getGlobalRegionScheduler().runDelayed(plugin, task -> {
+        org.shotrush.atom.core.api.scheduler.SchedulerAPI.runGlobalTaskLater(() -> {
             loadBlocks();
             startGlobalUpdate();
         }, 1L);
@@ -97,7 +98,7 @@ public class CustomBlockManager implements Listener {
 
     
     private void startGlobalUpdate() {
-        globalUpdateTask = Bukkit.getGlobalRegionScheduler().runAtFixedRate(plugin, task -> {
+        globalUpdateTask = org.shotrush.atom.core.api.scheduler.SchedulerAPI.runGlobalTaskTimer(() -> {
             globalAngle += 0.1f;
             if (globalAngle > Math.PI * 2) {
                 globalAngle = 0;
@@ -125,7 +126,7 @@ public class CustomBlockManager implements Listener {
         blocks.addAll(loadedBlocks);
         plugin.getLogger().info("Loaded " + loadedBlocks.size() + " block(s) from data");
         
-        Bukkit.getGlobalRegionScheduler().runDelayed(plugin, task -> {
+        org.shotrush.atom.core.api.scheduler.SchedulerAPI.runGlobalTaskLater(() -> {
             int spawnedCount = 0;
             int respawnedCount = 0;
             
@@ -134,7 +135,15 @@ public class CustomBlockManager implements Listener {
                     block.spawn(plugin);
                     spawnedCount++;
 
-
+                    
+                    org.shotrush.atom.core.api.scheduler.SchedulerAPI.runTaskLater(block.getSpawnLocation(), () -> {
+                        updateBlockEntityUUIDs(block);
+                        if (block instanceof InteractiveSurface surface) {
+                            surface.updateItemDisplayUUIDs();
+                        }
+                        plugin.getLogger().info("Updated entity UUIDs for " + block.getIdentifier() + " at " + block.getBlockLocation());
+                    }, 5L);
+                    respawnedCount++;
                 }
             }
             
@@ -193,12 +202,12 @@ public class CustomBlockManager implements Listener {
     public void giveBlockItem(Player player, String blockTypeId) {
         ItemStack item = createBlockItem(blockTypeId);
         if (item == null) {
-            MessageUtil.send(player, "§cUnknown block type: " + blockTypeId);
+            ActionBarManager.send(player, "§cUnknown block type: " + blockTypeId);
             return;
         }
 
         player.getInventory().addItem(item);
-        MessageUtil.send(player, "§aYou received a " + item.getItemMeta().getDisplayName() + "!");
+        ActionBarManager.send(player, "§aYou received a " + item.getItemMeta().getDisplayName() + "!");
     }
 
 
@@ -232,7 +241,7 @@ public class CustomBlockManager implements Listener {
         ItemStack wrench = plugin.getItemRegistry().createItem("wrench");
         if (wrench != null) {
             player.getInventory().addItem(wrench);
-            MessageUtil.send(player, "§aYou received a Mechanical Wrench!");
+            ActionBarManager.send(player, "§aYou received a Mechanical Wrench!");
         }
     }
     
@@ -243,6 +252,22 @@ public class CustomBlockManager implements Listener {
             }
         }
         return null;
+    }
+    
+    private void updateBlockEntityUUIDs(CustomBlock block) {
+        if (block.getSpawnLocation().getWorld() == null) return;
+        
+        
+        for (Entity entity : block.getSpawnLocation().getWorld().getNearbyEntities(block.getSpawnLocation(), 0.5, 0.5, 0.5)) {
+            double distance = entity.getLocation().distance(block.getSpawnLocation());
+            if (distance < 0.1) {
+                if (entity instanceof org.bukkit.entity.ItemDisplay) {
+                    block.setDisplayUUID(entity.getUniqueId());
+                } else if (entity instanceof org.bukkit.entity.Interaction) {
+                    block.setInteractionUUID(entity.getUniqueId());
+                }
+            }
+        }
     }
     
     public void removeBlock(CustomBlock block) {
@@ -308,7 +333,7 @@ public class CustomBlockManager implements Listener {
         for (int i = 0; i < blocks.size(); i++) {
             CustomBlock block = blocks.get(i);
             if (block.getInteractionUUID() != null && block.getInteractionUUID().equals(entity.getUniqueId())) {
-                Bukkit.getRegionScheduler().run(plugin, interaction.getLocation(), task -> {
+                org.shotrush.atom.core.api.scheduler.SchedulerAPI.runTask(interaction.getLocation(), () -> {
                     org.bukkit.entity.Entity ent = Bukkit.getEntity(interaction.getUniqueId());
                     if (ent instanceof Interaction inter) {
                         inter.setResponsive(false);
@@ -345,7 +370,7 @@ public class CustomBlockManager implements Listener {
                     plugin.getLogger().info("Updated item display UUIDs for InteractiveSurface");
                 }
                 
-                Bukkit.getRegionScheduler().run(plugin, interaction.getLocation(), task -> {
+                org.shotrush.atom.core.api.scheduler.SchedulerAPI.runTask(interaction.getLocation(), () -> {
                     org.bukkit.entity.Entity ent = Bukkit.getEntity(interaction.getUniqueId());
                     if (ent instanceof Interaction inter) {
                         inter.setResponsive(false);
@@ -373,7 +398,7 @@ public class CustomBlockManager implements Listener {
             if (block.getInteractionUUID() != null && block.getInteractionUUID().equals(interaction.getUniqueId())) {
                 event.setCancelled(true);
 
-                if (block.getBlockLocation().getBlock().getType() != Material.BARRIER) {
+                if (block.getBlockLocation().getBlock().getType() != Material.BLACK_STAINED_GLASS) {
                     BlockType blockType = registry.getBlockType(block.getBlockType());
                     if (blockType != null) {
                         ItemStack dropItem = blockType.getDropItem();
@@ -385,7 +410,7 @@ public class CustomBlockManager implements Listener {
                     block.remove();
                     blocks.remove(i);
                     block.onRemoved();
-                    MessageUtil.send(player, "§cCustom block removed");
+                    ActionBarManager.send(player, "§cCustom block removed");
                 }
                 return;
             }
@@ -415,7 +440,7 @@ public class CustomBlockManager implements Listener {
                 
                 event.setCancelled(true);
 
-                if (block.getBlockLocation().getBlock().getType() != Material.BARRIER) {
+                if (block.getBlockLocation().getBlock().getType() != Material.BLACK_STAINED_GLASS) {
                     BlockType blockType = registry.getBlockType(block.getBlockType());
                     if (blockType != null) {
                         ItemStack dropItem = blockType.getDropItem();
@@ -427,8 +452,37 @@ public class CustomBlockManager implements Listener {
                     block.remove();
                     blocks.remove(i);
                     block.onRemoved();
-                    MessageUtil.send(player, "§cCustom block removed");
+                    ActionBarManager.send(player, "§cCustom block removed");
                 }
+                return;
+            }
+        }
+    }
+    
+    @EventHandler(priority = org.bukkit.event.EventPriority.HIGHEST)
+    public void onBlockBreak(org.bukkit.event.block.BlockBreakEvent event) {
+        if (event.isCancelled()) return;
+        if (event.getBlock().getType() != Material.BLACK_STAINED_GLASS) return;
+        
+        Location blockLoc = event.getBlock().getLocation();
+        for (int i = 0; i < blocks.size(); i++) {
+            CustomBlock block = blocks.get(i);
+            if (block.getBlockLocation().equals(blockLoc)) {
+                
+                BlockType blockType = registry.getBlockType(block.getBlockType());
+                if (blockType != null) {
+                    ItemStack dropItem = blockType.getDropItem();
+                    if (dropItem != null) {
+                        blockLoc.getWorld().dropItemNaturally(blockLoc, dropItem);
+                    }
+                }
+                
+                
+                block.remove();
+                blocks.remove(i);
+                block.onRemoved();
+                
+                
                 return;
             }
         }
@@ -440,7 +494,7 @@ public class CustomBlockManager implements Listener {
         if (event.getAction() != org.bukkit.event.block.Action.RIGHT_CLICK_BLOCK) return;
         if (event.getHand() != org.bukkit.inventory.EquipmentSlot.HAND) return;
         if (event.getClickedBlock() == null) return;
-        if (event.getClickedBlock().getType() != Material.BARRIER) return;
+        if (event.getClickedBlock().getType() != Material.BLACK_STAINED_GLASS) return;
         
         Location clickedLoc = event.getClickedBlock().getLocation();
         for (int i = 0; i < blocks.size(); i++) {
@@ -467,7 +521,7 @@ public class CustomBlockManager implements Listener {
                     block.remove();
                     blocks.remove(index);
                     block.onRemoved();
-                    MessageUtil.send(player, "§cBlock removed!");
+                    ActionBarManager.send(player, "§cBlock removed!");
                     return;
                 } else {
                     block.onWrenchInteract(player, false);
@@ -494,7 +548,7 @@ public class CustomBlockManager implements Listener {
                 block.remove();
                 blocks.remove(index);
                 block.onRemoved();
-                MessageUtil.send(player, "§cBlock removed!");
+                ActionBarManager.send(player, "§cBlock removed!");
                 return;
             } else {
                 block.onWrenchInteract(player, false);

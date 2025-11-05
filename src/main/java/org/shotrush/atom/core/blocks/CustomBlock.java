@@ -59,7 +59,7 @@ public abstract class CustomBlock implements BlockType {
             plugin.getLogger().warning("Cannot spawn block at " + spawnLocation + " - world is null");
             return;
         }
-        Bukkit.getRegionScheduler().run(plugin, spawnLocation, task -> {
+        org.shotrush.atom.core.api.scheduler.SchedulerAPI.runTask(spawnLocation, () -> {
             spawn(plugin, spawnLocation.getWorld());
         });
     }
@@ -76,9 +76,35 @@ public abstract class CustomBlock implements BlockType {
     }
     
     
-    protected abstract void removeEntities();
+    protected void removeEntities() {
+        if (spawnLocation.getWorld() == null) return;
+        
+        org.shotrush.atom.core.api.scheduler.SchedulerAPI.runTask(spawnLocation, () -> {
+            
+            if (displayUUID != null) {
+                Entity display = Bukkit.getEntity(displayUUID);
+                if (display != null) display.remove();
+            }
+            if (interactionUUID != null) {
+                Entity interaction = Bukkit.getEntity(interactionUUID);
+                if (interaction != null) interaction.remove();
+            }
+            
+            
+            for (Entity entity : spawnLocation.getWorld().getNearbyEntities(spawnLocation, 1.5, 1.5, 1.5)) {
+                if (entity instanceof ItemDisplay || entity instanceof Interaction) {
+                    double distance = entity.getLocation().distance(spawnLocation);
+                    if (distance < 0.5) {
+                        entity.remove();
+                    }
+                }
+            }
+        });
+    }
 
     protected void cleanupExistingEntities() {
+        if (spawnLocation.getWorld() == null) return;
+        
         for (Entity entity : spawnLocation.getWorld().getNearbyEntities(spawnLocation, 0.5, 0.5, 0.5)) {
             if (entity instanceof ItemDisplay || entity instanceof Interaction) {
                 if (entity.getLocation().distance(spawnLocation) < 0.1) {
@@ -88,7 +114,30 @@ public abstract class CustomBlock implements BlockType {
         }
     }
     
-    public abstract boolean isValid();
+    public boolean isValid() {
+        if (spawnLocation.getWorld() == null) return false;
+        
+        
+        if (interactionUUID != null && displayUUID != null) {
+            Entity interaction = Bukkit.getEntity(interactionUUID);
+            Entity display = Bukkit.getEntity(displayUUID);
+            if (interaction != null && display != null && !interaction.isDead() && !display.isDead()) {
+                return true;
+            }
+        }
+        
+        
+        for (Entity entity : spawnLocation.getWorld().getNearbyEntities(spawnLocation, 0.5, 0.5, 0.5)) {
+            if (entity instanceof Interaction || entity instanceof ItemDisplay) {
+                double distance = entity.getLocation().distance(spawnLocation);
+                if (distance < 0.1) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
     
     
     public boolean onWrenchInteract(org.bukkit.entity.Player player, boolean sneaking) {
@@ -223,8 +272,8 @@ public abstract class CustomBlock implements BlockType {
         plugin.getLogger().info("[CustomBlock] ItemStack: " + itemStack.getType() + ", Display UUID: " + display.getUniqueId());
         
         if (placeBarrier) {
-            blockLocation.getBlock().setType(Material.BARRIER);
-            plugin.getLogger().info("[CustomBlock] Placed barrier at: " + blockLocation);
+            blockLocation.getBlock().setType(Material.BLACK_STAINED_GLASS);
+            plugin.getLogger().info("[CustomBlock] Placed black stained glass at: " + blockLocation);
         }
         
         display.setItemStack(itemStack);

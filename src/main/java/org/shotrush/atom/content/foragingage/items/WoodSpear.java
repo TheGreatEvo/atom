@@ -9,7 +9,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.shotrush.atom.core.items.CustomItem;
 import org.shotrush.atom.core.items.annotation.AutoRegister;
-import org.shotrush.atom.core.util.MessageUtil;
+import org.shotrush.atom.core.ui.ActionBarManager;
 
 import java.util.Arrays;
 import java.util.List;
@@ -62,7 +62,7 @@ public class WoodSpear extends CustomItem {
             
             if (currentAmount - 1 <= 0) {
                 player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ITEM_BREAK, 1.0f, 1.0f);
-                MessageUtil.send(player,"§cYour Wooden Spear broke!");
+                ActionBarManager.send(player,"§cYour Wooden Spear broke!");
             } else {
                 player.getWorld().playSound(player.getLocation(), Sound.BLOCK_WOOD_BREAK, 0.5f, 1.2f);
             }

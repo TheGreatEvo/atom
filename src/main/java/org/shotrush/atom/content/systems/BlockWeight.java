@@ -2,17 +2,10 @@ package org.shotrush.atom.content.systems;
 
 import org.bukkit.Material;
 
-/**
- * Determines the fall speed of blocks based on their material type.
- * Heavier materials fall faster, lighter materials fall slower.
- */
+
 public class BlockWeight {
     
-    /**
-     * Get the fall speed for a given material.
-     * @param material The block material
-     * @return The fall speed (higher = faster)
-     */
+    
     public static double getFallSpeed(Material material) {
         String name = material.name();
         if (name.contains("IRON") || name.contains("GOLD") || name.contains("NETHERITE")) {
@@ -43,20 +36,12 @@ public class BlockWeight {
         return 0.05;
     }
     
-    /**
-     * Check if a material is considered heavy.
-     * @param material The block material
-     * @return true if the material is heavy
-     */
+    
     public static boolean isHeavy(Material material) {
         return getFallSpeed(material) >= 0.15;
     }
     
-    /**
-     * Check if a material is considered light.
-     * @param material The block material
-     * @return true if the material is light
-     */
+    
     public static boolean isLight(Material material) {
         return getFallSpeed(material) <= 0.05;
     }

@@ -21,7 +21,7 @@ import org.shotrush.atom.Atom;
 import org.shotrush.atom.content.foragingage.items.SharpenedFlint;
 import org.shotrush.atom.core.items.CustomItemRegistry;
 import org.shotrush.atom.core.systems.annotation.AutoRegisterSystem;
-import org.shotrush.atom.core.util.MessageUtil;
+import org.shotrush.atom.core.ui.ActionBarManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -68,7 +68,7 @@ public class WoodHarvestingSystem implements Listener {
         Player player = event.getPlayer();
         ItemStack item = player.getInventory().getItemInMainHand();
         if (!isUsingSharpenedFlint(item)) {
-            MessageUtil.send(player, "§cYou need a Sharpened Flint to harvest wood!");
+            ActionBarManager.send(player, "§cYou need a Sharpened Flint to harvest wood!");
             return;
         }
         handleWoodDamageStage(block, player);
@@ -94,7 +94,7 @@ public class WoodHarvestingSystem implements Listener {
                 event.setDropItems(true);
             } else {
                 event.setDropItems(false);
-                MessageUtil.send(player, "§cYou need an Axe or Sharpened Flint to harvest wood!");
+                ActionBarManager.send(player, "§cYou need an Axe or Sharpened Flint to harvest wood!");
             }
         }
     }
@@ -203,7 +203,7 @@ public class WoodHarvestingSystem implements Listener {
                         loc.add(0.5, 0.5, 0.5), 10, 0.2, 0.2, 0.2, 0.05,
                         currentType.createBlockData());
                     
-                    MessageUtil.send(player,"§7Wood partially damaged (1/4)");
+                    ActionBarManager.send(player,"§7Wood partially damaged (1/4)");
                 }
                 break;
                 
@@ -216,7 +216,7 @@ public class WoodHarvestingSystem implements Listener {
                     loc.add(0.5, 0.5, 0.5), 12, 0.25, 0.25, 0.25, 0.05,
                     currentType.createBlockData());
 
-                MessageUtil.send(player,"§7Wood damaged (2/4)");
+                ActionBarManager.send(player,"§7Wood damaged (2/4)");
                 break;
                 
             case 3:
@@ -229,7 +229,7 @@ public class WoodHarvestingSystem implements Listener {
                     block.getWorld().spawnParticle(Particle.BLOCK, 
                         loc.add(0.5, 0.5, 0.5), 15, 0.3, 0.3, 0.3, 0.05,
                         currentType.createBlockData());
-                    MessageUtil.send(player,"§7Wood heavily damaged (3/4)");
+                    ActionBarManager.send(player,"§7Wood heavily damaged (3/4)");
                 }
                 break;
                 
@@ -249,7 +249,7 @@ public class WoodHarvestingSystem implements Listener {
                         loc, 20, 0.3, 0.3, 0.3, 0.1,
                         currentType.createBlockData());
 
-                    MessageUtil.send(player,"§aWood harvested!");
+                    ActionBarManager.send(player,"§aWood harvested!");
                 }
                 break;
         }

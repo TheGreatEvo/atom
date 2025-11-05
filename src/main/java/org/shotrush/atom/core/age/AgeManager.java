@@ -126,7 +126,7 @@ public class AgeManager {
         String ageId = config.getString("current_age");
         
         if (ageId != null) {
-            Bukkit.getGlobalRegionScheduler().runDelayed(plugin, task -> {
+            org.shotrush.atom.core.api.scheduler.SchedulerAPI.runGlobalTaskLater(() -> {
                 getAge(ageId).ifPresent(age -> {
                     this.currentAge = age;
                     plugin.getLogger().info("Loaded current age: " + age.getDisplayName());
