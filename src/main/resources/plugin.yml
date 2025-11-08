@@ -8,3 +8,4 @@ website: https://github.com/ShotRush/atom
 load: STARTUP
 depend:
   - ProtocolLib
+  - CraftEngine

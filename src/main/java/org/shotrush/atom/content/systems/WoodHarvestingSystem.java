@@ -17,6 +17,9 @@ import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
+
+import net.momirealms.craftengine.bukkit.api.CraftEngineItems;
+import net.momirealms.craftengine.bukkit.item.BukkitItemManager;
 import org.shotrush.atom.Atom;
 import org.shotrush.atom.content.foragingage.items.SharpenedFlint;
 import org.shotrush.atom.core.items.CustomItemRegistry;
@@ -25,6 +28,8 @@ import org.shotrush.atom.core.util.ActionBarManager;
 import java.util.HashMap;
 import java.util.Map;
 import org.shotrush.atom.core.api.annotation.RegisterSystem;
+import org.shotrush.atom.item.Items;
+import org.shotrush.atom.item.ItemsKt;
 
 @RegisterSystem(
     id = "wood_harvesting_system",
@@ -105,19 +110,7 @@ public class WoodHarvestingSystem implements Listener {
     }
     
     private boolean isUsingSharpenedFlint(ItemStack item) {
-        if (item == null || item.getType() != Material.FLINT) {
-            return false;
-        }
-        
-        CustomItemRegistry registry = Atom.instance.getItemRegistry();
-        if (registry != null) {
-            SharpenedFlint sharpenedFlint = (SharpenedFlint) registry.getItem("sharpened_flint");
-            if (sharpenedFlint != null && sharpenedFlint.isCustomItem(item)) {
-                return true;
-            }
-        }
-        
-        return false;
+        return ItemsKt.isItem(Items.INSTANCE.getSharpenedFlint(), item);
     }
     
     private boolean isUsingAxe(ItemStack item) {

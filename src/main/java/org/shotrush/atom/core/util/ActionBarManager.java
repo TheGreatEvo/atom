@@ -129,7 +129,7 @@ public class ActionBarManager {
         
         if (!orderedMessages.isEmpty()) {
             String combined = String.join(" §8| ", orderedMessages);
-            player.sendActionBar(Component.text(combined));
+//            player.sendActionBar(Component.text(combined));
         }
     }
 }

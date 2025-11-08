@@ -1,0 +1,11 @@
+items:
+  atom:sharpened_flint:
+    material: brush
+    data:
+      item-name: <!i><white><i18n:item.sharpened_flint.name>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/sharpened_flint

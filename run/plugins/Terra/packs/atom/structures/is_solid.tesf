@@ -1,0 +1,10 @@
+str blockID = getBlock(0, 0, 0);
+if (blockID != "minecraft:stone" &&
+    blockID != "minecraft:grass_block" &&
+    blockID != "minecraft:dirt" &&
+    blockID != "minecraft:sand" &&
+    blockID != "minecraft:gravel" &&
+    blockID != "minecraft:rooted_dirt" &&
+    blockID != "minecraft:podzol") {
+    fail; // Skip placement if not on a valid block type
+}

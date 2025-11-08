@@ -2,14 +2,6 @@ package org.shotrush.atom;
 
 import co.aikar.commands.PaperCommandManager;
 import lombok.Getter;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.generator.ChunkGenerator;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
-import org.jspecify.annotations.Nullable;
 import org.shotrush.atom.content.mobs.ai.debug.MobAIDebugCommand;
 import org.shotrush.atom.content.mobs.ai.debug.VisualDebugger;
 import org.shotrush.atom.content.mobs.commands.HerdCommand;
@@ -18,7 +10,12 @@ import org.shotrush.atom.core.age.AgeManager;
 import org.shotrush.atom.core.blocks.CustomBlockManager;
 import org.shotrush.atom.core.items.CustomItemRegistry;
 import org.shotrush.atom.core.storage.DataStorage;
-import org.shotrush.atom.world.RockChunkGenerator;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Atom extends JavaPlugin {
 
@@ -107,10 +104,5 @@ public final class Atom extends JavaPlugin {
         }
         
         getLogger().info("Player data saved for " + Bukkit.getOnlinePlayers().size() + " players");
-    }
-
-    @Override
-    public ChunkGenerator getDefaultWorldGenerator(@NotNull String worldName, @Nullable String id) {
-        return RockChunkGenerator.INSTANCE;
     }
 }

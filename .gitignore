@@ -111,10 +111,21 @@ gradle-app.setting
 **/build/
 
 # Common working directory
-run/
 runs/
 
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar
 
 .kotlin/
+
+# Do not ask me why this is necessary... I wish i knew.
+/run/**
+!/run/plugins/
+!/run/plugins/Terra/
+!/run/plugins/Terra/packs/
+!/run/plugins/Terra/packs/atom/
+!/run/plugins/Terra/packs/atom/**
+!/run/plugins/CraftEngine
+!/run/plugins/CraftEngine/resources
+!/run/plugins/CraftEngine/resources/atom
+!/run/plugins/CraftEngine/resources/atom/**

@@ -2,8 +2,10 @@ plugins {
     java
     id("com.gradleup.shadow") version "8.3.5"
     id("xyz.jpenilla.run-paper") version "2.3.1"
-    id("org.jetbrains.kotlin.jvm") version "2.2.20"
+    id("org.jetbrains.kotlin.jvm") version "2.2.21"
     id("io.papermc.paperweight.userdev") version "2.0.0-beta.19"
+    kotlin("plugin.lombok") version "2.2.21"
+    id("io.freefair.lombok") version "8.14.2"
 }
 
 group = "org.shotrush.atom"
@@ -23,6 +25,7 @@ repositories {
         name = "dmulloy2-repo"
         url = uri("https://repo.dmulloy2.net/repository/public/")
     }
+    maven("https://repo.momirealms.net/releases/")
 }
 
 dependencies {
@@ -35,8 +38,8 @@ dependencies {
     implementation("org.yaml:snakeyaml:2.2")
     implementation("com.google.code.gson:gson:2.10.1")
 
-    compileOnly("org.projectlombok:lombok:1.18.34")
-    annotationProcessor("org.projectlombok:lombok:1.18.34")
+    compileOnly("org.projectlombok:lombok:1.18.38")
+    annotationProcessor("org.projectlombok:lombok:1.18.38")
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.1")
     testImplementation("org.mockito:mockito-core:5.8.0")
@@ -44,6 +47,8 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
 
     compileOnly("net.dmulloy2:ProtocolLib:5.4.0")
+    compileOnly("net.momirealms:craft-engine-core:0.0.65")
+    compileOnly("net.momirealms:craft-engine-bukkit:0.0.65")
 }
 
 tasks.withType(xyz.jpenilla.runtask.task.AbstractRun::class) {
@@ -63,6 +68,8 @@ tasks {
 
     var spec = runPaper.downloadPluginsSpec {
         url("https://github.com/dmulloy2/ProtocolLib/releases/download/5.4.0/ProtocolLib.jar")
+        modrinth("craftengine", "0.0.65")
+        modrinth("terra", "6.6.6-BETA-bukkit")
     }
 
     // Configure run-paper

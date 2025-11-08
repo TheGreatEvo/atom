@@ -1,0 +1,18 @@
+categories:
+  atom:default:
+    priority: 1
+    name: <!i><white><i18n:category.atom.name></white>
+    lore:
+      - <!i><gray><i18n:category.atom.lore>
+    icon: atom:sharpened_flint
+    list:
+      - '#atom:foraging'
+  atom:foraging:
+    name: <!i><white><i18n:category.foraging.name></white>
+    hidden: true
+    lore:
+      - <!i><gray><i18n:category.foraging.lore>
+    icon: atom:pebble
+    list:
+      - 'atom:sharpened_flint'
+      - 'atom:pebble'
