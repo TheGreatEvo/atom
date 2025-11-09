@@ -12,6 +12,7 @@ public class SharpenedFlint {
     public static boolean isSharpenedFlint(ItemStack stack) {
         return ItemsKt.isItem(Items.INSTANCE.getSharpenedFlint(), stack);
     }
+
     public static void damageItem(ItemStack item, Player player) {
         damageItem(item, player, 0.4);
     }

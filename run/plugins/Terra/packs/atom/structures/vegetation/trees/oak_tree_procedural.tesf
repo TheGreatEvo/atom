@@ -7,9 +7,6 @@ str trunkBlockX = "minecraft:oak_log[axis=x]";
 str trunkBlockY = "minecraft:oak_log[axis=y]";
 str trunkBlockZ = "minecraft:oak_log[axis=z]";
 str leafBlock   = "minecraft:oak_leaves[distance=1,persistent=false]";
-str stick1 = "craftengine:custom_3";
-str stick2 = "craftengine:custom_4";
-str stick3 = "craftengine:custom_5";
 
 // Tree gen logic
 num leafMidPointRatio = 0.25;
@@ -83,17 +80,16 @@ if (beeNestRoll == 0) {
 }
 
 block(0, -1, 0, "minecraft:dirt");
-block(0, 0, 1, stick1);
 
 // --- Random sticks around base ---
 // Config: max sticks and rarity control (higher = rarer)
 num maxSticks = 4;
 num attempts = 40;           // how many placement tries to find up to maxSticks
-num baseRadius = 6;          // search radius around trunk at ground level
-num rareScale = 1;          // higher number = rarer overall spawns
+num baseRadius = leafRadius; // search radius around trunk at ground level
+num rareScale = 5;           // higher number = rarer overall spawns
 
 num placed = 0;
-for (num t = 0; t < attempts && placed < maxSticks; t = t + 1) {
+for (num t = 0; t < attempts && placed <= maxSticks; t = t + 1) {
     // Sample a candidate position with distance bias toward trunk.
     // Use "rejection sampling": pick within square, reject outside circle sometimes.
     num x = randomInt(baseRadius * 2 + 1) - baseRadius; // [-R, R]
@@ -106,7 +102,7 @@ for (num t = 0; t < attempts && placed < maxSticks; t = t + 1) {
     // Closer to center => higher chance. Farther => lower chance.
     num d2 = x * x + z * z;
     num r2 = baseRadius * baseRadius;
-    // if (d2 > r2) continue;
+    if (d2 > r2) continue;
 
     // Distance bias: probNear ranges from ~1 near center to small near edge
     // Using a smooth falloff curve (quadratic)
@@ -115,35 +111,9 @@ for (num t = 0; t < attempts && placed < maxSticks; t = t + 1) {
 
     // Add overall rarity gate
     // Effective chance ~ probNearScaled / rareScale
-    // if (randomInt(rareScale * 1000) >= probPermille) continue;
+    if (randomInt(rareScale * 1000) >= probPermille) continue;
 
-    // Randomly choose one of the stick variants
-    num which = randomInt(3); // 0,1,2
-    str stickBlock = stick1;
-    if (which == 1) stickBlock = stick2;
-    if (which == 2) stickBlock = stick3;
-
-    // Check placement conditions based on y-level
-    // Check y = 0
-    if (getBlock(x, 0, z) != "minecraft:air") {
-        // If there's a solid block at 0, check if there's air at 1
-        if (getBlock(x, 1, z) == "minecraft:air" && structure(x, 0, z, "is_solid", "NONE")) {
-            // Place at y = 1
-            block(x, 1, z, stickBlock);
-            placed = placed + 1;
-            continue;
-        }
-    } else if (getBlock(x, 0, z) == "minecraft:air") {
-        if(structure(x, -1, z, "is_solid", "NONE")) {
-            // Place at y = 0 if there's air
-            block(x, 0, z, stickBlock);
-            placed = placed + 1;
-            continue;
-        }
-    } else if (getBlock(x, -1, z) == "minecraft:air" && structure(x, -2, z, "is_solid", "NONE")) {
-        // Otherwise try placing at y = -1 if there's support
-        block(x, -1, z, stickBlock);
+    if (structure(x, 0, z, "ground_stick", "NONE")) {
         placed = placed + 1;
-        continue;
     }
 }
