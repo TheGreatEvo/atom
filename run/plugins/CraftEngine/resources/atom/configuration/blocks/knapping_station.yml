@@ -1,0 +1,36 @@
+items:
+  atom:knapping_station:
+    material: nether_brick
+    data:
+      item-name: <!i><lang:item.knapping_station.name>
+      lore:
+        - <!i><gray><lang:item.knapping_station.lore_1>
+        - <!i><gray><lang:item.knapping_station.lore_2>
+        - ""
+        - <!i><white><image:atom:badge_workstation> <image:atom:badge_age_foraging>
+    model:
+      type: minecraft:model
+      path: minecraft:block/knapping_station
+    behavior:
+      type: block_item
+      block:
+        loot:
+          template: default:loot_table/self
+        settings:
+          template:
+            - default:sound/metal
+            - default:pickaxe_power/level_1
+          overrides:
+            hardness: 3.0
+            resistance: 4.5
+            replaceable: false
+            is-redstone-conductor: true
+            is-suffocating: true
+            instrument: basedrum
+            map-color: 15
+            tags:
+              - minecraft:mineable/pickaxe
+        state:
+          auto-state: cactus
+          model:
+            path: minecraft:block/knapping_station
