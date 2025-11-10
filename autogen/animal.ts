@@ -24,6 +24,7 @@ const animals = [
 type AnimalId = (typeof animals)[number];
 type ItemType =
     | "raw_meat"
+    | "undercooked_meat"
     | "cooked_meat"
     | "burnt_meat"
     | "raw_leather"
@@ -60,16 +61,15 @@ const animalDisplay: Record<AnimalId, string> = {
     camel: "Camel",
 };
 
-// If you want culinary names, edit here (commented defaults show examples)
-// const meatNameOverrides: Partial<
-//   Record<AnimalId, { raw?: string; cooked?: string }>
-// > = {
-//   cow: { raw: "Raw Beef", cooked: "Steak" },
-//   pig: { raw: "Raw Pork", cooked: "Cooked Pork" },
-//   sheep: { raw: "Raw Mutton", cooked: "Cooked Mutton" },
-//   chicken: { raw: "Raw Chicken", cooked: "Cooked Chicken" },
-//   rabbit: { raw: "Raw Rabbit", cooked: "Cooked Rabbit" },
-// };
+const meatNameOverrides: Partial<
+    Record<AnimalId, { raw?: string; cooked?: string }>
+> = {
+    cow: "Beef",
+    pig: "Pork",
+    sheep: "Mutton",
+    chicken: "Chicken",
+    rabbit: "Rabbit",
+};
 
 function itemKey(id: AnimalId, type: ItemType) {
     if (type.includes("leather")) return `atom:animal_leather_${type.split("_")[0]}_${id}`;
@@ -80,17 +80,19 @@ function itemKey(id: AnimalId, type: ItemType) {
 function getTexturePathForType(type: ItemType) {
     switch (type) {
         case "raw_meat":
-            return "minecraft:item/beef";
+            return "minecraft:item/meat/raw";
+        case "undercooked_meat":
+            return "minecraft:item/meat/undercooked";
         case "cooked_meat":
-            return "minecraft:item/cooked_beef";
+            return "minecraft:item/meat/cooked";
         case "burnt_meat":
-            return "minecraft:item/charcoal";
+            return "minecraft:item/meat/burnt";
         case "raw_leather":
             return "minecraft:item/leather_meat";
         case "cured_leather":
             return "minecraft:item/leather_cured";
         case "bone":
-            return "minecraft:item/bone";
+            return "minecraft:item/meat/bone";
         default:
             return "minecraft:item/redstone";
     }
@@ -129,17 +131,21 @@ function makeLabel(id: AnimalId, type: ItemType): string {
     const a = animalDisplay[id];
     switch (type) {
         case "raw_meat": {
-            // const o = meatNameOverrides[id]?.raw;
-            // return o ?? `Raw ${a} Meat`;
-            return `Raw ${a} Meat`;
+            const b = meatNameOverrides[id] ?? `${a} Meat`;
+            return `Raw ${b}`;
+        }
+        case "undercooked_meat": {
+            const b = meatNameOverrides[id] ?? `${a} Meat`;
+            return `Undercooked ${b}`;
         }
         case "cooked_meat": {
-            // const o = meatNameOverrides[id]?.cooked;
-            // return o ?? `Cooked ${a} Meat`;
-            return `Cooked ${a} Meat`;
+            const b = meatNameOverrides[id] ?? `${a} Meat`;
+            return `Cooked ${b}`;
         }
-        case "burnt_meat":
-            return `Burnt ${a} Meat`;
+        case "burnt_meat": {
+            const b = meatNameOverrides[id] ?? `${a} Meat`;
+            return `Burnt ${b}`;
+        }
         case "raw_leather":
             return `Raw ${a} Leather`;
         case "cured_leather":
@@ -154,6 +160,7 @@ function generateDoc() {
     const itemKeys: string[] = [];
     const itemTypes: ItemType[] = [
         "raw_meat",
+        "undercooked_meat",
         "cooked_meat",
         "burnt_meat",
         "raw_leather",
@@ -172,7 +179,7 @@ function generateDoc() {
     const categories: Record<string, unknown> = {
         [CATEGORY_KEY]: {
             ...CATEGORY,
-            list: itemKeys,
+            list: itemKeys.sort((a, b) => b.localeCompare(a)),
         },
     };
 

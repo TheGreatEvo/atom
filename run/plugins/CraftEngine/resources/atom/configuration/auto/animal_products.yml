@@ -11,7 +11,20 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/beef
+        path: minecraft:item/meat/raw
+  atom:animal_meat_undercooked_cow:
+    material: beef
+    data:
+      item-name: <!i><white><lang:item.animal_undercooked_meat.cow.name>
+      lore:
+        - ""
+        - <!i><white><image:atom:badge_food> <image:atom:badge_natural> <image:atom:badge_age_foraging>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/meat/undercooked
   atom:animal_meat_cooked_cow:
     material: beef
     data:
@@ -24,7 +37,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/cooked_beef
+        path: minecraft:item/meat/cooked
   atom:animal_meat_burnt_cow:
     material: beef
     data:
@@ -37,7 +50,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/charcoal
+        path: minecraft:item/meat/burnt
   atom:animal_leather_raw_cow:
     material: leather
     data:
@@ -76,7 +89,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/bone
+        path: minecraft:item/meat/bone
   atom:animal_meat_raw_pig:
     material: beef
     data:
@@ -89,7 +102,20 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/beef
+        path: minecraft:item/meat/raw
+  atom:animal_meat_undercooked_pig:
+    material: beef
+    data:
+      item-name: <!i><white><lang:item.animal_undercooked_meat.pig.name>
+      lore:
+        - ""
+        - <!i><white><image:atom:badge_food> <image:atom:badge_natural> <image:atom:badge_age_foraging>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/meat/undercooked
   atom:animal_meat_cooked_pig:
     material: beef
     data:
@@ -102,7 +128,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/cooked_beef
+        path: minecraft:item/meat/cooked
   atom:animal_meat_burnt_pig:
     material: beef
     data:
@@ -115,7 +141,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/charcoal
+        path: minecraft:item/meat/burnt
   atom:animal_leather_raw_pig:
     material: leather
     data:
@@ -154,7 +180,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/bone
+        path: minecraft:item/meat/bone
   atom:animal_meat_raw_sheep:
     material: beef
     data:
@@ -167,7 +193,20 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/beef
+        path: minecraft:item/meat/raw
+  atom:animal_meat_undercooked_sheep:
+    material: beef
+    data:
+      item-name: <!i><white><lang:item.animal_undercooked_meat.sheep.name>
+      lore:
+        - ""
+        - <!i><white><image:atom:badge_food> <image:atom:badge_natural> <image:atom:badge_age_foraging>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/meat/undercooked
   atom:animal_meat_cooked_sheep:
     material: beef
     data:
@@ -180,7 +219,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/cooked_beef
+        path: minecraft:item/meat/cooked
   atom:animal_meat_burnt_sheep:
     material: beef
     data:
@@ -193,7 +232,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/charcoal
+        path: minecraft:item/meat/burnt
   atom:animal_leather_raw_sheep:
     material: leather
     data:
@@ -232,7 +271,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/bone
+        path: minecraft:item/meat/bone
   atom:animal_meat_raw_chicken:
     material: beef
     data:
@@ -245,7 +284,20 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/beef
+        path: minecraft:item/meat/raw
+  atom:animal_meat_undercooked_chicken:
+    material: beef
+    data:
+      item-name: <!i><white><lang:item.animal_undercooked_meat.chicken.name>
+      lore:
+        - ""
+        - <!i><white><image:atom:badge_food> <image:atom:badge_natural> <image:atom:badge_age_foraging>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/meat/undercooked
   atom:animal_meat_cooked_chicken:
     material: beef
     data:
@@ -258,7 +310,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/cooked_beef
+        path: minecraft:item/meat/cooked
   atom:animal_meat_burnt_chicken:
     material: beef
     data:
@@ -271,7 +323,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/charcoal
+        path: minecraft:item/meat/burnt
   atom:animal_leather_raw_chicken:
     material: leather
     data:
@@ -310,7 +362,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/bone
+        path: minecraft:item/meat/bone
   atom:animal_meat_raw_rabbit:
     material: beef
     data:
@@ -323,7 +375,20 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/beef
+        path: minecraft:item/meat/raw
+  atom:animal_meat_undercooked_rabbit:
+    material: beef
+    data:
+      item-name: <!i><white><lang:item.animal_undercooked_meat.rabbit.name>
+      lore:
+        - ""
+        - <!i><white><image:atom:badge_food> <image:atom:badge_natural> <image:atom:badge_age_foraging>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/meat/undercooked
   atom:animal_meat_cooked_rabbit:
     material: beef
     data:
@@ -336,7 +401,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/cooked_beef
+        path: minecraft:item/meat/cooked
   atom:animal_meat_burnt_rabbit:
     material: beef
     data:
@@ -349,7 +414,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/charcoal
+        path: minecraft:item/meat/burnt
   atom:animal_leather_raw_rabbit:
     material: leather
     data:
@@ -388,7 +453,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/bone
+        path: minecraft:item/meat/bone
   atom:animal_meat_raw_horse:
     material: beef
     data:
@@ -401,7 +466,20 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/beef
+        path: minecraft:item/meat/raw
+  atom:animal_meat_undercooked_horse:
+    material: beef
+    data:
+      item-name: <!i><white><lang:item.animal_undercooked_meat.horse.name>
+      lore:
+        - ""
+        - <!i><white><image:atom:badge_food> <image:atom:badge_natural> <image:atom:badge_age_foraging>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/meat/undercooked
   atom:animal_meat_cooked_horse:
     material: beef
     data:
@@ -414,7 +492,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/cooked_beef
+        path: minecraft:item/meat/cooked
   atom:animal_meat_burnt_horse:
     material: beef
     data:
@@ -427,7 +505,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/charcoal
+        path: minecraft:item/meat/burnt
   atom:animal_leather_raw_horse:
     material: leather
     data:
@@ -466,7 +544,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/bone
+        path: minecraft:item/meat/bone
   atom:animal_meat_raw_donkey:
     material: beef
     data:
@@ -479,7 +557,20 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/beef
+        path: minecraft:item/meat/raw
+  atom:animal_meat_undercooked_donkey:
+    material: beef
+    data:
+      item-name: <!i><white><lang:item.animal_undercooked_meat.donkey.name>
+      lore:
+        - ""
+        - <!i><white><image:atom:badge_food> <image:atom:badge_natural> <image:atom:badge_age_foraging>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/meat/undercooked
   atom:animal_meat_cooked_donkey:
     material: beef
     data:
@@ -492,7 +583,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/cooked_beef
+        path: minecraft:item/meat/cooked
   atom:animal_meat_burnt_donkey:
     material: beef
     data:
@@ -505,7 +596,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/charcoal
+        path: minecraft:item/meat/burnt
   atom:animal_leather_raw_donkey:
     material: leather
     data:
@@ -544,7 +635,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/bone
+        path: minecraft:item/meat/bone
   atom:animal_meat_raw_mule:
     material: beef
     data:
@@ -557,7 +648,20 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/beef
+        path: minecraft:item/meat/raw
+  atom:animal_meat_undercooked_mule:
+    material: beef
+    data:
+      item-name: <!i><white><lang:item.animal_undercooked_meat.mule.name>
+      lore:
+        - ""
+        - <!i><white><image:atom:badge_food> <image:atom:badge_natural> <image:atom:badge_age_foraging>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/meat/undercooked
   atom:animal_meat_cooked_mule:
     material: beef
     data:
@@ -570,7 +674,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/cooked_beef
+        path: minecraft:item/meat/cooked
   atom:animal_meat_burnt_mule:
     material: beef
     data:
@@ -583,7 +687,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/charcoal
+        path: minecraft:item/meat/burnt
   atom:animal_leather_raw_mule:
     material: leather
     data:
@@ -622,7 +726,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/bone
+        path: minecraft:item/meat/bone
   atom:animal_meat_raw_llama:
     material: beef
     data:
@@ -635,7 +739,20 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/beef
+        path: minecraft:item/meat/raw
+  atom:animal_meat_undercooked_llama:
+    material: beef
+    data:
+      item-name: <!i><white><lang:item.animal_undercooked_meat.llama.name>
+      lore:
+        - ""
+        - <!i><white><image:atom:badge_food> <image:atom:badge_natural> <image:atom:badge_age_foraging>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/meat/undercooked
   atom:animal_meat_cooked_llama:
     material: beef
     data:
@@ -648,7 +765,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/cooked_beef
+        path: minecraft:item/meat/cooked
   atom:animal_meat_burnt_llama:
     material: beef
     data:
@@ -661,7 +778,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/charcoal
+        path: minecraft:item/meat/burnt
   atom:animal_leather_raw_llama:
     material: leather
     data:
@@ -700,7 +817,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/bone
+        path: minecraft:item/meat/bone
   atom:animal_meat_raw_goat:
     material: beef
     data:
@@ -713,7 +830,20 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/beef
+        path: minecraft:item/meat/raw
+  atom:animal_meat_undercooked_goat:
+    material: beef
+    data:
+      item-name: <!i><white><lang:item.animal_undercooked_meat.goat.name>
+      lore:
+        - ""
+        - <!i><white><image:atom:badge_food> <image:atom:badge_natural> <image:atom:badge_age_foraging>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/meat/undercooked
   atom:animal_meat_cooked_goat:
     material: beef
     data:
@@ -726,7 +856,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/cooked_beef
+        path: minecraft:item/meat/cooked
   atom:animal_meat_burnt_goat:
     material: beef
     data:
@@ -739,7 +869,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/charcoal
+        path: minecraft:item/meat/burnt
   atom:animal_leather_raw_goat:
     material: leather
     data:
@@ -778,7 +908,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/bone
+        path: minecraft:item/meat/bone
   atom:animal_meat_raw_cat:
     material: beef
     data:
@@ -791,7 +921,20 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/beef
+        path: minecraft:item/meat/raw
+  atom:animal_meat_undercooked_cat:
+    material: beef
+    data:
+      item-name: <!i><white><lang:item.animal_undercooked_meat.cat.name>
+      lore:
+        - ""
+        - <!i><white><image:atom:badge_food> <image:atom:badge_natural> <image:atom:badge_age_foraging>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/meat/undercooked
   atom:animal_meat_cooked_cat:
     material: beef
     data:
@@ -804,7 +947,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/cooked_beef
+        path: minecraft:item/meat/cooked
   atom:animal_meat_burnt_cat:
     material: beef
     data:
@@ -817,7 +960,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/charcoal
+        path: minecraft:item/meat/burnt
   atom:animal_leather_raw_cat:
     material: leather
     data:
@@ -856,7 +999,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/bone
+        path: minecraft:item/meat/bone
   atom:animal_meat_raw_wolf:
     material: beef
     data:
@@ -869,7 +1012,20 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/beef
+        path: minecraft:item/meat/raw
+  atom:animal_meat_undercooked_wolf:
+    material: beef
+    data:
+      item-name: <!i><white><lang:item.animal_undercooked_meat.wolf.name>
+      lore:
+        - ""
+        - <!i><white><image:atom:badge_food> <image:atom:badge_natural> <image:atom:badge_age_foraging>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/meat/undercooked
   atom:animal_meat_cooked_wolf:
     material: beef
     data:
@@ -882,7 +1038,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/cooked_beef
+        path: minecraft:item/meat/cooked
   atom:animal_meat_burnt_wolf:
     material: beef
     data:
@@ -895,7 +1051,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/charcoal
+        path: minecraft:item/meat/burnt
   atom:animal_leather_raw_wolf:
     material: leather
     data:
@@ -934,7 +1090,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/bone
+        path: minecraft:item/meat/bone
   atom:animal_meat_raw_fox:
     material: beef
     data:
@@ -947,7 +1103,20 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/beef
+        path: minecraft:item/meat/raw
+  atom:animal_meat_undercooked_fox:
+    material: beef
+    data:
+      item-name: <!i><white><lang:item.animal_undercooked_meat.fox.name>
+      lore:
+        - ""
+        - <!i><white><image:atom:badge_food> <image:atom:badge_natural> <image:atom:badge_age_foraging>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/meat/undercooked
   atom:animal_meat_cooked_fox:
     material: beef
     data:
@@ -960,7 +1129,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/cooked_beef
+        path: minecraft:item/meat/cooked
   atom:animal_meat_burnt_fox:
     material: beef
     data:
@@ -973,7 +1142,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/charcoal
+        path: minecraft:item/meat/burnt
   atom:animal_leather_raw_fox:
     material: leather
     data:
@@ -1012,7 +1181,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/bone
+        path: minecraft:item/meat/bone
   atom:animal_meat_raw_panda:
     material: beef
     data:
@@ -1025,7 +1194,20 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/beef
+        path: minecraft:item/meat/raw
+  atom:animal_meat_undercooked_panda:
+    material: beef
+    data:
+      item-name: <!i><white><lang:item.animal_undercooked_meat.panda.name>
+      lore:
+        - ""
+        - <!i><white><image:atom:badge_food> <image:atom:badge_natural> <image:atom:badge_age_foraging>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/meat/undercooked
   atom:animal_meat_cooked_panda:
     material: beef
     data:
@@ -1038,7 +1220,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/cooked_beef
+        path: minecraft:item/meat/cooked
   atom:animal_meat_burnt_panda:
     material: beef
     data:
@@ -1051,7 +1233,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/charcoal
+        path: minecraft:item/meat/burnt
   atom:animal_leather_raw_panda:
     material: leather
     data:
@@ -1090,7 +1272,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/bone
+        path: minecraft:item/meat/bone
   atom:animal_meat_raw_polar_bear:
     material: beef
     data:
@@ -1103,7 +1285,20 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/beef
+        path: minecraft:item/meat/raw
+  atom:animal_meat_undercooked_polar_bear:
+    material: beef
+    data:
+      item-name: <!i><white><lang:item.animal_undercooked_meat.polar_bear.name>
+      lore:
+        - ""
+        - <!i><white><image:atom:badge_food> <image:atom:badge_natural> <image:atom:badge_age_foraging>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/meat/undercooked
   atom:animal_meat_cooked_polar_bear:
     material: beef
     data:
@@ -1116,7 +1311,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/cooked_beef
+        path: minecraft:item/meat/cooked
   atom:animal_meat_burnt_polar_bear:
     material: beef
     data:
@@ -1129,7 +1324,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/charcoal
+        path: minecraft:item/meat/burnt
   atom:animal_leather_raw_polar_bear:
     material: leather
     data:
@@ -1168,7 +1363,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/bone
+        path: minecraft:item/meat/bone
   atom:animal_meat_raw_ocelot:
     material: beef
     data:
@@ -1181,7 +1376,20 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/beef
+        path: minecraft:item/meat/raw
+  atom:animal_meat_undercooked_ocelot:
+    material: beef
+    data:
+      item-name: <!i><white><lang:item.animal_undercooked_meat.ocelot.name>
+      lore:
+        - ""
+        - <!i><white><image:atom:badge_food> <image:atom:badge_natural> <image:atom:badge_age_foraging>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/meat/undercooked
   atom:animal_meat_cooked_ocelot:
     material: beef
     data:
@@ -1194,7 +1402,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/cooked_beef
+        path: minecraft:item/meat/cooked
   atom:animal_meat_burnt_ocelot:
     material: beef
     data:
@@ -1207,7 +1415,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/charcoal
+        path: minecraft:item/meat/burnt
   atom:animal_leather_raw_ocelot:
     material: leather
     data:
@@ -1246,7 +1454,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/bone
+        path: minecraft:item/meat/bone
   atom:animal_meat_raw_camel:
     material: beef
     data:
@@ -1259,7 +1467,20 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/beef
+        path: minecraft:item/meat/raw
+  atom:animal_meat_undercooked_camel:
+    material: beef
+    data:
+      item-name: <!i><white><lang:item.animal_undercooked_meat.camel.name>
+      lore:
+        - ""
+        - <!i><white><image:atom:badge_food> <image:atom:badge_natural> <image:atom:badge_age_foraging>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/meat/undercooked
   atom:animal_meat_cooked_camel:
     material: beef
     data:
@@ -1272,7 +1493,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/cooked_beef
+        path: minecraft:item/meat/cooked
   atom:animal_meat_burnt_camel:
     material: beef
     data:
@@ -1285,7 +1506,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/charcoal
+        path: minecraft:item/meat/burnt
   atom:animal_leather_raw_camel:
     material: leather
     data:
@@ -1324,7 +1545,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/bone
+        path: minecraft:item/meat/bone
 categories:
   atom:animal_product:
     name: <!i><white><lang:category.animal_product.name></white>
@@ -1333,209 +1554,243 @@ categories:
       - <!i><gray><lang:category.animal_product.lore>
     icon: minecraft:leather
     list:
-      - atom:animal_meat_raw_cow
-      - atom:animal_meat_cooked_cow
-      - atom:animal_meat_burnt_cow
-      - atom:animal_leather_raw_cow
-      - atom:animal_leather_cured_cow
-      - atom:animal_bone_cow
-      - atom:animal_meat_raw_pig
-      - atom:animal_meat_cooked_pig
-      - atom:animal_meat_burnt_pig
-      - atom:animal_leather_raw_pig
-      - atom:animal_leather_cured_pig
-      - atom:animal_bone_pig
-      - atom:animal_meat_raw_sheep
-      - atom:animal_meat_cooked_sheep
-      - atom:animal_meat_burnt_sheep
-      - atom:animal_leather_raw_sheep
-      - atom:animal_leather_cured_sheep
-      - atom:animal_bone_sheep
-      - atom:animal_meat_raw_chicken
-      - atom:animal_meat_cooked_chicken
-      - atom:animal_meat_burnt_chicken
-      - atom:animal_leather_raw_chicken
-      - atom:animal_leather_cured_chicken
-      - atom:animal_bone_chicken
-      - atom:animal_meat_raw_rabbit
-      - atom:animal_meat_cooked_rabbit
-      - atom:animal_meat_burnt_rabbit
-      - atom:animal_leather_raw_rabbit
-      - atom:animal_leather_cured_rabbit
-      - atom:animal_bone_rabbit
-      - atom:animal_meat_raw_horse
-      - atom:animal_meat_cooked_horse
-      - atom:animal_meat_burnt_horse
-      - atom:animal_leather_raw_horse
-      - atom:animal_leather_cured_horse
-      - atom:animal_bone_horse
-      - atom:animal_meat_raw_donkey
-      - atom:animal_meat_cooked_donkey
-      - atom:animal_meat_burnt_donkey
-      - atom:animal_leather_raw_donkey
-      - atom:animal_leather_cured_donkey
-      - atom:animal_bone_donkey
-      - atom:animal_meat_raw_mule
-      - atom:animal_meat_cooked_mule
-      - atom:animal_meat_burnt_mule
-      - atom:animal_leather_raw_mule
-      - atom:animal_leather_cured_mule
-      - atom:animal_bone_mule
-      - atom:animal_meat_raw_llama
-      - atom:animal_meat_cooked_llama
-      - atom:animal_meat_burnt_llama
-      - atom:animal_leather_raw_llama
-      - atom:animal_leather_cured_llama
-      - atom:animal_bone_llama
-      - atom:animal_meat_raw_goat
-      - atom:animal_meat_cooked_goat
-      - atom:animal_meat_burnt_goat
-      - atom:animal_leather_raw_goat
-      - atom:animal_leather_cured_goat
-      - atom:animal_bone_goat
-      - atom:animal_meat_raw_cat
-      - atom:animal_meat_cooked_cat
-      - atom:animal_meat_burnt_cat
-      - atom:animal_leather_raw_cat
-      - atom:animal_leather_cured_cat
-      - atom:animal_bone_cat
+      - atom:animal_meat_undercooked_wolf
+      - atom:animal_meat_undercooked_sheep
+      - atom:animal_meat_undercooked_rabbit
+      - atom:animal_meat_undercooked_polar_bear
+      - atom:animal_meat_undercooked_pig
+      - atom:animal_meat_undercooked_panda
+      - atom:animal_meat_undercooked_ocelot
+      - atom:animal_meat_undercooked_mule
+      - atom:animal_meat_undercooked_llama
+      - atom:animal_meat_undercooked_horse
+      - atom:animal_meat_undercooked_goat
+      - atom:animal_meat_undercooked_fox
+      - atom:animal_meat_undercooked_donkey
+      - atom:animal_meat_undercooked_cow
+      - atom:animal_meat_undercooked_chicken
+      - atom:animal_meat_undercooked_cat
+      - atom:animal_meat_undercooked_camel
       - atom:animal_meat_raw_wolf
-      - atom:animal_meat_cooked_wolf
-      - atom:animal_meat_burnt_wolf
-      - atom:animal_leather_raw_wolf
-      - atom:animal_leather_cured_wolf
-      - atom:animal_bone_wolf
-      - atom:animal_meat_raw_fox
-      - atom:animal_meat_cooked_fox
-      - atom:animal_meat_burnt_fox
-      - atom:animal_leather_raw_fox
-      - atom:animal_leather_cured_fox
-      - atom:animal_bone_fox
-      - atom:animal_meat_raw_panda
-      - atom:animal_meat_cooked_panda
-      - atom:animal_meat_burnt_panda
-      - atom:animal_leather_raw_panda
-      - atom:animal_leather_cured_panda
-      - atom:animal_bone_panda
+      - atom:animal_meat_raw_sheep
+      - atom:animal_meat_raw_rabbit
       - atom:animal_meat_raw_polar_bear
-      - atom:animal_meat_cooked_polar_bear
-      - atom:animal_meat_burnt_polar_bear
-      - atom:animal_leather_raw_polar_bear
-      - atom:animal_leather_cured_polar_bear
-      - atom:animal_bone_polar_bear
+      - atom:animal_meat_raw_pig
+      - atom:animal_meat_raw_panda
       - atom:animal_meat_raw_ocelot
-      - atom:animal_meat_cooked_ocelot
-      - atom:animal_meat_burnt_ocelot
-      - atom:animal_leather_raw_ocelot
-      - atom:animal_leather_cured_ocelot
-      - atom:animal_bone_ocelot
+      - atom:animal_meat_raw_mule
+      - atom:animal_meat_raw_llama
+      - atom:animal_meat_raw_horse
+      - atom:animal_meat_raw_goat
+      - atom:animal_meat_raw_fox
+      - atom:animal_meat_raw_donkey
+      - atom:animal_meat_raw_cow
+      - atom:animal_meat_raw_chicken
+      - atom:animal_meat_raw_cat
       - atom:animal_meat_raw_camel
+      - atom:animal_meat_cooked_wolf
+      - atom:animal_meat_cooked_sheep
+      - atom:animal_meat_cooked_rabbit
+      - atom:animal_meat_cooked_polar_bear
+      - atom:animal_meat_cooked_pig
+      - atom:animal_meat_cooked_panda
+      - atom:animal_meat_cooked_ocelot
+      - atom:animal_meat_cooked_mule
+      - atom:animal_meat_cooked_llama
+      - atom:animal_meat_cooked_horse
+      - atom:animal_meat_cooked_goat
+      - atom:animal_meat_cooked_fox
+      - atom:animal_meat_cooked_donkey
+      - atom:animal_meat_cooked_cow
+      - atom:animal_meat_cooked_chicken
+      - atom:animal_meat_cooked_cat
       - atom:animal_meat_cooked_camel
+      - atom:animal_meat_burnt_wolf
+      - atom:animal_meat_burnt_sheep
+      - atom:animal_meat_burnt_rabbit
+      - atom:animal_meat_burnt_polar_bear
+      - atom:animal_meat_burnt_pig
+      - atom:animal_meat_burnt_panda
+      - atom:animal_meat_burnt_ocelot
+      - atom:animal_meat_burnt_mule
+      - atom:animal_meat_burnt_llama
+      - atom:animal_meat_burnt_horse
+      - atom:animal_meat_burnt_goat
+      - atom:animal_meat_burnt_fox
+      - atom:animal_meat_burnt_donkey
+      - atom:animal_meat_burnt_cow
+      - atom:animal_meat_burnt_chicken
+      - atom:animal_meat_burnt_cat
       - atom:animal_meat_burnt_camel
+      - atom:animal_leather_raw_wolf
+      - atom:animal_leather_raw_sheep
+      - atom:animal_leather_raw_rabbit
+      - atom:animal_leather_raw_polar_bear
+      - atom:animal_leather_raw_pig
+      - atom:animal_leather_raw_panda
+      - atom:animal_leather_raw_ocelot
+      - atom:animal_leather_raw_mule
+      - atom:animal_leather_raw_llama
+      - atom:animal_leather_raw_horse
+      - atom:animal_leather_raw_goat
+      - atom:animal_leather_raw_fox
+      - atom:animal_leather_raw_donkey
+      - atom:animal_leather_raw_cow
+      - atom:animal_leather_raw_chicken
+      - atom:animal_leather_raw_cat
       - atom:animal_leather_raw_camel
+      - atom:animal_leather_cured_wolf
+      - atom:animal_leather_cured_sheep
+      - atom:animal_leather_cured_rabbit
+      - atom:animal_leather_cured_polar_bear
+      - atom:animal_leather_cured_pig
+      - atom:animal_leather_cured_panda
+      - atom:animal_leather_cured_ocelot
+      - atom:animal_leather_cured_mule
+      - atom:animal_leather_cured_llama
+      - atom:animal_leather_cured_horse
+      - atom:animal_leather_cured_goat
+      - atom:animal_leather_cured_fox
+      - atom:animal_leather_cured_donkey
+      - atom:animal_leather_cured_cow
+      - atom:animal_leather_cured_chicken
+      - atom:animal_leather_cured_cat
       - atom:animal_leather_cured_camel
+      - atom:animal_bone_wolf
+      - atom:animal_bone_sheep
+      - atom:animal_bone_rabbit
+      - atom:animal_bone_polar_bear
+      - atom:animal_bone_pig
+      - atom:animal_bone_panda
+      - atom:animal_bone_ocelot
+      - atom:animal_bone_mule
+      - atom:animal_bone_llama
+      - atom:animal_bone_horse
+      - atom:animal_bone_goat
+      - atom:animal_bone_fox
+      - atom:animal_bone_donkey
+      - atom:animal_bone_cow
+      - atom:animal_bone_chicken
+      - atom:animal_bone_cat
       - atom:animal_bone_camel
 lang:
   en:
     category.animal_product.name: Animal Products
     category.animal_product.lore: Contains all animal meats and materials
-    item.animal_raw_meat.cow.name: Raw Cow Meat
-    item.animal_cooked_meat.cow.name: Cooked Cow Meat
-    item.animal_burnt_meat.cow.name: Burnt Cow Meat
+    item.animal_raw_meat.cow.name: Raw Beef
+    item.animal_undercooked_meat.cow.name: Undercooked Beef
+    item.animal_cooked_meat.cow.name: Cooked Beef
+    item.animal_burnt_meat.cow.name: Burnt Beef
     item.animal_raw_leather.cow.name: Raw Cow Leather
     item.animal_cured_leather.cow.name: Cured Cow Leather
     item.animal_bone.cow.name: Cow Bone
-    item.animal_raw_meat.pig.name: Raw Pig Meat
-    item.animal_cooked_meat.pig.name: Cooked Pig Meat
-    item.animal_burnt_meat.pig.name: Burnt Pig Meat
+    item.animal_raw_meat.pig.name: Raw Pork
+    item.animal_undercooked_meat.pig.name: Undercooked Pork
+    item.animal_cooked_meat.pig.name: Cooked Pork
+    item.animal_burnt_meat.pig.name: Burnt Pork
     item.animal_raw_leather.pig.name: Raw Pig Leather
     item.animal_cured_leather.pig.name: Cured Pig Leather
     item.animal_bone.pig.name: Pig Bone
-    item.animal_raw_meat.sheep.name: Raw Sheep Meat
-    item.animal_cooked_meat.sheep.name: Cooked Sheep Meat
-    item.animal_burnt_meat.sheep.name: Burnt Sheep Meat
+    item.animal_raw_meat.sheep.name: Raw Mutton
+    item.animal_undercooked_meat.sheep.name: Undercooked Mutton
+    item.animal_cooked_meat.sheep.name: Cooked Mutton
+    item.animal_burnt_meat.sheep.name: Burnt Mutton
     item.animal_raw_leather.sheep.name: Raw Sheep Leather
     item.animal_cured_leather.sheep.name: Cured Sheep Leather
     item.animal_bone.sheep.name: Sheep Bone
-    item.animal_raw_meat.chicken.name: Raw Chicken Meat
-    item.animal_cooked_meat.chicken.name: Cooked Chicken Meat
-    item.animal_burnt_meat.chicken.name: Burnt Chicken Meat
+    item.animal_raw_meat.chicken.name: Raw Chicken
+    item.animal_undercooked_meat.chicken.name: Undercooked Chicken
+    item.animal_cooked_meat.chicken.name: Cooked Chicken
+    item.animal_burnt_meat.chicken.name: Burnt Chicken
     item.animal_raw_leather.chicken.name: Raw Chicken Leather
     item.animal_cured_leather.chicken.name: Cured Chicken Leather
     item.animal_bone.chicken.name: Chicken Bone
-    item.animal_raw_meat.rabbit.name: Raw Rabbit Meat
-    item.animal_cooked_meat.rabbit.name: Cooked Rabbit Meat
-    item.animal_burnt_meat.rabbit.name: Burnt Rabbit Meat
+    item.animal_raw_meat.rabbit.name: Raw Rabbit
+    item.animal_undercooked_meat.rabbit.name: Undercooked Rabbit
+    item.animal_cooked_meat.rabbit.name: Cooked Rabbit
+    item.animal_burnt_meat.rabbit.name: Burnt Rabbit
     item.animal_raw_leather.rabbit.name: Raw Rabbit Leather
     item.animal_cured_leather.rabbit.name: Cured Rabbit Leather
     item.animal_bone.rabbit.name: Rabbit Bone
     item.animal_raw_meat.horse.name: Raw Horse Meat
+    item.animal_undercooked_meat.horse.name: Undercooked Horse Meat
     item.animal_cooked_meat.horse.name: Cooked Horse Meat
     item.animal_burnt_meat.horse.name: Burnt Horse Meat
     item.animal_raw_leather.horse.name: Raw Horse Leather
     item.animal_cured_leather.horse.name: Cured Horse Leather
     item.animal_bone.horse.name: Horse Bone
     item.animal_raw_meat.donkey.name: Raw Donkey Meat
+    item.animal_undercooked_meat.donkey.name: Undercooked Donkey Meat
     item.animal_cooked_meat.donkey.name: Cooked Donkey Meat
     item.animal_burnt_meat.donkey.name: Burnt Donkey Meat
     item.animal_raw_leather.donkey.name: Raw Donkey Leather
     item.animal_cured_leather.donkey.name: Cured Donkey Leather
     item.animal_bone.donkey.name: Donkey Bone
     item.animal_raw_meat.mule.name: Raw Mule Meat
+    item.animal_undercooked_meat.mule.name: Undercooked Mule Meat
     item.animal_cooked_meat.mule.name: Cooked Mule Meat
     item.animal_burnt_meat.mule.name: Burnt Mule Meat
     item.animal_raw_leather.mule.name: Raw Mule Leather
     item.animal_cured_leather.mule.name: Cured Mule Leather
     item.animal_bone.mule.name: Mule Bone
     item.animal_raw_meat.llama.name: Raw Llama Meat
+    item.animal_undercooked_meat.llama.name: Undercooked Llama Meat
     item.animal_cooked_meat.llama.name: Cooked Llama Meat
     item.animal_burnt_meat.llama.name: Burnt Llama Meat
     item.animal_raw_leather.llama.name: Raw Llama Leather
     item.animal_cured_leather.llama.name: Cured Llama Leather
     item.animal_bone.llama.name: Llama Bone
     item.animal_raw_meat.goat.name: Raw Goat Meat
+    item.animal_undercooked_meat.goat.name: Undercooked Goat Meat
     item.animal_cooked_meat.goat.name: Cooked Goat Meat
     item.animal_burnt_meat.goat.name: Burnt Goat Meat
     item.animal_raw_leather.goat.name: Raw Goat Leather
     item.animal_cured_leather.goat.name: Cured Goat Leather
     item.animal_bone.goat.name: Goat Bone
     item.animal_raw_meat.cat.name: Raw Cat Meat
+    item.animal_undercooked_meat.cat.name: Undercooked Cat Meat
     item.animal_cooked_meat.cat.name: Cooked Cat Meat
     item.animal_burnt_meat.cat.name: Burnt Cat Meat
     item.animal_raw_leather.cat.name: Raw Cat Leather
     item.animal_cured_leather.cat.name: Cured Cat Leather
     item.animal_bone.cat.name: Cat Bone
     item.animal_raw_meat.wolf.name: Raw Wolf Meat
+    item.animal_undercooked_meat.wolf.name: Undercooked Wolf Meat
     item.animal_cooked_meat.wolf.name: Cooked Wolf Meat
     item.animal_burnt_meat.wolf.name: Burnt Wolf Meat
     item.animal_raw_leather.wolf.name: Raw Wolf Leather
     item.animal_cured_leather.wolf.name: Cured Wolf Leather
     item.animal_bone.wolf.name: Wolf Bone
     item.animal_raw_meat.fox.name: Raw Fox Meat
+    item.animal_undercooked_meat.fox.name: Undercooked Fox Meat
     item.animal_cooked_meat.fox.name: Cooked Fox Meat
     item.animal_burnt_meat.fox.name: Burnt Fox Meat
     item.animal_raw_leather.fox.name: Raw Fox Leather
     item.animal_cured_leather.fox.name: Cured Fox Leather
     item.animal_bone.fox.name: Fox Bone
     item.animal_raw_meat.panda.name: Raw Panda Meat
+    item.animal_undercooked_meat.panda.name: Undercooked Panda Meat
     item.animal_cooked_meat.panda.name: Cooked Panda Meat
     item.animal_burnt_meat.panda.name: Burnt Panda Meat
     item.animal_raw_leather.panda.name: Raw Panda Leather
     item.animal_cured_leather.panda.name: Cured Panda Leather
     item.animal_bone.panda.name: Panda Bone
     item.animal_raw_meat.polar_bear.name: Raw Polar Bear Meat
+    item.animal_undercooked_meat.polar_bear.name: Undercooked Polar Bear Meat
     item.animal_cooked_meat.polar_bear.name: Cooked Polar Bear Meat
     item.animal_burnt_meat.polar_bear.name: Burnt Polar Bear Meat
     item.animal_raw_leather.polar_bear.name: Raw Polar Bear Leather
     item.animal_cured_leather.polar_bear.name: Cured Polar Bear Leather
     item.animal_bone.polar_bear.name: Polar Bear Bone
     item.animal_raw_meat.ocelot.name: Raw Ocelot Meat
+    item.animal_undercooked_meat.ocelot.name: Undercooked Ocelot Meat
     item.animal_cooked_meat.ocelot.name: Cooked Ocelot Meat
     item.animal_burnt_meat.ocelot.name: Burnt Ocelot Meat
     item.animal_raw_leather.ocelot.name: Raw Ocelot Leather
     item.animal_cured_leather.ocelot.name: Cured Ocelot Leather
     item.animal_bone.ocelot.name: Ocelot Bone
     item.animal_raw_meat.camel.name: Raw Camel Meat
+    item.animal_undercooked_meat.camel.name: Undercooked Camel Meat
     item.animal_cooked_meat.camel.name: Cooked Camel Meat
     item.animal_burnt_meat.camel.name: Burnt Camel Meat
     item.animal_raw_leather.camel.name: Raw Camel Leather

@@ -69,3 +69,9 @@ images:
     font: minecraft:badges
     file: minecraft:font/badges/ages/bronze.png
     char: '\ub102'
+  atom:badge_age_iron:
+    height: 9
+    ascent: 8
+    font: minecraft:badges
+    file: minecraft:font/badges/ages/iron.png
+    char: '\ub103'

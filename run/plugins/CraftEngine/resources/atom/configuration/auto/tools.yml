@@ -6,7 +6,7 @@ items:
       lore:
         - <!i><gray><lang:item.tool_head.common.lore>
         - ""
-        - <!i><white><image:atom:badge_material> <image:atom:badge_age_copper>
+        - <!i><white><image:atom:badge_material> <image:atom:badge_age_iron>
       remove-components:
         - attribute_modifiers
     model:
@@ -20,7 +20,7 @@ items:
       lore:
         - <!i><gray><lang:item.tool_head.common.lore>
         - ""
-        - <!i><white><image:atom:badge_material> <image:atom:badge_age_copper>
+        - <!i><white><image:atom:badge_material> <image:atom:badge_age_iron>
       remove-components:
         - attribute_modifiers
     model:
@@ -34,7 +34,7 @@ items:
       lore:
         - <!i><gray><lang:item.tool_head.common.lore>
         - ""
-        - <!i><white><image:atom:badge_material> <image:atom:badge_age_copper>
+        - <!i><white><image:atom:badge_material> <image:atom:badge_age_iron>
       remove-components:
         - attribute_modifiers
     model:
@@ -48,7 +48,7 @@ items:
       lore:
         - <!i><gray><lang:item.tool_head.common.lore>
         - ""
-        - <!i><white><image:atom:badge_material> <image:atom:badge_age_copper>
+        - <!i><white><image:atom:badge_material> <image:atom:badge_age_iron>
       remove-components:
         - attribute_modifiers
     model:
@@ -62,7 +62,7 @@ items:
       lore:
         - <!i><gray><lang:item.tool_head.common.lore>
         - ""
-        - <!i><white><image:atom:badge_material> <image:atom:badge_age_copper>
+        - <!i><white><image:atom:badge_material> <image:atom:badge_age_iron>
       remove-components:
         - attribute_modifiers
     model:
@@ -76,7 +76,7 @@ items:
       lore:
         - <!i><gray><lang:item.tool_head.common.lore>
         - ""
-        - <!i><white><image:atom:badge_material> <image:atom:badge_age_copper>
+        - <!i><white><image:atom:badge_material> <image:atom:badge_age_iron>
       remove-components:
         - attribute_modifiers
     model:
@@ -90,7 +90,7 @@ items:
       lore:
         - <!i><gray><lang:item.tool.common.lore>
         - ""
-        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_copper>
+        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
       remove-components:
         - attribute_modifiers
     model:
@@ -104,7 +104,7 @@ items:
       lore:
         - <!i><gray><lang:item.tool_head.common.lore>
         - ""
-        - <!i><white><image:atom:badge_material> <image:atom:badge_age_copper>
+        - <!i><white><image:atom:badge_material> <image:atom:badge_age_iron>
       remove-components:
         - attribute_modifiers
     model:
@@ -118,7 +118,7 @@ items:
       lore:
         - <!i><gray><lang:item.tool.common.lore>
         - ""
-        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_copper>
+        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
       remove-components:
         - attribute_modifiers
     model:
@@ -132,7 +132,7 @@ items:
       lore:
         - <!i><gray><lang:item.tool_head.common.lore>
         - ""
-        - <!i><white><image:atom:badge_material> <image:atom:badge_age_copper>
+        - <!i><white><image:atom:badge_material> <image:atom:badge_age_iron>
       remove-components:
         - attribute_modifiers
     model:
@@ -146,7 +146,7 @@ items:
       lore:
         - <!i><gray><lang:item.tool.common.lore>
         - ""
-        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_copper>
+        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
       remove-components:
         - attribute_modifiers
     model:
@@ -167,6 +167,20 @@ items:
       template: default:model/simplified_generated
       arguments:
         path: minecraft:item/tool/head/copper_pickaxe
+  atom:copper_pickaxe:
+    material: iron_pickaxe
+    data:
+      item-name: <!i><white><lang:item.tool.copper.pickaxe.name>
+      lore:
+        - <!i><gray><lang:item.tool.common.lore>
+        - ""
+        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_copper>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/tool/copper_pickaxe
   atom:copper_shovel_head:
     material: paper
     data:
@@ -181,6 +195,20 @@ items:
       template: default:model/simplified_generated
       arguments:
         path: minecraft:item/tool/head/copper_shovel
+  atom:copper_shovel:
+    material: iron_shovel
+    data:
+      item-name: <!i><white><lang:item.tool.copper.shovel.name>
+      lore:
+        - <!i><gray><lang:item.tool.common.lore>
+        - ""
+        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_copper>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/tool/copper_shovel
   atom:copper_hoe_head:
     material: paper
     data:
@@ -195,6 +223,20 @@ items:
       template: default:model/simplified_generated
       arguments:
         path: minecraft:item/tool/head/copper_hoe
+  atom:copper_hoe:
+    material: iron_hoe
+    data:
+      item-name: <!i><white><lang:item.tool.copper.hoe.name>
+      lore:
+        - <!i><gray><lang:item.tool.common.lore>
+        - ""
+        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_copper>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/tool/copper_hoe
   atom:copper_sword_head:
     material: paper
     data:
@@ -209,6 +251,20 @@ items:
       template: default:model/simplified_generated
       arguments:
         path: minecraft:item/tool/head/copper_sword
+  atom:copper_sword:
+    material: iron_sword
+    data:
+      item-name: <!i><white><lang:item.tool.copper.sword.name>
+      lore:
+        - <!i><gray><lang:item.tool.common.lore>
+        - ""
+        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_copper>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/tool/copper_sword
   atom:copper_axe_head:
     material: paper
     data:
@@ -223,6 +279,20 @@ items:
       template: default:model/simplified_generated
       arguments:
         path: minecraft:item/tool/head/copper_axe
+  atom:copper_axe:
+    material: iron_axe
+    data:
+      item-name: <!i><white><lang:item.tool.copper.axe.name>
+      lore:
+        - <!i><gray><lang:item.tool.common.lore>
+        - ""
+        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_copper>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/tool/copper_axe
   atom:copper_hammer_head:
     material: paper
     data:
@@ -307,6 +377,230 @@ items:
       template: default:model/simplified_generated
       arguments:
         path: minecraft:item/tool/copper_saw
+  atom:bronze_pickaxe_head:
+    material: paper
+    data:
+      item-name: <!i><white><lang:item.tool_head.bronze.pickaxe.name>
+      lore:
+        - <!i><gray><lang:item.tool_head.common.lore>
+        - ""
+        - <!i><white><image:atom:badge_material> <image:atom:badge_age_bronze>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/tool/head/bronze_pickaxe
+  atom:bronze_pickaxe:
+    material: iron_pickaxe
+    data:
+      item-name: <!i><white><lang:item.tool.bronze.pickaxe.name>
+      lore:
+        - <!i><gray><lang:item.tool.common.lore>
+        - ""
+        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_bronze>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/tool/bronze_pickaxe
+  atom:bronze_shovel_head:
+    material: paper
+    data:
+      item-name: <!i><white><lang:item.tool_head.bronze.shovel.name>
+      lore:
+        - <!i><gray><lang:item.tool_head.common.lore>
+        - ""
+        - <!i><white><image:atom:badge_material> <image:atom:badge_age_bronze>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/tool/head/bronze_shovel
+  atom:bronze_shovel:
+    material: iron_shovel
+    data:
+      item-name: <!i><white><lang:item.tool.bronze.shovel.name>
+      lore:
+        - <!i><gray><lang:item.tool.common.lore>
+        - ""
+        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_bronze>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/tool/bronze_shovel
+  atom:bronze_hoe_head:
+    material: paper
+    data:
+      item-name: <!i><white><lang:item.tool_head.bronze.hoe.name>
+      lore:
+        - <!i><gray><lang:item.tool_head.common.lore>
+        - ""
+        - <!i><white><image:atom:badge_material> <image:atom:badge_age_bronze>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/tool/head/bronze_hoe
+  atom:bronze_hoe:
+    material: iron_hoe
+    data:
+      item-name: <!i><white><lang:item.tool.bronze.hoe.name>
+      lore:
+        - <!i><gray><lang:item.tool.common.lore>
+        - ""
+        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_bronze>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/tool/bronze_hoe
+  atom:bronze_sword_head:
+    material: paper
+    data:
+      item-name: <!i><white><lang:item.tool_head.bronze.sword.name>
+      lore:
+        - <!i><gray><lang:item.tool_head.common.lore>
+        - ""
+        - <!i><white><image:atom:badge_material> <image:atom:badge_age_bronze>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/tool/head/bronze_sword
+  atom:bronze_sword:
+    material: iron_sword
+    data:
+      item-name: <!i><white><lang:item.tool.bronze.sword.name>
+      lore:
+        - <!i><gray><lang:item.tool.common.lore>
+        - ""
+        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_bronze>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/tool/bronze_sword
+  atom:bronze_axe_head:
+    material: paper
+    data:
+      item-name: <!i><white><lang:item.tool_head.bronze.axe.name>
+      lore:
+        - <!i><gray><lang:item.tool_head.common.lore>
+        - ""
+        - <!i><white><image:atom:badge_material> <image:atom:badge_age_bronze>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/tool/head/bronze_axe
+  atom:bronze_axe:
+    material: iron_axe
+    data:
+      item-name: <!i><white><lang:item.tool.bronze.axe.name>
+      lore:
+        - <!i><gray><lang:item.tool.common.lore>
+        - ""
+        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_bronze>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/tool/bronze_axe
+  atom:bronze_hammer_head:
+    material: paper
+    data:
+      item-name: <!i><white><lang:item.tool_head.bronze.hammer.name>
+      lore:
+        - <!i><gray><lang:item.tool_head.common.lore>
+        - ""
+        - <!i><white><image:atom:badge_material> <image:atom:badge_age_bronze>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/tool/head/bronze_hammer
+  atom:bronze_hammer:
+    material: iron_pickaxe
+    data:
+      item-name: <!i><white><lang:item.tool.bronze.hammer.name>
+      lore:
+        - <!i><gray><lang:item.tool.common.lore>
+        - ""
+        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_bronze>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/tool/bronze_hammer
+  atom:bronze_knife_head:
+    material: paper
+    data:
+      item-name: <!i><white><lang:item.tool_head.bronze.knife.name>
+      lore:
+        - <!i><gray><lang:item.tool_head.common.lore>
+        - ""
+        - <!i><white><image:atom:badge_material> <image:atom:badge_age_bronze>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/tool/head/bronze_knife
+  atom:bronze_knife:
+    material: iron_sword
+    data:
+      item-name: <!i><white><lang:item.tool.bronze.knife.name>
+      lore:
+        - <!i><gray><lang:item.tool.common.lore>
+        - ""
+        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_bronze>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/tool/bronze_knife
+  atom:bronze_saw_head:
+    material: paper
+    data:
+      item-name: <!i><white><lang:item.tool_head.bronze.saw.name>
+      lore:
+        - <!i><gray><lang:item.tool_head.common.lore>
+        - ""
+        - <!i><white><image:atom:badge_material> <image:atom:badge_age_bronze>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/tool/head/bronze_saw
+  atom:bronze_saw:
+    material: iron_axe
+    data:
+      item-name: <!i><white><lang:item.tool.bronze.saw.name>
+      lore:
+        - <!i><gray><lang:item.tool.common.lore>
+        - ""
+        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_bronze>
+      remove-components:
+        - attribute_modifiers
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/tool/bronze_saw
   atom:steel_pickaxe_head:
     material: paper
     data:
@@ -314,7 +608,7 @@ items:
       lore:
         - <!i><gray><lang:item.tool_head.common.lore>
         - ""
-        - <!i><white><image:atom:badge_material> <image:atom:badge_age_copper>
+        - <!i><white><image:atom:badge_material> <image:atom:badge_age_iron>
       remove-components:
         - attribute_modifiers
     model:
@@ -328,7 +622,7 @@ items:
       lore:
         - <!i><gray><lang:item.tool.common.lore>
         - ""
-        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_copper>
+        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
       remove-components:
         - attribute_modifiers
     model:
@@ -342,7 +636,7 @@ items:
       lore:
         - <!i><gray><lang:item.tool_head.common.lore>
         - ""
-        - <!i><white><image:atom:badge_material> <image:atom:badge_age_copper>
+        - <!i><white><image:atom:badge_material> <image:atom:badge_age_iron>
       remove-components:
         - attribute_modifiers
     model:
@@ -356,7 +650,7 @@ items:
       lore:
         - <!i><gray><lang:item.tool.common.lore>
         - ""
-        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_copper>
+        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
       remove-components:
         - attribute_modifiers
     model:
@@ -370,7 +664,7 @@ items:
       lore:
         - <!i><gray><lang:item.tool_head.common.lore>
         - ""
-        - <!i><white><image:atom:badge_material> <image:atom:badge_age_copper>
+        - <!i><white><image:atom:badge_material> <image:atom:badge_age_iron>
       remove-components:
         - attribute_modifiers
     model:
@@ -384,7 +678,7 @@ items:
       lore:
         - <!i><gray><lang:item.tool.common.lore>
         - ""
-        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_copper>
+        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
       remove-components:
         - attribute_modifiers
     model:
@@ -398,7 +692,7 @@ items:
       lore:
         - <!i><gray><lang:item.tool_head.common.lore>
         - ""
-        - <!i><white><image:atom:badge_material> <image:atom:badge_age_copper>
+        - <!i><white><image:atom:badge_material> <image:atom:badge_age_iron>
       remove-components:
         - attribute_modifiers
     model:
@@ -412,7 +706,7 @@ items:
       lore:
         - <!i><gray><lang:item.tool.common.lore>
         - ""
-        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_copper>
+        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
       remove-components:
         - attribute_modifiers
     model:
@@ -426,7 +720,7 @@ items:
       lore:
         - <!i><gray><lang:item.tool_head.common.lore>
         - ""
-        - <!i><white><image:atom:badge_material> <image:atom:badge_age_copper>
+        - <!i><white><image:atom:badge_material> <image:atom:badge_age_iron>
       remove-components:
         - attribute_modifiers
     model:
@@ -440,7 +734,7 @@ items:
       lore:
         - <!i><gray><lang:item.tool.common.lore>
         - ""
-        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_copper>
+        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
       remove-components:
         - attribute_modifiers
     model:
@@ -454,7 +748,7 @@ items:
       lore:
         - <!i><gray><lang:item.tool_head.common.lore>
         - ""
-        - <!i><white><image:atom:badge_material> <image:atom:badge_age_copper>
+        - <!i><white><image:atom:badge_material> <image:atom:badge_age_iron>
       remove-components:
         - attribute_modifiers
     model:
@@ -468,7 +762,7 @@ items:
       lore:
         - <!i><gray><lang:item.tool.common.lore>
         - ""
-        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_copper>
+        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
       remove-components:
         - attribute_modifiers
     model:
@@ -482,7 +776,7 @@ items:
       lore:
         - <!i><gray><lang:item.tool_head.common.lore>
         - ""
-        - <!i><white><image:atom:badge_material> <image:atom:badge_age_copper>
+        - <!i><white><image:atom:badge_material> <image:atom:badge_age_iron>
       remove-components:
         - attribute_modifiers
     model:
@@ -496,7 +790,7 @@ items:
       lore:
         - <!i><gray><lang:item.tool.common.lore>
         - ""
-        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_copper>
+        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
       remove-components:
         - attribute_modifiers
     model:
@@ -510,7 +804,7 @@ items:
       lore:
         - <!i><gray><lang:item.tool_head.common.lore>
         - ""
-        - <!i><white><image:atom:badge_material> <image:atom:badge_age_copper>
+        - <!i><white><image:atom:badge_material> <image:atom:badge_age_iron>
       remove-components:
         - attribute_modifiers
     model:
@@ -524,7 +818,7 @@ items:
       lore:
         - <!i><gray><lang:item.tool.common.lore>
         - ""
-        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_copper>
+        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
       remove-components:
         - attribute_modifiers
     model:
@@ -539,20 +833,33 @@ categories:
       - <!i><gray><lang:category.tools.lore>
     icon: minecraft:copper_pickaxe
     list:
+      - atom:bronze_axe
+      - atom:bronze_hammer
+      - atom:bronze_hoe
+      - atom:bronze_knife
+      - atom:bronze_pickaxe
+      - atom:bronze_saw
+      - atom:bronze_shovel
+      - atom:bronze_sword
+      - atom:copper_axe
+      - atom:copper_hammer
+      - atom:copper_hoe
+      - atom:copper_knife
+      - atom:copper_pickaxe
+      - atom:copper_saw
+      - atom:copper_shovel
+      - atom:copper_sword
       - atom:iron_hammer
       - atom:iron_knife
       - atom:iron_saw
-      - atom:copper_hammer
-      - atom:copper_knife
-      - atom:copper_saw
-      - atom:steel_pickaxe
-      - atom:steel_shovel
-      - atom:steel_hoe
-      - atom:steel_sword
       - atom:steel_axe
       - atom:steel_hammer
+      - atom:steel_hoe
       - atom:steel_knife
+      - atom:steel_pickaxe
       - atom:steel_saw
+      - atom:steel_shovel
+      - atom:steel_sword
   atom:tool_heads:
     name: <!i><white><lang:category.tool_heads.name></white>
     hidden: true
@@ -560,30 +867,38 @@ categories:
       - <!i><gray><lang:category.tool_heads.lore>
     icon: atom:copper_pickaxe_head
     list:
-      - atom:iron_pickaxe_head
-      - atom:iron_shovel_head
-      - atom:iron_hoe_head
-      - atom:iron_sword_head
-      - atom:iron_axe_head
-      - atom:iron_hammer_head
-      - atom:iron_knife_head
-      - atom:iron_saw_head
-      - atom:copper_pickaxe_head
-      - atom:copper_shovel_head
-      - atom:copper_hoe_head
-      - atom:copper_sword_head
+      - atom:bronze_axe_head
+      - atom:bronze_hammer_head
+      - atom:bronze_hoe_head
+      - atom:bronze_knife_head
+      - atom:bronze_pickaxe_head
+      - atom:bronze_saw_head
+      - atom:bronze_shovel_head
+      - atom:bronze_sword_head
       - atom:copper_axe_head
       - atom:copper_hammer_head
+      - atom:copper_hoe_head
       - atom:copper_knife_head
+      - atom:copper_pickaxe_head
       - atom:copper_saw_head
-      - atom:steel_pickaxe_head
-      - atom:steel_shovel_head
-      - atom:steel_hoe_head
-      - atom:steel_sword_head
+      - atom:copper_shovel_head
+      - atom:copper_sword_head
+      - atom:iron_axe_head
+      - atom:iron_hammer_head
+      - atom:iron_hoe_head
+      - atom:iron_knife_head
+      - atom:iron_pickaxe_head
+      - atom:iron_saw_head
+      - atom:iron_shovel_head
+      - atom:iron_sword_head
       - atom:steel_axe_head
       - atom:steel_hammer_head
+      - atom:steel_hoe_head
       - atom:steel_knife_head
+      - atom:steel_pickaxe_head
       - atom:steel_saw_head
+      - atom:steel_shovel_head
+      - atom:steel_sword_head
 lang:
   en:
     category.tools.name: Tools
@@ -624,6 +939,22 @@ lang:
     item.tool.copper.knife.name: Copper Knife
     item.tool_head.copper.saw.name: Copper Saw Head
     item.tool.copper.saw.name: Copper Saw
+    item.tool_head.bronze.pickaxe.name: undefined Pickaxe Head
+    item.tool.bronze.pickaxe.name: undefined Pickaxe
+    item.tool_head.bronze.shovel.name: undefined Shovel Head
+    item.tool.bronze.shovel.name: undefined Shovel
+    item.tool_head.bronze.hoe.name: undefined Hoe Head
+    item.tool.bronze.hoe.name: undefined Hoe
+    item.tool_head.bronze.sword.name: undefined Sword Head
+    item.tool.bronze.sword.name: undefined Sword
+    item.tool_head.bronze.axe.name: undefined Axe Head
+    item.tool.bronze.axe.name: undefined Axe
+    item.tool_head.bronze.hammer.name: undefined Hammer Head
+    item.tool.bronze.hammer.name: undefined Hammer
+    item.tool_head.bronze.knife.name: undefined Knife Head
+    item.tool.bronze.knife.name: undefined Knife
+    item.tool_head.bronze.saw.name: undefined Saw Head
+    item.tool.bronze.saw.name: undefined Saw
     item.tool_head.steel.pickaxe.name: Steel Pickaxe Head
     item.tool.steel.pickaxe.name: Steel Pickaxe
     item.tool_head.steel.shovel.name: Steel Shovel Head
