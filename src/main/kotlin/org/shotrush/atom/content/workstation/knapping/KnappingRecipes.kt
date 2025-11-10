@@ -194,14 +194,15 @@ object KnappingRecipes {
                 "###",
                 "###"
             )
+            transform(invertY)
         }
         register("sword_blade") {
             rows(
                 "   ##",
                 "  ###",
                 " ### ",
-                " ##  ",
-                "#    "
+                "###  ",
+                "##   "
             )
             transform(invertX)
         }
