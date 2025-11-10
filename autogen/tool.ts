@@ -1,10 +1,10 @@
 // generate_items.ts
-import { stringify } from "yaml";
+import {stringify} from "yaml";
 
 // ---------------------- Config ----------------------
 
 
-const MATERIALS = ["iron", "copper", "bronze", "steel"] as const;
+const MATERIALS = ["stone", "iron", "copper", "bronze", "steel"] as const;
 type Material = (typeof MATERIALS)[number];
 
 const ALL_TOOLS = [
@@ -25,6 +25,7 @@ const CLASSIC_TOOLS: ToolType[] = ["pickaxe", "shovel", "hoe", "sword", "axe"];
 // Which material belongs to which tech-age badge
 // Update the image keys to match your resource names.
 const ageByMaterial: Record<Material, string> = {
+    stone: "foraging",
     copper: "copper",
     bronze: "bronze",
     iron: "iron",
@@ -37,14 +38,14 @@ type MoldDef = {
     display: string;
 };
 const MOLDS = [
-    { id: "axe_head", display: "Axe Head" },
-    { id: "hammer_head", display: "Hammer Head" },
-    { id: "ingot", display: "Ingot" },
-    { id: "knife_blade", display: "Knife Blade" },
-    { id: "pickaxe_head", display: "Pickaxe Head" },
-    { id: "saw_blade", display: "Saw Blade" },
-    { id: "shovel_head", display: "Shovel Head" },
-    { id: "sword_blade", display: "Sword Blade" },
+    {id: "axe_head", display: "Axe Head"},
+    {id: "hammer_head", display: "Hammer Head"},
+    {id: "ingot", display: "Ingot"},
+    {id: "knife_blade", display: "Knife Blade"},
+    {id: "pickaxe_head", display: "Pickaxe Head"},
+    {id: "saw_blade", display: "Saw Blade"},
+    {id: "shovel_head", display: "Shovel Head"},
+    {id: "sword_blade", display: "Sword Blade"},
 ] as const satisfies MoldDef[];
 type Mold = (typeof MOLDS)[number];
 type MoldId = (typeof MOLDS)[number]["id"];
@@ -58,9 +59,11 @@ const waxBaseTexture = "minecraft:item/ceramic/wax_";
 function fullToolTexture(material: Material, type: ToolType): string {
     return `minecraft:item/tool/${material}_${type}`;
 }
+
 function headTexture(material: Material, type: ToolType): string {
     return `minecraft:item/tool/head/${material}_${type}`;
 }
+
 function moldTexture(def: Mold, variant: MoldVariant): string {
     switch (variant) {
         case "wax":
@@ -82,9 +85,11 @@ function shouldGenerateFullTool(material: Material, type: ToolType): boolean {
 function toolKey(material: Material, type: ToolType) {
     return `atom:${material}_${type}`;
 }
+
 function headKey(material: Material, type: ToolType) {
     return `atom:${material}_${type}_head`;
 }
+
 function moldKey(id: MoldId, variant: MoldVariant) {
     return `atom:${variant}_mold_${id}`;
 }
@@ -118,20 +123,21 @@ const FIRED_OR_WAX_BASE_MATERIAL = "brick";
 function l10nTool(material: Material, type: ToolType) {
     return `<!i><white><lang:item.tool.${material}.${type}.name>`;
 }
+
 function l10nToolHead(material: Material, type: ToolType) {
     return `<!i><white><lang:item.tool_head.${material}.${type}.name>`;
 }
+
 function l10nMold(variant: MoldVariant, id: MoldId) {
     return `<!i><white><lang:item.mold.${variant}.${id}.name>`;
 }
 
 // Lore helpers
-function img(key: string) {
-    return `<image:atom:${key}>`;
-}
-function badgeAgeForMaterial(m: Material) {
-    return img(`badge_age_${ageByMaterial[m]}`);
-}
+const img = (key: string) => `<image:atom:${key}>`;
+const badge = (key: string) => img(`badge_${key}`);
+const ageBadge = (age: string) => img(`badge_age_${age}`);
+const badgeAgeForMaterial = (m: Material) => ageBadge(ageByMaterial[m]);
+
 const BADGE_MATERIAL = img("badge_material");
 const BADGE_TOOL = img("badge_tool");
 // molds use either material or utility badge depending on the variant in original code
@@ -141,48 +147,81 @@ const BADGE_UTILITY = img("badge_utility");
 function simplifiedGeneratedModel(path: string) {
     return {
         template: "default:model/simplified_generated",
-        arguments: { path },
+        arguments: {path},
     };
+}
+
+// Small helpers to unify and deduplicate item/category construction
+function buildItemEntry(
+    key: string,
+    baseMaterial: string,
+    displayName: string,
+    lore: string[],
+    modelPath: string,
+    removeComponents?: string[]
+) {
+    return {
+        [key]: {
+            material: baseMaterial,
+            data: {
+                "item-name": displayName,
+                lore,
+                ...(removeComponents ? {"remove-components": removeComponents} : {}),
+            },
+            model: simplifiedGeneratedModel(modelPath),
+        },
+    };
+}
+
+function buildCategory(
+    key: string,
+    icon: string,
+    list: string[],
+    hidden: boolean = true
+) {
+    return {
+        [`atom:${key}`]: {
+            name: `<!i><white><lang:category.${key}.name></white>`,
+            hidden,
+            lore: [`<!i><gray><lang:category.${key}.lore>`],
+            icon,
+            list,
+        },
+    } as const;
 }
 
 // ---------------------- Item builders ----------------------
 
 function buildToolHead(material: Material, type: ToolType) {
     const key = headKey(material, type);
-    return {
-        [key]: {
-            material: HEAD_BASE_MATERIAL,
-            data: {
-                "item-name": l10nToolHead(material, type),
-                lore: [
-                    "<!i><gray><lang:item.tool_head.common.lore>",
-                    "",
-                    `<!i><white>${BADGE_MATERIAL} ${badgeAgeForMaterial(material)}`,
-                ],
-                "remove-components": ["attribute_modifiers"],
-            },
-            model: simplifiedGeneratedModel(headTexture(material, type)),
-        },
-    };
+    const lore = [
+        "<!i><gray><lang:item.tool_head.common.lore>",
+        "",
+        `<!i><white>${BADGE_MATERIAL} ${badgeAgeForMaterial(material)}`,
+    ];
+    return buildItemEntry(
+        key,
+        HEAD_BASE_MATERIAL,
+        l10nToolHead(material, type),
+        lore,
+        headTexture(material, type)
+    );
 }
 
 function buildFullTool(material: Material, type: ToolType) {
     const key = toolKey(material, type);
-    return {
-        [key]: {
-            material: toolBaseMaterial(type),
-            data: {
-                "item-name": l10nTool(material, type),
-                lore: [
-                    "<!i><gray><lang:item.tool.common.lore>",
-                    "",
-                    `<!i><white>${BADGE_TOOL} ${badgeAgeForMaterial(material)}`,
-                ],
-                "remove-components": ["attribute_modifiers"],
-            },
-            model: simplifiedGeneratedModel(fullToolTexture(material, type)),
-        },
-    };
+    const lore = [
+        "<!i><gray><lang:item.tool.common.lore>",
+        "",
+        `<!i><white>${BADGE_TOOL} ${badgeAgeForMaterial(material)}`,
+    ];
+    return buildItemEntry(
+        key,
+        toolBaseMaterial(type),
+        l10nTool(material, type),
+        lore,
+        fullToolTexture(material, type)
+    );
 }
 
 function buildMold(def: Mold, variant: MoldVariant) {
@@ -198,20 +237,17 @@ function buildMold(def: Mold, variant: MoldVariant) {
         "",
         // Keep original badges: clay uses material+age; fired/wax use utility+age
         variant === "clay"
-            ? `<!i><white>${BADGE_MATERIAL} ${img("badge_age_copper")}`
-            : `<!i><white>${BADGE_UTILITY} ${img("badge_age_copper")}`,
+            ? `<!i><white>${badge("material")} ${ageBadge("copper")}`
+            : `<!i><white>${badge("utility")} ${ageBadge("copper")}`,
     ];
 
-    return {
-        [key]: {
-            material: baseMaterial,
-            data: {
-                "item-name": l10nMold(variant, def.id),
-                lore: lore.filter((l) => l !== null),
-            },
-            model: simplifiedGeneratedModel(moldTexture(def, variant)),
-        },
-    };
+    return buildItemEntry(
+        key,
+        baseMaterial,
+        l10nMold(variant, def.id),
+        lore.filter((l): l is string => l !== null),
+        moldTexture(def, variant)
+    );
 }
 
 // ---------------------- Generators ----------------------
@@ -229,13 +265,7 @@ function generateMolds() {
     }
 
     const categories = {
-        "atom:molds": {
-            name: "<!i><white><lang:category.molds.name></white>",
-            hidden: true,
-            lore: ["<!i><gray><lang:category.molds.lore>"],
-            icon: "atom:clay_mold_shovel_head", // adjust as needed
-            list,
-        },
+        ...buildCategory("molds", "atom:clay_mold_shovel_head", list),
     };
 
     const en: Record<string, string> = {
@@ -254,7 +284,7 @@ function generateMolds() {
         en[`item.mold.${def.id}.lore`] = `Used to make ${connecting} ${def.display}`;
     }
 
-    return { items, categories, lang: { en } };
+    return {items, categories, lang: {en}};
 }
 
 function generateTools() {
@@ -275,20 +305,8 @@ function generateTools() {
     }
 
     const categories = {
-        "atom:tools": {
-            name: "<!i><white><lang:category.tools.name></white>",
-            hidden: true,
-            lore: ["<!i><gray><lang:category.tools.lore>"],
-            icon: "minecraft:copper_pickaxe", // adjust
-            list: toolKeys.sort((a, b) => a.localeCompare(b)),
-        },
-        "atom:tool_heads": {
-            name: "<!i><white><lang:category.tool_heads.name></white>",
-            hidden: true,
-            lore: ["<!i><gray><lang:category.tool_heads.lore>"],
-            icon: "atom:copper_pickaxe_head", // adjust
-            list: headKeys.sort((a, b) => a.localeCompare(b)),
-        },
+        ...buildCategory("tools", "atom:copper_pickaxe", toolKeys.sort((a, b) => a.localeCompare(b))),
+        ...buildCategory("tool_heads", "atom:copper_pickaxe_head", headKeys.sort((a, b) => a.localeCompare(b))),
     };
 
     const en: Record<string, string> = {
@@ -301,8 +319,10 @@ function generateTools() {
     };
 
     const materialName: Record<Material, string> = {
-        iron: "Iron",
+        stone: "Stone",
         copper: "Copper",
+        bronze: "Bronze",
+        iron: "Iron",
         steel: "Steel",
     };
     const typeName: Record<ToolType, string> = {
@@ -316,14 +336,25 @@ function generateTools() {
         saw: "Saw",
     };
 
+    const headSuffix: Record<ToolType, string> = {
+        pickaxe: "Head",
+        shovel: "Head",
+        hoe: "Head",
+        sword: "Blade",
+        axe: "Head",
+        hammer: "Head",
+        knife: "Blade",
+        saw: "Blade",
+    };
+
     for (const m of MATERIALS) {
         for (const t of ALL_TOOLS) {
-            en[`item.tool_head.${m}.${t}.name`] = `${materialName[m]} ${typeName[t]} Head`;
+            en[`item.tool_head.${m}.${t}.name`] = `${materialName[m]} ${typeName[t]} ${headSuffix[t]}`;
             en[`item.tool.${m}.${t}.name`] = `${materialName[m]} ${typeName[t]}`;
         }
     }
 
-    return { items, categories, lang: { en } };
+    return {items, categories, lang: {en}};
 }
 
 // ---------------------- Orchestrate + Write ----------------------
@@ -332,7 +363,7 @@ function deepMerge<T extends Record<string, any>>(
     a: T,
     b: T
 ): T {
-    const out: any = Array.isArray(a) ? [...a] : { ...a };
+    const out: any = Array.isArray(a) ? [...a] : {...a};
     for (const [k, v] of Object.entries(b)) {
         if (v && typeof v === "object" && !Array.isArray(v)) {
             out[k] = deepMerge(out[k] ?? {}, v);
@@ -344,7 +375,7 @@ function deepMerge<T extends Record<string, any>>(
 }
 
 function asYamlDoc(doc: any) {
-    return stringify(doc, { lineWidth: 0 });
+    return stringify(doc, {lineWidth: 0});
 }
 
 async function main() {
