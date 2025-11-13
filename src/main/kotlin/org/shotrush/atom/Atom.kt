@@ -141,6 +141,6 @@ class Atom : SuspendingJavaPlugin() {
 
     companion object {
         @JvmStatic
-        var instance: Atom? = null
+        lateinit var instance: Atom
     }
 }

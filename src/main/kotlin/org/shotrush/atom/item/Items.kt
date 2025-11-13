@@ -6,6 +6,7 @@ import net.momirealms.craftengine.core.util.Key
 import org.bukkit.inventory.ItemStack
 import org.shotrush.atom.content.AnimalProduct
 import org.shotrush.atom.content.AnimalType
+import org.shotrush.atom.getNamespacedKey
 import kotlin.reflect.KProperty
 
 object Items {
@@ -19,6 +20,12 @@ object Items {
 
     fun getAnimalProduct(type: AnimalType, product: AnimalProduct): CustomItem<ItemStack> {
         return CraftEngineItems.byId(Key.of("atom", "animal_${product.id}_${type.id}"))!!
+    }
+
+    fun getAnimalFromProduct(product: ItemStack): AnimalType {
+        val ns = product.getNamespacedKey()
+        val (_, key) = ns.split(":")
+        return AnimalType.byId(key) ?: throw IllegalStateException("Animal $key not found!")
     }
 }
 

@@ -1,12 +1,21 @@
 package org.shotrush.atom
 
+import com.mojang.serialization.DataResult
 import net.momirealms.craftengine.bukkit.api.CraftEngineBlocks
 import net.momirealms.craftengine.bukkit.api.CraftEngineItems
+import net.momirealms.craftengine.bukkit.nms.FastNMS
+import net.momirealms.craftengine.bukkit.plugin.reflection.minecraft.CoreReflections
+import net.momirealms.craftengine.bukkit.plugin.reflection.minecraft.MRegistryOps
 import net.momirealms.craftengine.core.item.CustomItem
+import net.momirealms.craftengine.core.plugin.CraftEngine
 import net.momirealms.craftengine.core.util.Key
+import net.momirealms.craftengine.libraries.nbt.CompoundTag
+import net.momirealms.craftengine.libraries.nbt.Tag
 import org.bukkit.block.Block
 import org.bukkit.inventory.ItemStack
 import org.shotrush.atom.item.isItem
+import java.util.function.Consumer
+import kotlin.jvm.optionals.getOrElse
 
 fun ItemStack.isCustomItem() = CraftEngineItems.isCustomItem(this)
 fun ItemStack.getNamespacedKey(): String = if(isCustomItem()) {
@@ -23,3 +32,21 @@ fun ItemStack.matches(item: CustomItem<ItemStack>) = item.isItem(this)
 fun Block.matches(key: Key) = CraftEngineBlocks.getCustomBlockState(this)?.owner()?.matchesKey(key) ?: false
 fun Block.matches(key: String) = matches(Key.of(key))
 fun Block.matches(namespace: String, path: String) = matches(Key.of(namespace, path))
+
+fun CompoundTag.getItemStack(key: String): ItemStack = getCompound(key)?.let { tag ->
+    CoreReflections.`instance$ItemStack$CODEC`.parse(MRegistryOps.NBT, tag).resultOrPartial { err ->
+        Atom.instance?.logger?.severe("Tried to load invalid item: '$tag'. $err")
+    }.map { result -> FastNMS.INSTANCE.`method$CraftItemStack$asCraftMirror`(result) }.getOrElse { ItemStack.empty() }
+} ?: ItemStack.empty()
+
+fun CompoundTag.putItemStack(key: String, item: ItemStack) {
+    CoreReflections.`instance$ItemStack$CODEC`.encodeStart(
+        MRegistryOps.SPARROW_NBT,
+        FastNMS.INSTANCE.`field$CraftItemStack$handle`(item)
+    ).ifSuccess { success: Tag? ->
+        val itemTag = success as CompoundTag
+        this.put(key, itemTag)
+    }.ifError(Consumer { error: DataResult.Error<Tag?>? ->
+        CraftEngine.instance().logger().severe("Error while saving storage item: " + error.toString())
+    })
+}

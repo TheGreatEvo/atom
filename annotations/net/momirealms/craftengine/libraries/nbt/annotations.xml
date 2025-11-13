@@ -1,0 +1,11 @@
+<root>
+    <item name='net.momirealms.craftengine.libraries.nbt.CompoundTag net.momirealms.craftengine.libraries.nbt.CompoundTag getCompound(java.lang.String)'>
+        <annotation name='org.jetbrains.annotations.Nullable'/>
+    </item>
+    <item name='net.momirealms.craftengine.libraries.nbt.CompoundTag net.momirealms.craftengine.libraries.nbt.CompoundTag getCompound(java.lang.String, net.momirealms.craftengine.libraries.nbt.CompoundTag)'>
+        <annotation name='org.jetbrains.annotations.Nullable'/>
+    </item>
+    <item name='net.momirealms.craftengine.libraries.nbt.CompoundTag net.momirealms.craftengine.libraries.nbt.CompoundTag getCompound(java.lang.String, net.momirealms.craftengine.libraries.nbt.CompoundTag) 1'>
+        <annotation name='org.jetbrains.annotations.Nullable'/>
+    </item>
+</root>
