@@ -109,24 +109,22 @@ class LeatherBedBlockBehavior(
 
         val blockEntity = context.level.storageWorld().getBlockEntityAtIfLoaded(pos)
 
-        if(blockEntity !is LeatherBedBlockEntity) return InteractionResult.PASS
+        if (blockEntity !is LeatherBedBlockEntity) return InteractionResult.PASS
 
         if (isScrapingTool(item)) {
             if (!blockEntity.hasItem()) {
                 ActionBarManager.send(player, getEmptyMessage())
                 return InteractionResult.SUCCESS
-            }
-
-            if (!isProcessing(player)) {
-                startScraping(player, item)
+            } else {
                 blockEntity.startScraping(player, item)
             }
             return InteractionResult.SUCCESS
         } else {
-            if(player.isSneaking) {
-                return blockEntity.tryEmptyItems(player, item)
+            return if (player.isSneaking) {
+                blockEntity.tryEmptyItems(player, item)
+            } else {
+                blockEntity.tryPlaceItem(player, item)
             }
-            return blockEntity.tryPlaceItem(player, item)
         }
 
 
@@ -145,186 +143,6 @@ class LeatherBedBlockBehavior(
 //        }
 //
 //        return result
-    }
-
-
-    override fun onCrouchRightClick(player: Player): Boolean {
-
-        if (placedItems.isNotEmpty()) {
-            val items = placedItems.toList()
-            placedItems.clear()
-
-            Atom.instance?.logger?.info("Dropping ${items.size} items from leather bed")
-
-            items.forEach { placedItem ->
-                removeItemDisplay(placedItem)
-                blockPos?.let { pos ->
-                    val location = Location(
-                        player.world,
-                        pos.x().toDouble() + 0.5,
-                        pos.y().toDouble() + 0.5,
-                        pos.z().toDouble() + 0.5
-                    )
-
-
-                    val customId = CraftEngineItems.getCustomItemId(placedItem.item)
-                    Atom.instance?.logger?.info("Item type: ${placedItem.item.type}, customId: ${customId?.value()}")
-
-                    val itemToDrop = if (placedItem.item.type == Material.LEATHER && customId != null) {
-                        if (customId.value().contains("animal_leather_cured")) {
-
-                            val rebuilt = CraftEngineItems.byId(customId)?.buildItemStack()
-                            Atom.instance?.logger?.info("Rebuilding cured leather: ${customId.value()}, success: ${rebuilt != null}")
-                            rebuilt ?: placedItem.item
-                        } else {
-                            placedItem.item
-                        }
-                    } else {
-                        placedItem.item
-                    }
-
-                    player.world.dropItemNaturally(location, itemToDrop)
-                    Atom.instance?.logger?.info("Dropped item: ${itemToDrop.type}, amount: ${itemToDrop.amount}")
-                }
-            }
-        } else {
-            ActionBarManager.send(player, getEmptyMessage())
-        }
-        return true
-    }
-
-    private fun isProcessing(player: Player): Boolean {
-        return activeProcessing.containsKey(player)
-    }
-
-    private fun startScraping(player: Player, tool: ItemStack) {
-
-        activeProcessing[player]?.cancel()
-
-
-        val job = GlobalScope.launch {
-            val strokeCount = 20 + Random.nextInt(11)
-            var currentStroke = 0
-
-            ActionBarManager.sendStatus(player, "§7Scraping leather... Use the tool carefully")
-
-            while (currentStroke < strokeCount && isActive) {
-                delay(250)
-
-
-                if (!player.isHandRaised || !isScrapingTool(player.activeItem)) {
-                    ActionBarManager.sendStatus(player, "§cScraping cancelled - tool lowered")
-                    delay(1000)
-                    break
-                }
-
-                if (!player.isOnline || player.location.distance(getBlockLocation()) > 5.0) {
-                    break
-                }
-
-
-                player.scheduler.run(Atom.instance!!, { _ ->
-                    playScrapingEffects(player)
-                }, null)
-
-                currentStroke++
-
-
-                val progress = (currentStroke.toFloat() / strokeCount * 100).toInt()
-                ActionBarManager.sendStatus(player, "§7Scraping leather... §e$progress%")
-            }
-
-            if (currentStroke >= strokeCount) {
-
-                player.scheduler.run(Atom.instance!!, { _ ->
-                    finishScraping(player, tool)
-                }, null)
-            }
-
-            activeProcessing.remove(player)
-            ActionBarManager.clearStatus(player)
-        }
-
-        activeProcessing[player] = job
-    }
-
-    private fun playScrapingEffects(player: Player) {
-        val location = getBlockLocation().add(0.5, 1.0, 0.5)
-
-
-        location.world?.playSound(location, Sound.ITEM_BRUSH_BRUSHING_GENERIC, 1.0f, 1.0f)
-
-
-        val dustOptions = Particle.DustOptions(Color.fromRGB(139, 69, 19), 1.0f)
-        location.world?.spawnParticle(
-            Particle.DUST,
-            location,
-            10,
-            0.2,
-            0.2,
-            0.2,
-            0.0,
-            dustOptions
-        )
-    }
-
-    private fun finishScraping(player: Player, tool: ItemStack) {
-        val location = getBlockLocation().add(0.5, 0.5, 0.5)
-
-
-        val scrapedItem = placedItems.lastOrNull()?.item
-        val itemId = scrapedItem?.let { CraftEngineItems.getCustomItemId(it) }
-
-
-        removeLastItem()
-
-        blockPos?.let { WorkstationDataManager.updatePlacedItems(it, placedItems) }
-
-
-        if (itemId != null && itemId.value().startsWith("animal_leather_raw_")) {
-
-            val animalType = itemId.value().removePrefix("animal_leather_raw_")
-
-
-            val meatId = "atom:animal_meat_raw_$animalType"
-            CraftEngineItems.byId(Key.of(meatId))?.let { rawMeatItem ->
-                val rawMeat = rawMeatItem.buildItemStack()
-                location.world?.dropItemNaturally(location, rawMeat)
-            }
-
-
-            val leather = ItemStack(Material.LEATHER)
-            location.world?.dropItemNaturally(location, leather)
-        } else if (itemId != null && itemId.value().startsWith("animal_leather_cured_")) {
-
-            location.world?.dropItemNaturally(location, scrapedItem)
-        } else if (scrapedItem?.type == Material.LEATHER) {
-
-            location.world?.dropItemNaturally(location, scrapedItem)
-        }
-
-
-        if (SharpenedFlint.isSharpenedFlint(tool)) {
-            SharpenedFlint.damageItem(tool, player, 0.3)
-        }
-
-
-        player.playSound(player.location, Sound.BLOCK_WOOL_BREAK, 1.0f, 1.0f)
-        ActionBarManager.send(player, "§aScraped the leather successfully!")
-
-
-        PlayerDataAPI.incrementInt(player, "leather_scraping.count", 0)
-    }
-
-    private fun getBlockLocation(): Location {
-        return blockPos?.let { pos ->
-            Location(
-                Bukkit.getWorld("world"),
-                pos.x().toDouble(),
-                pos.y().toDouble(),
-                pos.z().toDouble()
-            )
-        } ?: Location(Bukkit.getWorld("world"), 0.0, 0.0, 0.0)
     }
 
     override fun onRemoved() {
@@ -676,6 +494,10 @@ class LeatherBedBlockEntity(
     blockState: ImmutableBlockState,
 ) : BlockEntity(Workstations.LEATHER_BED_ENTITY_TYPE, pos, blockState) {
     private var storedItem: ItemStack = ItemStack.empty()
+        set(value) {
+            field = value
+            updateRender()
+        }
 
     init {
         blockEntityRenderer = LeatherBedBlockDynamicRenderer(this)
@@ -687,7 +509,6 @@ class LeatherBedBlockEntity(
 
     override fun saveCustomData(tag: CompoundTag) {
         tag.putItemStack("storedItem", storedItem)
-        updateRender()
     }
 
     fun updateRender() {
@@ -698,7 +519,12 @@ class LeatherBedBlockEntity(
     }
 
     val location: Location
-        get() = Location(world.world.platformWorld() as World, pos.x().toDouble(), pos.y().toDouble(), pos.z().toDouble())
+        get() = Location(
+            world.world.platformWorld() as World,
+            pos.x().toDouble(),
+            pos.y().toDouble(),
+            pos.z().toDouble()
+        )
 
     fun hasItem(): Boolean = !storedItem.isEmpty
     fun startScraping(player: Player, item: ItemStack) {
@@ -711,13 +537,13 @@ class LeatherBedBlockEntity(
 
             while (currentStroke < strokeCount && isActive) {
                 delay(250)
-                if(!player.isHandRaised || !LeatherBedBlockBehavior.isScrapingTool(player.activeItem)) {
+                if (!player.isHandRaised || !LeatherBedBlockBehavior.isScrapingTool(player.activeItem)) {
                     ActionBarManager.sendStatus(player, "§cScraping cancelled - tool lowered")
                     delay(1000)
                     break
                 }
 
-                if(!player.isOnline || player.location.distance(location) > 5.0) break
+                if (!player.isOnline || player.location.distance(location) > 5.0) break
 
                 withContext(atom.entityDispatcher(player)) {
                     playScrapingEffects(player)
@@ -735,7 +561,6 @@ class LeatherBedBlockEntity(
             }
 
             ActionBarManager.clearStatus(player)
-            updateRender()
         }
 
     }
@@ -748,17 +573,20 @@ class LeatherBedBlockEntity(
 
         if (storedItem.matches(raw_leather_pattern)) {
             val animalType = Items.getAnimalFromProduct(storedItem)
-            val item = Items.getAnimalProduct(animalType, AnimalProduct.RawMeat)
 
-            center.world.dropItemNaturally(center, Items.getAnimalProduct(animalType, AnimalProduct.RawMeat).buildItemStack())
-            center.world.dropItemNaturally(center, Items.getAnimalProduct(animalType, AnimalProduct.Leather).buildItemStack())
+            center.world.dropItemNaturally(
+                center,
+                Items.getAnimalProduct(animalType, AnimalProduct.RawMeat).buildItemStack()
+            )
+            center.world.dropItemNaturally(
+                center,
+                Items.getAnimalProduct(animalType, AnimalProduct.Leather).buildItemStack()
+            )
         } else {
             center.world.dropItemNaturally(center, storedItem)
         }
 
         storedItem = ItemStack.empty()
-        updateRender()
-
 
         if (SharpenedFlint.isSharpenedFlint(tool)) {
             SharpenedFlint.damageItem(tool, player, 0.3)
@@ -785,6 +613,25 @@ class LeatherBedBlockEntity(
             0.0,
             dustOptions
         )
+    }
+
+    fun tryPlaceItem(player: Player, item: ItemStack): InteractionResult {
+        if (!storedItem.isEmpty) {
+            return InteractionResult.FAIL
+        }
+
+        val clone = item.clone()
+        item.subtract(1)
+        clone.amount = 1
+        storedItem = clone
+        return InteractionResult.SUCCESS
+    }
+
+    fun tryEmptyItems(player: Player, item: ItemStack): InteractionResult {
+        if (storedItem.isEmpty) return InteractionResult.FAIL
+        location.world.dropItemNaturally(location, storedItem)
+        storedItem = ItemStack.empty()
+        return InteractionResult.SUCCESS
     }
 }
 
