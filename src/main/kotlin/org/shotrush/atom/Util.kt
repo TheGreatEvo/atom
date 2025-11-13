@@ -23,6 +23,11 @@ fun ItemStack.getNamespacedKey(): String = if(isCustomItem()) {
 } else {
     type.key.toString()
 }
+fun ItemStack.getNamespacedPath(): String = if(isCustomItem()) {
+    CraftEngineItems.getCustomItemId(this)?.value ?: type.key.value()
+} else {
+    type.key.value()
+}
 fun ItemStack.matches(regex: Regex) = getNamespacedKey().matches(regex)
 fun ItemStack.matches(key: Key) = getNamespacedKey() == key.toString()
 fun ItemStack.matches(key: String) = getNamespacedKey() == key

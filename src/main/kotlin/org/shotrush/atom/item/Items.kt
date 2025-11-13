@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack
 import org.shotrush.atom.content.AnimalProduct
 import org.shotrush.atom.content.AnimalType
 import org.shotrush.atom.getNamespacedKey
+import org.shotrush.atom.getNamespacedPath
 import kotlin.reflect.KProperty
 
 object Items {
@@ -27,6 +28,14 @@ object Items {
         val (_, key) = ns.split(":")
         val animal = key.split("_").last()
         return AnimalType.byId(animal) ?: throw IllegalStateException("Animal $animal not found!")
+    }
+
+    fun getAnimalProductFromItem(item: ItemStack): AnimalProduct {
+        return AnimalProduct.decodeFromItemKey(item.getNamespacedPath())
+    }
+
+    fun isAnimalProduct(item: ItemStack): Boolean {
+        return item.getNamespacedKey().startsWith("atom:animal_")
     }
 }
 
