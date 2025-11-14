@@ -14,13 +14,11 @@ import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.shotrush.atom.core.data.PersistentData;
-import org.shotrush.atom.Atom;
 import org.shotrush.atom.core.util.ActionBarManager;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import org.shotrush.atom.core.api.annotation.RegisterSystem;
 
 //@RegisterSystem(
 //    id = "item_heat_system",
@@ -32,14 +30,14 @@ import org.shotrush.atom.core.api.annotation.RegisterSystem;
 public class ItemHeatSystem implements Listener {
     @Getter
     public static ItemHeatSystem instance;
-    private final Atom plugin;
+    private final org.bukkit.plugin.Plugin plugin;
     private static final NamespacedKey HEAT_MODIFIER_KEY = new NamespacedKey("atom", "heat_modifier");
     
     private static final Map<UUID, Map<Integer, Double>> playerItemHeatCache = new HashMap<>();
     private static final Map<UUID, ItemStack> lastKnownItems = new HashMap<>();
     
     public ItemHeatSystem(org.bukkit.plugin.Plugin plugin) {
-        this.plugin = (Atom) plugin;
+        this.plugin = plugin;
         instance = this;
     }
 
