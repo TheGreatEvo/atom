@@ -28,6 +28,7 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.shotrush.atom.Atom
 import org.shotrush.atom.content.AnimalProduct
+import org.shotrush.atom.content.base.AtomBlockEntity
 import org.shotrush.atom.content.foraging.items.SharpenedFlint
 import org.shotrush.atom.content.workstation.Workstations
 import org.shotrush.atom.core.api.player.PlayerDataAPI
@@ -47,13 +48,14 @@ import kotlin.random.Random
 class LeatherBedBlockEntity(
     pos: BlockPos,
     blockState: ImmutableBlockState,
-) : BlockEntity(Workstations.LEATHER_BED_ENTITY_TYPE, pos, blockState) {
+) : AtomBlockEntity(Workstations.LEATHER_BED_ENTITY_TYPE, pos, blockState) {
     val rotation: HorizontalDirection
         get() = blockState().get(blockState().properties.first() as Property<HorizontalDirection>)
     var storedItem: ItemStack = ItemStack.empty()
         private set(value) {
             field = value
             markDirty()
+            updateRender()
         }
 
     init {
@@ -87,14 +89,6 @@ class LeatherBedBlockEntity(
         tracking.forEach(render::update)
     }
 
-    val location: Location
-        get() = Location(
-            world.world.platformWorld() as World,
-            pos.x().toDouble(),
-            pos.y().toDouble(),
-            pos.z().toDouble()
-        )
-
     val dropLocation: Location
         get() {
             val rot = rotation
@@ -105,11 +99,6 @@ class LeatherBedBlockEntity(
                 pos.z().toDouble() + rot.stepZ()
             )
         }
-
-    fun markDirty() {
-        world?.getChunkAtIfLoaded(ChunkPos(pos))?.setDirty(true);
-        updateRender()
-    }
 
     fun hasItem(): Boolean = !storedItem.isEmpty
     fun startScraping(player: Player, item: ItemStack) {
