@@ -8,13 +8,14 @@ enum class MoldShape(val id: String, val mold: String, val vanillaItem: org.bukk
     Sword("sword", "sword_blade"),
     Knife("knife", "knife_blade"),
     Saw("saw", "saw_blade"),
-    Ingot("ingot", "ingot"),
-    DecoratedPot("decorated_pot", "decorated_pot", org.bukkit.Material.DECORATED_POT);
+    Ingot("ingot", "ingot");
 
     companion object {
         val ShapeById = MoldShape.entries.associateBy { it.id }
+        val ShapeByMold = MoldShape.entries.associateBy { it.mold }
 
         fun byId(id: String) = ShapeById[id] ?: error("No such MoldShape: $id")
+        fun byMold(mold: String) = ShapeByMold[mold] ?: error("No such MoldShape: $mold")
     }
 
     fun isVanillaItem(): Boolean = vanillaItem != null

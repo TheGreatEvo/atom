@@ -38,11 +38,14 @@ fun Block.matches(key: Key) = CraftEngineBlocks.getCustomBlockState(this)?.owner
 fun Block.matches(key: String) = matches(Key.of(key))
 fun Block.matches(namespace: String, path: String) = matches(Key.of(namespace, path))
 
-fun CompoundTag.getItemStack(key: String): ItemStack = getCompound(key)?.let { tag ->
-    CoreReflections.`instance$ItemStack$CODEC`.parse(MRegistryOps.NBT, tag).resultOrPartial { err ->
-        Atom.instance.logger?.severe("Tried to load invalid item: '$tag'. $err")
-    }.map { result -> FastNMS.INSTANCE.`method$CraftItemStack$asCraftMirror`(result) }.getOrElse { ItemStack.empty() }
-} ?: ItemStack.empty()
+fun CompoundTag.getItemStack(key: String): ItemStack {
+    if(getTagType(key).toInt() != 10) return ItemStack.empty()
+    return getCompound(key)?.let { tag ->
+        CoreReflections.`instance$ItemStack$CODEC`.parse(MRegistryOps.SPARROW_NBT, tag).resultOrPartial { err ->
+            Atom.instance.logger.severe("Tried to load invalid item: '$tag'. $err")
+        }.map { result -> FastNMS.INSTANCE.`method$CraftItemStack$asCraftMirror`(result) }.getOrElse { ItemStack.empty() }
+    } ?: ItemStack.empty()
+}
 
 fun CompoundTag.putItemStack(key: String, item: ItemStack) {
     CoreReflections.`instance$ItemStack$CODEC`.encodeStart(
@@ -51,7 +54,7 @@ fun CompoundTag.putItemStack(key: String, item: ItemStack) {
     ).ifSuccess { success: Tag? ->
         val itemTag = success as CompoundTag
         this.put(key, itemTag)
-    }.ifError(Consumer { error: DataResult.Error<Tag?>? ->
-        CraftEngine.instance().logger().severe("Error while saving storage item: " + error.toString())
+    }.ifError(Consumer { error: DataResult.Error<Tag> ->
+        CraftEngine.instance().logger().severe("Error while saving storage item: $error")
     })
 }

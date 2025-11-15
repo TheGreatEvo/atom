@@ -19,6 +19,7 @@ abstract class AtomBlockEntity(
         pos,
         blockState
     )
+
     val location: Location
         get() = Location(
             world.world.platformWorld() as World,
@@ -29,9 +30,10 @@ abstract class AtomBlockEntity(
 
     fun getChunk() = world?.getChunkAtIfLoaded(ChunkPos(pos))
 
-    fun markDirty() {
+    fun markDirty(updateRenderer: Boolean = true) {
         getChunk()?.setDirty(true)
-        updateRender()
+        if (updateRenderer)
+            updateRender()
     }
 
     fun updateRender() {

@@ -8,10 +8,15 @@ items:
         - <!i><gray><lang:item.pebble.lore_2>
         - ""
         - <!i><white><image:atom:badge_tool> <image:atom:badge_natural> <image:atom:badge_age_foraging>
+      components:
+        minecraft:consumable: {
+          consume_seconds: 10000,
+          animation: "bow"
+        }
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/custom/pebble
+        path: minecraft:item/pebble
     behavior:
       - type: block_item
         block:

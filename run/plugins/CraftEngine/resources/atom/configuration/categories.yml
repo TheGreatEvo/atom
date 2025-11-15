@@ -24,6 +24,7 @@ categories:
       - 'atom:knapping_station'
       - 'atom:leather_bed'
       - 'atom:crafting_basket'
+      - 'atom:clay_cauldron'
       - 'atom:sharpened_flint'
       - 'atom:pebble'
       - 'atom:flint_knife'
