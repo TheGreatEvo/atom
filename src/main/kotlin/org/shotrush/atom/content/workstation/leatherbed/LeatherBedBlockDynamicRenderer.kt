@@ -19,13 +19,14 @@ class LeatherBedBlockDynamicRenderer(val entity: LeatherBedBlockEntity) : AtomBl
             HorizontalDirection.SOUTH -> 2
             HorizontalDirection.WEST -> 3
         }
-//        translation(
-//            Vector3f(
-//                rotation.stepX() * 0.5f,
-//                0f,
-//                rotation.stepZ() * 0.5f
-//            )
-//        )
+        translation(
+            Vector3f(
+                rotation.stepX() * 0.5f,
+                0f,
+                rotation.stepZ() * 0.5f
+            )
+        )
+        rotation(QuaternionUtils.toQuaternionf(0.0, idx * 90.0, 0.0))
         shadow(0f, 1f)
         viewRange(64f)
         displayContext(ItemDisplayContext.NONE)
@@ -33,10 +34,5 @@ class LeatherBedBlockDynamicRenderer(val entity: LeatherBedBlockEntity) : AtomBl
         scale(Vector3f(1f, 1f, 1f))
 
         displayedItem { entity.storedItem }
-
-
-
-        rotation { QuaternionUtils.toQuaternionf(0.0, Math.toRadians(((System.currentTimeMillis() / 10.0)  % 360)), 0.0) }
-        distanceBasedUPS(entity.pos().toVector3f(), maxDistance = 10f)
     }
 })

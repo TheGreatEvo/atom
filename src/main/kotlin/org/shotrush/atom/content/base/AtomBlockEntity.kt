@@ -7,12 +7,18 @@ import net.momirealms.craftengine.core.world.BlockPos
 import net.momirealms.craftengine.core.world.ChunkPos
 import org.bukkit.Location
 import org.bukkit.World
+import org.shotrush.atom.content.workstation.WorkstationDef
 
 abstract class AtomBlockEntity(
     type: BlockEntityType<BlockEntity>,
     pos: BlockPos,
     blockState: ImmutableBlockState,
 ) : BlockEntity(type, pos, blockState) {
+    constructor(type: WorkstationDef, pos: BlockPos, blockState: ImmutableBlockState) : this(
+        type.type,
+        pos,
+        blockState
+    )
     val location: Location
         get() = Location(
             world.world.platformWorld() as World,

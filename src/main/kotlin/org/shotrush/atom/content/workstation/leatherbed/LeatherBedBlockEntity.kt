@@ -48,7 +48,7 @@ import kotlin.random.Random
 class LeatherBedBlockEntity(
     pos: BlockPos,
     blockState: ImmutableBlockState,
-) : AtomBlockEntity(Workstations.LEATHER_BED_ENTITY_TYPE, pos, blockState) {
+) : AtomBlockEntity(Workstations.LEATHER_BED, pos, blockState) {
     val rotation: HorizontalDirection
         get() = blockState().get(blockState().properties.first() as Property<HorizontalDirection>)
     var storedItem: ItemStack = ItemStack.empty()
