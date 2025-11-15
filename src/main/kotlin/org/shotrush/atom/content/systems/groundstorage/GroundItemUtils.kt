@@ -1,5 +1,7 @@
 package org.shotrush.atom.content.systems.groundstorage
 
+import net.momirealms.craftengine.bukkit.api.CraftEngineBlocks
+import net.momirealms.craftengine.core.util.Key
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.block.Block
@@ -37,6 +39,25 @@ object GroundItemUtils {
     fun findGroundItemAbove(block: Block): ItemFrame? {
         val searchLocation = block.location.add(0.5, 1.0, 0.5)
         return findGroundItemsInRadius(searchLocation, 0.6).firstOrNull()
+    }
+
+    fun isObstructed(frame: ItemFrame, vanilla: Material? = null, customKey: Key? = null): ItemStack? {
+        val block = frame.location.block
+
+        if (vanilla != null && block.type == vanilla) {
+            return getGroundItem(frame)
+        }
+        if (customKey != null) {
+            val customState = CraftEngineBlocks.getCustomBlockState(block)
+            if (customState != null) {
+                val owner = customState.owner()
+                if (owner.matchesKey(customKey)) {
+                    return getGroundItem(frame)
+                }
+            }
+        }
+
+        return null
     }
     
     /**
