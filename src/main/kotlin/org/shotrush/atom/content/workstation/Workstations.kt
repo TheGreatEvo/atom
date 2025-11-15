@@ -7,6 +7,8 @@ import net.momirealms.craftengine.core.block.entity.BlockEntity
 import net.momirealms.craftengine.core.block.entity.BlockEntityType
 import net.momirealms.craftengine.core.block.entity.BlockEntityTypes
 import net.momirealms.craftengine.core.util.Key
+import org.shotrush.atom.content.workstation.clay_cauldron.ClayCauldronBlockBehavior
+import org.shotrush.atom.content.workstation.clay_cauldron.ClayCauldronBlockEntity
 import org.shotrush.atom.content.workstation.knapping.KnappingBlockBehavior
 import org.shotrush.atom.content.workstation.knapping.KnappingStationBehavior
 import org.shotrush.atom.content.workstation.leatherbed.LeatherBedBlockBehavior
@@ -22,6 +24,7 @@ object Workstations {
     val KNAPPING_STATION_ENTITY_TYPE = BlockEntityTypes.register<BlockEntity>(KNAPPING_STATION_KEY)
 
     val LEATHER_BED = register("atom:leather_bed", LeatherBedBlockBehavior.Factory)
+    val CLAY_CAULDRON = register("atom:clay_cauldron", ClayCauldronBlockBehavior.Factory)
 
     val CRAFTING_BASKET_KEY = Key.of("atom:crafting_basket")
     val CRAFTING_BASKET_BEHAVIOR = BlockBehaviors.register(CRAFTING_BASKET_KEY, CraftingBasketBlockBehavior.Companion.Factory)

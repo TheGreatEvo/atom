@@ -26,13 +26,19 @@ object Molds {
         return CraftEngineItems.byId(Key.of("atom", key)) ?: error("No tool head found for $key")
     }
 
+    fun getIngot(material: Material): ItemStack {
+        if (material == Material.Iron) return ItemStack(org.bukkit.Material.IRON_INGOT)
+        if (material == Material.Copper) return ItemStack(org.bukkit.Material.COPPER_INGOT)
+        return CraftEngineItems.byId(Key.of("atom", "ingot_${material.id}"))!!.buildItemStack()
+    }
+
     fun getFilledMold(shape: MoldShape, variant: MoldType, material: Material): ItemStack {
         if (variant != MoldType.Wax && variant != MoldType.Fired) throw IllegalArgumentException("Only Wax and Fired molds can be filled!")
         val item = CraftEngineItems.byId(Key.of("atom", "filled_${variant.id}_mold_${shape.mold}"))!!
         val stack = item.buildItemStack()
         val lore = stack.lore() ?: mutableListOf()
         val loreCopy = lore.toMutableList()
-        
+
         loreCopy[0] = Component.text("Filled with: ").style {
             it.decoration(TextDecoration.ITALIC, false).color(
                 NamedTextColor.GRAY
@@ -63,17 +69,46 @@ object Molds {
     }
 
     val FilledRegex = Regex("atom:filled_(.+)_mold_(.+)")
+    val EmptyRegex = Regex("atom:(fired|wax)_mold_(.+)")
+    val FullRegex = Regex("atom:(\\w+)_mold_(.+)")
 
     fun isFilledMold(stack: ItemStack): Boolean {
-        if(!stack.getNamespacedKey().matches(FilledRegex)) return false
-        if(!stack.persistentDataContainer.has("mold_type")) return false
-        if(!stack.persistentDataContainer.has("mold_shape")) return false
-        if(!stack.persistentDataContainer.has("mold_fill")) return false
+        if (!stack.getNamespacedKey().matches(FilledRegex)) return false
+        if (!stack.persistentDataContainer.has("mold_type")) return false
+        if (!stack.persistentDataContainer.has("mold_shape")) return false
+        if (!stack.persistentDataContainer.has("mold_fill")) return false
         return true
     }
 
+    fun isEmptyMold(stack: ItemStack): Boolean {
+        return stack.getNamespacedKey().matches(EmptyRegex)
+    }
+
+    fun getMoldType(stack: ItemStack): MoldType {
+        val key = stack.getNamespacedKey()
+        if(key.startsWith("atom:wax_")) return MoldType.Wax
+        if(key.startsWith("atom:fired_")) return MoldType.Fired
+        if(key.startsWith("atom:clay_")) return MoldType.Clay
+        if(key.startsWith("atom:filled_")) {
+            val moldTypeId = stack.persistentDataContainer.getString("mold_type") ?: error("No mold type found!")
+            val moldType = MoldType.byId(moldTypeId)
+            return moldType
+        }
+        throw IllegalArgumentException("Item is not a mold!")
+    }
+
+    fun getMoldShape(stack: ItemStack): MoldShape {
+        val key = stack.getNamespacedKey()
+        if(key.matches(FullRegex)) {
+            val regex = FullRegex.find(key)!!
+            val moldShapeId = regex.groupValues[2]
+            return MoldShape.byMold(moldShapeId)
+        }
+        error("Item is not a mold!")
+    }
+
     fun emptyMold(stack: ItemStack): Pair<ItemStack, ItemStack> {
-        if(!isFilledMold(stack)) throw IllegalArgumentException("Item is not a filled mold!")
+        if (!isFilledMold(stack)) throw IllegalArgumentException("Item is not a filled mold!")
         val moldTypeId = stack.persistentDataContainer.getString("mold_type") ?: error("No mold type found!")
         val moldShapeId = stack.persistentDataContainer.getString("mold_shape") ?: error("No mold shape found!")
         val materialId = stack.persistentDataContainer.getString("mold_fill") ?: error("No material found!")
@@ -83,7 +118,11 @@ object Molds {
         val material = Material.byId(materialId)
 
         val emptyMold = getMold(moldShape, moldType).buildItemStack()
-        val toolHead = getToolHead(moldShape, material).buildItemStack()
+        val toolHead = if(moldShape == MoldShape.Ingot) {
+            getIngot(material)
+        } else {
+            getToolHead(moldShape, material).buildItemStack()
+        }
         return Pair(emptyMold, toolHead)
     }
 }

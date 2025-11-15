@@ -19,6 +19,7 @@ import org.joml.Quaternionf
 import org.joml.Vector3f
 import org.shotrush.atom.Atom
 import java.util.*
+import java.util.concurrent.ConcurrentHashMap
 
 class ItemDisplayElement(
     override val id: String,
@@ -34,11 +35,13 @@ class ItemDisplayElement(
     private val shadowStrength: Prop<Float>,
     private val viewRange: Prop<Float>,
     private val updatesPerSecond: Prop<Float>,
+    private val visible: Prop<Boolean>,
 ) : DisplayElement {
 
     private val nms = FastNMS.INSTANCE
     private val entityId = CoreReflections.`instance$Entity$ENTITY_COUNTER`.incrementAndGet()
     private val uuid = UUID.randomUUID()
+    private val spawnedFor = Collections.newSetFromMap(ConcurrentHashMap<UUID, Boolean>())
 
     private fun worldPos(player: Player): Vector3f {
         val o = origin.resolve(player)
@@ -163,6 +166,50 @@ class ItemDisplayElement(
     }
 
     override fun show(player: Player) {
+        val isVisible = !visible.isPresent() || visible.resolve(player)
+        if (isVisible) {
+            spawn(player)
+        } else {
+            if (spawnedFor.contains(player.uuid())) {
+                despawn(player)
+            }
+        }
+    }
+
+    override fun update(player: Player) {
+        val isVisible = !visible.isPresent() || visible.resolve(player)
+        val isSpawned = spawnedFor.contains(player.uuid())
+
+        when {
+            isVisible && !isSpawned -> {
+                // became visible -> spawn with current state
+                spawn(player)
+            }
+
+            !isVisible && isSpawned -> {
+                // became invisible -> despawn
+                despawn(player)
+            }
+
+            isVisible && isSpawned -> {
+                // normal dynamic update
+                val metas = mutableListOf<Any>()
+                addDynamicValues(player, metas)
+                if (metas.isNotEmpty()) {
+                    val metaPkt = nms.`constructor$ClientboundSetEntityDataPacket`(entityId, metas)
+                    player.sendPacket(metaPkt, true)
+                }
+            }
+        }
+    }
+
+    override fun hide(player: Player) {
+        if (spawnedFor.contains(player.uuid())) {
+            despawn(player)
+        }
+    }
+
+    private fun spawn(player: Player) {
         val wp = worldPos(player)
         val spawn = nms.`constructor$ClientboundAddEntityPacket`(
             entityId,
@@ -177,31 +224,22 @@ class ItemDisplayElement(
             CoreReflections.`instance$Vec3$Zero`,
             0.0
         )
-
         val metas = mutableListOf<Any>()
         addStaticIfNonDefault(player, metas)
         addDynamicValues(player, metas)
-
         if (metas.isNotEmpty()) {
             val metaPkt = nms.`constructor$ClientboundSetEntityDataPacket`(entityId, metas)
             player.sendPackets(listOf(spawn, metaPkt), true)
         } else {
             player.sendPacket(spawn, true)
         }
+        spawnedFor.add(player.uuid())
     }
 
-    override fun update(player: Player) {
-        val metas = mutableListOf<Any>()
-        addDynamicValues(player, metas)
-        if (metas.isNotEmpty()) {
-            val metaPkt = nms.`constructor$ClientboundSetEntityDataPacket`(entityId, metas)
-            player.sendPacket(metaPkt, true)
-        }
-    }
-
-    override fun hide(player: Player) {
+    private fun despawn(player: Player) {
         val despawn = nms.`constructor$ClientboundRemoveEntitiesPacket`(IntList.of(entityId))
         player.sendPacket(despawn, false)
+        spawnedFor.remove(player.uuid())
     }
 
     override fun startTicking(player: Player, tm: TickManager) {

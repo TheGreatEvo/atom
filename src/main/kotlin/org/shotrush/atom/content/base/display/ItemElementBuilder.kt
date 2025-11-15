@@ -25,6 +25,7 @@ class ItemElementBuilder internal constructor(
     private var shadowStrength: Prop<Float> = absent()
     private var viewRange: Prop<Float> = absent()
     private var updatesPerSecond: Prop<Float> = absent()
+    private var visible: Prop<Boolean> = static(true)
 
     fun origin(x: Float, y: Float, z: Float) {
         origin(Vector3f(x, y, z))
@@ -140,6 +141,14 @@ class ItemElementBuilder internal constructor(
         updatesPerSecond = dynamic(supplier)
     }
 
+    fun visible(value: Boolean) {
+        visible = static(value)
+    }
+
+    fun visible(supplier: (Player) -> Boolean) {
+        visible = dynamic(supplier)
+    }
+
     inline fun distanceBasedUPS(
         origin: Vector3f,
         maxUPS: Float = 60f,
@@ -164,6 +173,12 @@ class ItemElementBuilder internal constructor(
         }
     }
 
+    fun autoVisibleFromItem() {
+        visible = dynamic { p ->
+            !displayedItem.resolve(p).isEmpty
+        }
+    }
+
     internal fun build(sceneOrigin: Prop<Vector3f>): DisplayElement =
         ItemDisplayElement(
             id = id,
@@ -178,7 +193,8 @@ class ItemElementBuilder internal constructor(
             shadowRadius = shadowRadius,
             shadowStrength = shadowStrength,
             viewRange = viewRange,
-            updatesPerSecond = updatesPerSecond
+            updatesPerSecond = updatesPerSecond,
+            visible = visible
         )
 }
 
