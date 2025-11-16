@@ -2,6 +2,7 @@ package org.shotrush.atom.content.workstation.campfire
 
 import com.github.shynixn.mccoroutine.folia.launch
 import com.github.shynixn.mccoroutine.folia.regionDispatcher
+import com.github.shynixn.mccoroutine.folia.ticks
 import kotlinx.coroutines.delay
 import org.bukkit.Location
 import org.bukkit.Material
@@ -132,10 +133,14 @@ class CampfireSystem(private val plugin: Plugin) : Listener {
             var strikes = 0
             ActionBarManager.sendStatus(player, "<gray>Lighting campfire... Strike repeatedly</gray>")
             while (strikes < strikesNeeded) {
-                delay(250)
+                delay(5.ticks)
+                val data = campfireLoc.block.blockData
+                if (data is Lightable && data.isLit) {
+                    return@launch
+                }
                 // Basic validations
                 if (!player.isOnline || player.location.world != campfireLoc.world ||
-                    player.location.distance(campfireLoc) > 5.0
+                    player.location.distance(campfireLoc) > 5.0 || !player.hasActiveItem()
                 ) {
                     ActionBarManager.sendStatus(player, "<red>Lighting cancelled</red>")
                     delay(800)
