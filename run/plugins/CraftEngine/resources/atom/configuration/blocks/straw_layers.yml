@@ -4,8 +4,12 @@ items:
     data:
       item-name: <!i><white><l10n:item.straw.name>
       lore:
-        - <!i><gray><l10n:item.straw.lore_1>
-        - <!i><gray><l10n:item.straw.lore_2>
+        - ""
+        - <!i><dark_gray><l10n:item.straw.lore_1>
+        - <!i><dark_gray><l10n:item.straw.lore_2>
+        - ""
+        - <!i><dark_gray><l10n:item.straw.lore_3>
+        - <!i><dark_gray><l10n:item.straw.lore_4>
         - ""
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_foraging>
     model:

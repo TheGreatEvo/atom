@@ -18,6 +18,9 @@ items:
         - <!i><gray><l10n:item.tool.common.lore>
         - ""
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_foraging>
+    settings:
+      tags:
+        - atom:tool_pickaxe
   atom:stone_shovel_head:
     material: paper
     model:
@@ -37,6 +40,9 @@ items:
         - <!i><gray><l10n:item.tool.common.lore>
         - ""
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_foraging>
+    settings:
+      tags:
+        - atom:tool_shovel
   atom:stone_hoe_head:
     material: paper
     model:
@@ -56,6 +62,9 @@ items:
         - <!i><gray><l10n:item.tool.common.lore>
         - ""
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_foraging>
+    settings:
+      tags:
+        - atom:tool_hoe
   atom:stone_sword_head:
     material: paper
     model:
@@ -75,6 +84,9 @@ items:
         - <!i><gray><l10n:item.tool.common.lore>
         - ""
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_foraging>
+    settings:
+      tags:
+        - atom:tool_sword
   atom:stone_axe_head:
     material: paper
     model:
@@ -94,6 +106,9 @@ items:
         - <!i><gray><l10n:item.tool.common.lore>
         - ""
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_foraging>
+    settings:
+      tags:
+        - atom:tool_axe
   atom:stone_hammer_head:
     material: paper
     model:
@@ -116,10 +131,14 @@ items:
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
-        - ""
+        - <arg:item.count>
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_foraging>
+    settings:
+      tags:
+        - atom:tool_hammer
     data:
       item-name: <!i><white><l10n:item.tool.stone.hammer.name>
+      max-damage: 10
   atom:stone_knife_head:
     material: paper
     model:
@@ -142,10 +161,14 @@ items:
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
-        - ""
+        - <arg:item.count>
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_foraging>
+    settings:
+      tags:
+        - atom:tool_knife
     data:
       item-name: <!i><white><l10n:item.tool.stone.knife.name>
+      max-damage: 10
   atom:stone_saw_head:
     material: paper
     model:
@@ -168,10 +191,17 @@ items:
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
-        - ""
+        - <arg:item.count>
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_foraging>
+    settings:
+      craft-remainder:
+        type: hurt_and_break
+        damage: 1
+      tags:
+        - atom:tool_saw
     data:
       item-name: <!i><white><l10n:item.tool.stone.saw.name>
+      max-damage: 10
   atom:iron_pickaxe_head:
     material: paper
     model:
@@ -191,6 +221,9 @@ items:
         - <!i><gray><l10n:item.tool.common.lore>
         - ""
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
+    settings:
+      tags:
+        - atom:tool_pickaxe
   atom:iron_shovel_head:
     material: paper
     model:
@@ -210,6 +243,9 @@ items:
         - <!i><gray><l10n:item.tool.common.lore>
         - ""
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
+    settings:
+      tags:
+        - atom:tool_shovel
   atom:iron_hoe_head:
     material: paper
     model:
@@ -229,6 +265,9 @@ items:
         - <!i><gray><l10n:item.tool.common.lore>
         - ""
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
+    settings:
+      tags:
+        - atom:tool_hoe
   atom:iron_sword_head:
     material: paper
     model:
@@ -248,6 +287,9 @@ items:
         - <!i><gray><l10n:item.tool.common.lore>
         - ""
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
+    settings:
+      tags:
+        - atom:tool_sword
   atom:iron_axe_head:
     material: paper
     model:
@@ -267,6 +309,9 @@ items:
         - <!i><gray><l10n:item.tool.common.lore>
         - ""
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
+    settings:
+      tags:
+        - atom:tool_axe
   atom:iron_hammer_head:
     material: paper
     model:
@@ -289,10 +334,14 @@ items:
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
-        - ""
+        - <arg:item.count>
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
+    settings:
+      tags:
+        - atom:tool_hammer
     data:
       item-name: <!i><white><l10n:item.tool.iron.hammer.name>
+      max-damage: 10
   atom:iron_knife_head:
     material: paper
     model:
@@ -315,10 +364,14 @@ items:
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
-        - ""
+        - <arg:item.count>
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
+    settings:
+      tags:
+        - atom:tool_knife
     data:
       item-name: <!i><white><l10n:item.tool.iron.knife.name>
+      max-damage: 10
   atom:iron_saw_head:
     material: paper
     model:
@@ -341,10 +394,17 @@ items:
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
-        - ""
+        - <arg:item.count>
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
+    settings:
+      craft-remainder:
+        type: hurt_and_break
+        damage: 1
+      tags:
+        - atom:tool_saw
     data:
       item-name: <!i><white><l10n:item.tool.iron.saw.name>
+      max-damage: 10
   atom:copper_pickaxe_head:
     material: paper
     model:
@@ -367,10 +427,14 @@ items:
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
-        - ""
+        - <arg:item.count>
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_copper>
+    settings:
+      tags:
+        - atom:tool_pickaxe
     data:
       item-name: <!i><white><l10n:item.tool.copper.pickaxe.name>
+      max-damage: 10
   atom:copper_shovel_head:
     material: paper
     model:
@@ -393,10 +457,14 @@ items:
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
-        - ""
+        - <arg:item.count>
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_copper>
+    settings:
+      tags:
+        - atom:tool_shovel
     data:
       item-name: <!i><white><l10n:item.tool.copper.shovel.name>
+      max-damage: 10
   atom:copper_hoe_head:
     material: paper
     model:
@@ -419,10 +487,14 @@ items:
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
-        - ""
+        - <arg:item.count>
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_copper>
+    settings:
+      tags:
+        - atom:tool_hoe
     data:
       item-name: <!i><white><l10n:item.tool.copper.hoe.name>
+      max-damage: 10
   atom:copper_sword_head:
     material: paper
     model:
@@ -445,10 +517,14 @@ items:
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
-        - ""
+        - <arg:item.count>
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_copper>
+    settings:
+      tags:
+        - atom:tool_sword
     data:
       item-name: <!i><white><l10n:item.tool.copper.sword.name>
+      max-damage: 10
   atom:copper_axe_head:
     material: paper
     model:
@@ -471,10 +547,14 @@ items:
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
-        - ""
+        - <arg:item.count>
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_copper>
+    settings:
+      tags:
+        - atom:tool_axe
     data:
       item-name: <!i><white><l10n:item.tool.copper.axe.name>
+      max-damage: 10
   atom:copper_hammer_head:
     material: paper
     model:
@@ -497,10 +577,14 @@ items:
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
-        - ""
+        - <arg:item.count>
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_copper>
+    settings:
+      tags:
+        - atom:tool_hammer
     data:
       item-name: <!i><white><l10n:item.tool.copper.hammer.name>
+      max-damage: 10
   atom:copper_knife_head:
     material: paper
     model:
@@ -523,10 +607,14 @@ items:
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
-        - ""
+        - <arg:item.count>
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_copper>
+    settings:
+      tags:
+        - atom:tool_knife
     data:
       item-name: <!i><white><l10n:item.tool.copper.knife.name>
+      max-damage: 10
   atom:copper_saw_head:
     material: paper
     model:
@@ -549,10 +637,17 @@ items:
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
-        - ""
+        - <arg:item.count>
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_copper>
+    settings:
+      craft-remainder:
+        type: hurt_and_break
+        damage: 1
+      tags:
+        - atom:tool_saw
     data:
       item-name: <!i><white><l10n:item.tool.copper.saw.name>
+      max-damage: 10
   atom:bronze_pickaxe_head:
     material: paper
     model:
@@ -575,10 +670,14 @@ items:
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
-        - ""
+        - <arg:item.count>
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_bronze>
+    settings:
+      tags:
+        - atom:tool_pickaxe
     data:
       item-name: <!i><white><l10n:item.tool.bronze.pickaxe.name>
+      max-damage: 10
   atom:bronze_shovel_head:
     material: paper
     model:
@@ -601,10 +700,14 @@ items:
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
-        - ""
+        - <arg:item.count>
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_bronze>
+    settings:
+      tags:
+        - atom:tool_shovel
     data:
       item-name: <!i><white><l10n:item.tool.bronze.shovel.name>
+      max-damage: 10
   atom:bronze_hoe_head:
     material: paper
     model:
@@ -627,10 +730,14 @@ items:
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
-        - ""
+        - <arg:item.count>
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_bronze>
+    settings:
+      tags:
+        - atom:tool_hoe
     data:
       item-name: <!i><white><l10n:item.tool.bronze.hoe.name>
+      max-damage: 10
   atom:bronze_sword_head:
     material: paper
     model:
@@ -653,10 +760,14 @@ items:
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
-        - ""
+        - <arg:item.count>
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_bronze>
+    settings:
+      tags:
+        - atom:tool_sword
     data:
       item-name: <!i><white><l10n:item.tool.bronze.sword.name>
+      max-damage: 10
   atom:bronze_axe_head:
     material: paper
     model:
@@ -679,10 +790,14 @@ items:
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
-        - ""
+        - <arg:item.count>
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_bronze>
+    settings:
+      tags:
+        - atom:tool_axe
     data:
       item-name: <!i><white><l10n:item.tool.bronze.axe.name>
+      max-damage: 10
   atom:bronze_hammer_head:
     material: paper
     model:
@@ -705,10 +820,14 @@ items:
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
-        - ""
+        - <arg:item.count>
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_bronze>
+    settings:
+      tags:
+        - atom:tool_hammer
     data:
       item-name: <!i><white><l10n:item.tool.bronze.hammer.name>
+      max-damage: 10
   atom:bronze_knife_head:
     material: paper
     model:
@@ -731,10 +850,14 @@ items:
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
-        - ""
+        - <arg:item.count>
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_bronze>
+    settings:
+      tags:
+        - atom:tool_knife
     data:
       item-name: <!i><white><l10n:item.tool.bronze.knife.name>
+      max-damage: 10
   atom:bronze_saw_head:
     material: paper
     model:
@@ -757,10 +880,17 @@ items:
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
-        - ""
+        - <arg:item.count>
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_bronze>
+    settings:
+      craft-remainder:
+        type: hurt_and_break
+        damage: 1
+      tags:
+        - atom:tool_saw
     data:
       item-name: <!i><white><l10n:item.tool.bronze.saw.name>
+      max-damage: 10
   atom:steel_pickaxe_head:
     material: paper
     model:
@@ -783,10 +913,14 @@ items:
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
-        - ""
+        - <arg:item.count>
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
+    settings:
+      tags:
+        - atom:tool_pickaxe
     data:
       item-name: <!i><white><l10n:item.tool.steel.pickaxe.name>
+      max-damage: 10
   atom:steel_shovel_head:
     material: paper
     model:
@@ -809,10 +943,14 @@ items:
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
-        - ""
+        - <arg:item.count>
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
+    settings:
+      tags:
+        - atom:tool_shovel
     data:
       item-name: <!i><white><l10n:item.tool.steel.shovel.name>
+      max-damage: 10
   atom:steel_hoe_head:
     material: paper
     model:
@@ -835,10 +973,14 @@ items:
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
-        - ""
+        - <arg:item.count>
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
+    settings:
+      tags:
+        - atom:tool_hoe
     data:
       item-name: <!i><white><l10n:item.tool.steel.hoe.name>
+      max-damage: 10
   atom:steel_sword_head:
     material: paper
     model:
@@ -861,10 +1003,14 @@ items:
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
-        - ""
+        - <arg:item.count>
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
+    settings:
+      tags:
+        - atom:tool_sword
     data:
       item-name: <!i><white><l10n:item.tool.steel.sword.name>
+      max-damage: 10
   atom:steel_axe_head:
     material: paper
     model:
@@ -887,10 +1033,14 @@ items:
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
-        - ""
+        - <arg:item.count>
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
+    settings:
+      tags:
+        - atom:tool_axe
     data:
       item-name: <!i><white><l10n:item.tool.steel.axe.name>
+      max-damage: 10
   atom:steel_hammer_head:
     material: paper
     model:
@@ -913,10 +1063,14 @@ items:
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
-        - ""
+        - <arg:item.count>
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
+    settings:
+      tags:
+        - atom:tool_hammer
     data:
       item-name: <!i><white><l10n:item.tool.steel.hammer.name>
+      max-damage: 10
   atom:steel_knife_head:
     material: paper
     model:
@@ -939,10 +1093,14 @@ items:
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
-        - ""
+        - <arg:item.count>
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
+    settings:
+      tags:
+        - atom:tool_knife
     data:
       item-name: <!i><white><l10n:item.tool.steel.knife.name>
+      max-damage: 10
   atom:steel_saw_head:
     material: paper
     model:
@@ -965,10 +1123,17 @@ items:
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
-        - ""
+        - <arg:item.count>
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
+    settings:
+      craft-remainder:
+        type: hurt_and_break
+        damage: 1
+      tags:
+        - atom:tool_saw
     data:
       item-name: <!i><white><l10n:item.tool.steel.saw.name>
+      max-damage: 10
 categories:
   atom:tools:
     name: <!i><white><l10n:category.tools.name></white>

@@ -5,7 +5,11 @@ items:
       item-name: <!i><l10n:item.leather_bed.name>
       lore:
         - <!i><gray><l10n:item.leather_bed.lore_1>
-        - <!i><gray><l10n:item.leather_bed.lore_2>
+        - ""
+        - <!i><dark_gray><l10n:item.leather_bed.lore_2>
+        - <!i><dark_gray><l10n:item.leather_bed.lore_3>
+        - ""
+        - <!i><dark_gray><l10n:item.leather_bed.lore_4>
         - ""
         - <!i><white><image:atom:badge_workstation> <image:atom:badge_age_foraging>
     model:
@@ -69,8 +73,10 @@ items:
 translations:
   en:
     item.leather_bed.name: Leather Drying Bed
-    item.leather_bed.lore_1: "Place leather to process and cure"
-    item.leather_bed.lore_2: "Use sharpened flint or knife to scrape"
+    item.leather_bed.lore_1: "Stretches and cures leather."
+    item.leather_bed.lore_2: "Scrape <gray>Raw Leather</gray> with"
+    item.leather_bed.lore_3: " <gray>Sharpened Flint</gray> or a <gray>Knife</gray>."
+    item.leather_bed.lore_4: "Hang <gray>Uncured Leather</gray> on it to cure."
 
 recipes:
   atom:leather_bed:

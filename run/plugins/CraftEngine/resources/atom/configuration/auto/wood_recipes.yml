@@ -1,0 +1,67 @@
+recipes:
+  atom:saw_oak_planks:
+    type: shaped
+    pattern:
+      - S
+      - L
+    ingredients:
+      S: "#atom:tool_saw"
+      L: minecraft:oak_log
+    result:
+      id: minecraft:oak_planks
+      count: 2
+  atom:saw_spruce_planks:
+    type: shaped
+    pattern:
+      - S
+      - L
+    ingredients:
+      S: "#atom:tool_saw"
+      L: minecraft:spruce_log
+    result:
+      id: minecraft:spruce_planks
+      count: 2
+  atom:saw_birch_planks:
+    type: shaped
+    pattern:
+      - S
+      - L
+    ingredients:
+      S: "#atom:tool_saw"
+      L: minecraft:birch_log
+    result:
+      id: minecraft:birch_planks
+      count: 2
+  atom:saw_jungle_planks:
+    type: shaped
+    pattern:
+      - S
+      - L
+    ingredients:
+      S: "#atom:tool_saw"
+      L: minecraft:jungle_log
+    result:
+      id: minecraft:jungle_planks
+      count: 2
+  atom:saw_acacia_planks:
+    type: shaped
+    pattern:
+      - S
+      - L
+    ingredients:
+      S: "#atom:tool_saw"
+      L: minecraft:acacia_log
+    result:
+      id: minecraft:acacia_planks
+      count: 2
+  atom:saw_dark_oak_planks:
+    type: shaped
+    pattern:
+      - S
+      - L
+    ingredients:
+      S: "#atom:tool_saw"
+      L: minecraft:dark_oak_log
+    result:
+      id: minecraft:dark_oak_planks
+      count: 2

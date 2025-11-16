@@ -11,13 +11,22 @@ translations:
     item.flint_spear.lore_1: A simple spear
     item.flint_spear.lore_2: for hunting and combat
 
+    item.straw.name: Straw
+    item.straw.lore_1: Dry grass that can be used as fuel
+    item.straw.lore_2: " in a <gray>Campfire</gray>."
+    item.straw.lore_3: Can be placed on the ground
+    item.straw.lore_4: " used for <gray>kiln firing</gray>."
+
     material.iron.name: Iron
     material.copper.name: Copper
     material.bronze.name: Bronze
 
-    item.clay_cauldron.name: Clay Melting Cauldron
-    item.clay_cauldron.lore_1: A cauldron for melting ores into liquids
-    item.clay_cauldron.lore_2: Use above a campfire to melt ores
+    item.clay_cauldron.name: Terracotta Melting Pot
+    item.clay_cauldron.lore_1: "A clay pot for melting ores into liquid."
+    item.clay_cauldron.lore_2: "Place above a <gray>lit campfire</gray>."
+    item.clay_cauldron.lore_3: "Compatible ores:"
+    item.clay_cauldron.lore_4: " <#FF8065>Raw Copper</#FF8065>"
+    item.clay_cauldron.lore_5: " <#D2D2D2>Raw Iron</#D2D2D2>"
 
     category.atom.name: Atom Assets
     category.atom.lore: Contains all Atom assets

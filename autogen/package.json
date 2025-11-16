@@ -4,6 +4,11 @@
   "devDependencies": {
     "@types/bun": "latest"
   },
+  "scripts": {
+    "generate": "bun run scripts/generate.ts",
+    "fmt": "prettier --write .",
+    "lint": "eslint scripts --max-warnings=0"
+  },
   "peerDependencies": {
     "typescript": "^5"
   },

@@ -1,26 +1,15 @@
 categories:
-  atom:default:
-    priority: 1
-    name: <!i><white><l10n:category.atom.name></white>
-    lore:
-      - <!i><gray><l10n:category.atom.lore>
-    icon: atom:sharpened_rock
-    list:
-      - '#atom:foraging'
-      - '#atom:copper'
-      - '#atom:bronze'
-      - '#atom:tools'
-      - '#atom:tool_heads'
-      - '#atom:animal_product'
   atom:foraging:
+    priority: 0
     name: <!i><white><l10n:category.foraging.name></white>
-    hidden: true
     lore:
       - <!i><gray><l10n:category.foraging.lore>
       - <!i><white><image:atom:badge_age_foraging>
     icon: atom:pebble
     list:
       - '#atom:animal_product'
+      - 'minecraft:stick'
+      - 'minecraft:vine'
       - 'atom:knapping_station'
       - 'atom:leather_bed'
       - 'atom:crafting_basket'
@@ -32,8 +21,8 @@ categories:
       - 'atom:straw'
       - 'atom:pressure_flaker'
   atom:copper:
+    priority: 50
     name: <!i><white><l10n:category.copper.name></white>
-    hidden: true
     lore:
       - <!i><gray><l10n:category.copper.lore>
       - <!i><white><image:atom:badge_age_copper>
@@ -42,8 +31,8 @@ categories:
       - '#atom:molds'
       - '#atom:tool_heads'
   atom:bronze:
+    priority: 100
     name: <!i><white><l10n:category.bronze.name></white>
-    hidden: true
     lore:
       - <!i><gray><l10n:category.bronze.lore>
       - <!i><white><image:atom:badge_age_bronze>

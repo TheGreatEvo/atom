@@ -19,3 +19,14 @@ recipes:
     result:
       id: minecraft:campfire
       count: 1
+  atom:saw_test:
+    type: shaped
+    pattern:
+      - 'S'
+      - 'L'
+    ingredients:
+      S: atom:material_saw
+      L: "minecraft:material_log"
+    result:
+      id: minecraft:material_planks
+      count: 2

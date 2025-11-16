@@ -55,11 +55,12 @@ class KnappingBlockBehavior(block: CustomBlock) : AbstractBlockBehavior(block), 
         ui: KnappingUIItem,
         player: Player,
         transformer: (shape: MoldShape) -> ItemStack,
+        invert: Boolean = false,
         onCraftComplete: (() -> Unit)? = null,
     ) {
-        val default = ((1..25).map { false })
-        val itemA = ui.getItem(false)
-        val itemB = ui.getItem(true)
+        val default = ((1..25).map { invert })
+        val itemA = ui.getItem(invert)
+        val itemB = ui.getItem(!invert)
 
         val gui = buildGui {
             val clicksState = mutableListStateOf(*default.toTypedArray())
@@ -156,7 +157,8 @@ class KnappingBlockBehavior(block: CustomBlock) : AbstractBlockBehavior(block), 
                         } else {
                             Molds.getToolHead(shape, org.shotrush.atom.item.Material.Stone).buildItemStack()
                         }
-                    }) {
+                    }, true
+                ) {
                     if (player.gameMode != GameMode.CREATIVE)
                         context.item.count(context.item.count() - 1)
                 }

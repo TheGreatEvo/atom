@@ -1,13 +1,19 @@
 items:
   atom:clay_cauldron:
     material: nether_brick
-    data:
-      item-name: <!i><l10n:item.clay_cauldron.name>
+    client-bound-data:
       lore:
         - <!i><gray><l10n:item.clay_cauldron.lore_1>
-        - <!i><gray><l10n:item.clay_cauldron.lore_2>
         - ""
-        - <!i><white><image:atom:badge_workstation> <image:atom:badge_age_foraging>
+        - <!i><dark_gray><l10n:item.clay_cauldron.lore_2>
+        - ""
+        - <!i><dark_gray><l10n:item.clay_cauldron.lore_3>
+        - <!i><dark_gray><l10n:item.clay_cauldron.lore_4>
+        - <!i><dark_gray><l10n:item.clay_cauldron.lore_5>
+        - ""
+        - <!i><white><image:atom:badge_workstation> <image:atom:badge_age_copper>
+    data:
+      item-name: <!i><l10n:item.clay_cauldron.name>
     model:
       type: minecraft:model
       path: minecraft:block/clay_cauldron

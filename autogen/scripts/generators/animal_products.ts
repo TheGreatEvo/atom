@@ -1,7 +1,14 @@
-// generate_animal_products.ts
-import {stringify, parse} from "yaml";
-import { writeFileSync, readFileSync } from "fs";
+// scripts/generators/animal_products.ts
+import {
+    asYamlDoc,
+    atom,
+    buildItemEntry,
+    type AnyRecipe,
+} from "@lib/itemkit";
+import { OUT } from "@lib/paths";
+import type { Generator } from "./types";
 
+// ---- Domain data ----
 const animals = [
     "cow",
     "pig",
@@ -21,8 +28,8 @@ const animals = [
     "ocelot",
     "camel",
 ] as const;
-
 type AnimalId = (typeof animals)[number];
+
 type ItemType =
     | "raw_meat"
     | "undercooked_meat"
@@ -42,7 +49,6 @@ const CATEGORY = {
     list: [] as string[],
 };
 
-// Display names for animals (used in translations)
 const animalDisplay: Record<AnimalId, string> = {
     cow: "Cow",
     pig: "Pig",
@@ -75,14 +81,20 @@ const recipeTransitions = [
     { from: "raw_meat", to: "undercooked_meat", category: "food" },
     { from: "undercooked_meat", to: "cooked_meat", category: "food" },
     { from: "cooked_meat", to: "burnt_meat", category: "food" },
-];
+] as const;
+
+// ---- Helpers ----
 function itemKey(id: AnimalId, type: ItemType) {
-    if (type.includes("leather") && type !== "leather") return `atom:animal_leather_${type.split("_")[0]}_${id}`;
-    if (type.includes("meat")) return `atom:animal_meat_${type.split("_")[0]}_${id}`;
-    return `atom:animal_${type}_${id}`;
+    if (type.includes("leather") && type !== "leather") {
+        return atom(`animal_leather_${type.split("_")[0]}_${id}`);
+    }
+    if (type.includes("meat")) {
+        return atom(`animal_meat_${type.split("_")[0]}_${id}`);
+    }
+    return atom(`animal_${type}_${id}`);
 }
 
-function getTexturePathForType(type: ItemType) {
+function textureForType(type: ItemType) {
     switch (type) {
         case "raw_meat":
             return "minecraft:item/meat/raw";
@@ -105,39 +117,6 @@ function getTexturePathForType(type: ItemType) {
     }
 }
 
-function itemBlock(id: AnimalId, type: ItemType) {
-    const baseMaterial = type.includes("leather") ? "leather" : type === "bone" ? "bone" : "beef";
-    const itemNameKeySuffix = type; // e.g., raw_meat
-    const texturePath = getTexturePathForType(type);
-    const tag = type
-
-    return {
-        [itemKey(id, type)]: {
-            material: baseMaterial,
-            data: {
-                "item-name": `<!i><white><lang:item.animal_${itemNameKeySuffix}.${id}.name>`,
-                lore: [
-                    "",
-                    type.includes('leather') || type === 'bone'
-                        ? "<!i><white><image:atom:badge_material> <image:atom:badge_natural> <image:atom:badge_age_foraging>"
-                        : "<!i><white><image:atom:badge_food> <image:atom:badge_natural> <image:atom:badge_age_foraging>",
-                ],
-                "remove-components": ["attribute_modifiers"],
-            },
-            settings: {
-                tags: [`atom:${type}`]
-            },
-            model: {
-                template: "default:model/simplified_generated",
-                arguments: {
-                    path: texturePath,
-                },
-            },
-        },
-    };
-}
-
-// Translation label builder
 function makeLabel(id: AnimalId, type: ItemType): string {
     const a = animalDisplay[id];
     switch (type) {
@@ -168,14 +147,43 @@ function makeLabel(id: AnimalId, type: ItemType): string {
     }
 }
 
-function generateRecipes() {
-    const recipes: Record<string, unknown> = {};
+function itemBlock(id: AnimalId, type: ItemType) {
+    const baseMaterial = type.includes("leather")
+        ? "leather"
+        : type === "bone"
+            ? "bone"
+            : "beef";
 
+    const texturePath = textureForType(type);
+    const name = `<!i><white><lang:item.animal_${type}.${id}.name>`;
+    const isFood = !(type.includes("leather") || type === "bone");
+    const loreBadge = isFood
+        ? "<!i><white><image:atom:badge_food> <image:atom:badge_natural> <image:atom:badge_age_foraging>"
+        : "<!i><white><image:atom:badge_material> <image:atom:badge_natural> <image:atom:badge_age_foraging>";
+
+    return buildItemEntry(
+        itemKey(id, type),
+        baseMaterial,
+        name,
+        ["", loreBadge],
+        texturePath,
+        {
+            removeComponents: ["attribute_modifiers"],
+            tags: [`atom:${type}`],
+        },
+    );
+}
+
+// ---- Generators ----
+function generateRecipes() {
+    const recipes: Record<string, AnyRecipe> = {};
     for (const animal of animals) {
         for (const transition of recipeTransitions) {
-            const fromKey = itemKey(animal, transition.from as ItemType);
-            const toKey = itemKey(animal, transition.to as ItemType);
-            const recipeKey = `atom:${toKey.replace('atom:', '')}_from_campfire_${transition.from}`;
+            const fromKey = itemKey(animal, transition.from);
+            const toKey = itemKey(animal, transition.to);
+            const recipeKey = atom(
+                `${toKey.replace("atom:", "")}_from_campfire_${transition.from}`,
+            );
 
             recipes[recipeKey] = {
                 type: "campfire_cooking",
@@ -189,7 +197,6 @@ function generateRecipes() {
             };
         }
     }
-
     return recipes;
 }
 
@@ -207,7 +214,6 @@ function generateDoc() {
         "bone",
     ];
 
-    // Items and list for category
     for (const id of animals) {
         for (const type of itemTypes) {
             Object.assign(items, itemBlock(id, type));
@@ -222,10 +228,10 @@ function generateDoc() {
         },
     };
 
-    // Translations
     const en: Record<string, string> = {
         "category.animal_product.name": "Animal Products",
-        "category.animal_product.lore": "Contains all animal meats and materials",
+        "category.animal_product.lore":
+            "Contains all animal meats and materials",
     };
     for (const id of animals) {
         for (const t of itemTypes) {
@@ -233,26 +239,20 @@ function generateDoc() {
         }
     }
 
-    // Single document with both sections
-    return {
-        items,
-        categories,
-        lang: {
-            en,
-        },
-    };
+    return { items, categories, lang: { en } };
 }
 
-const doc = generateDoc();
-const recipes = generateRecipes();
+export const generateAnimalProducts: Generator = () => {
+    const doc = generateDoc();
+    const recipes = generateRecipes();
 
-// Write recipes to a separate file
-const foodRecipesPath = "../run/plugins/CraftEngine/resources/atom/configuration/food_recipes.yml";
-const recipesYaml = stringify({ recipes }, { lineWidth: 0 });
-writeFileSync(foodRecipesPath, recipesYaml);
-console.log("Generated campfire cooking recipes into food_recipes.yml");
+    const docYaml = asYamlDoc(doc);
+    const recipesYaml = asYamlDoc({ recipes });
 
-// Generate animal products
-const yaml = stringify(doc, {lineWidth: 0});
-writeFileSync("../run/plugins/CraftEngine/resources/atom/configuration/auto/animal_products.yml", yaml);
-console.log("Generated animal_products.yml (items + categories + translations)");
+    return {
+        writes: [
+            { path: OUT.animalProducts, content: docYaml },
+            { path: OUT.foodRecipes, content: recipesYaml },
+        ],
+    };
+};
