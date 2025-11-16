@@ -1,8 +1,8 @@
 items:
-  atom:sharpened_flint:
+  atom:sharpened_rock:
     material: flint
     data:
-      item-name: <!i><white><lang:item.sharpened_flint.name>
+      item-name: <!i><white><lang:item.sharpened_rock.name>
       components:
         minecraft:consumable: {
           consume_seconds: 10000,

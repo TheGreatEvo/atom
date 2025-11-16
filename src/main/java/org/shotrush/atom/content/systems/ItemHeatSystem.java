@@ -276,7 +276,7 @@ public class ItemHeatSystem implements Listener {
         String message = String.format("§7Item: %s%s §7(%.0f°C)", color, descriptor, heat);
         manager.setMessage(player, "item_heat", message);
     }
-    
+
     @EventHandler
     public void onItemDrop(PlayerDropItemEvent event) {
         Player player = event.getPlayer();

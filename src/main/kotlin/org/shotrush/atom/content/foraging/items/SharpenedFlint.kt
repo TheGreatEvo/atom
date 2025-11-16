@@ -21,7 +21,7 @@ object SharpenedFlint {
 
             if (currentAmount - 1 <= 0) {
                 player.world.playSound(player.location, Sound.ENTITY_ITEM_BREAK, 1.0f, 1.0f)
-                ActionBarManager.send(player, "§cYour Sharpened Flint broke!")
+                ActionBarManager.send(player, "<red>Your Sharpened Flint broke!</red>")
             } else {
                 player.world.playSound(player.location, Sound.BLOCK_STONE_HIT, 0.5f, 1.2f)
             }

@@ -26,7 +26,7 @@ class LeatherBedBlockDynamicRenderer(val entity: LeatherBedBlockEntity) : AtomBl
                 rotation.stepZ() * 0.5f
             )
         )
-        rotation(QuaternionUtils.toQuaternionf(0.0, idx * 90.0, 0.0))
+        rotation(QuaternionUtils.toQuaternionf(0.0, Math.toRadians(idx * 90.0), 0.0))
         shadow(0f, 1f)
         viewRange(64f)
         displayContext(ItemDisplayContext.NONE)

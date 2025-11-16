@@ -11,7 +11,7 @@ items:
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/wheat
+        path: minecraft:item/straw
     behavior:
       - type: block_item
         block:
@@ -34,6 +34,63 @@ items:
                 - atom:straw
               sounds:
                 stack: minecraft:block.stone.fall
+          loot:
+            pools:
+              - rolls: 1
+                entries:
+                  - type: item
+                    item: atom:straw
+                    functions:
+                      - type: set_count
+                        count: 8
+                        add: false
+                        conditions:
+                          - type: match_block_property
+                            properties:
+                              layers: 8
+                      - type: set_count
+                        count: 7
+                        add: false
+                        conditions:
+                          - type: match_block_property
+                            properties:
+                              layers: 7
+                      - type: set_count
+                        count: 6
+                        add: false
+                        conditions:
+                          - type: match_block_property
+                            properties:
+                              layers: 6
+                      - type: set_count
+                        count: 5
+                        add: false
+                        conditions:
+                          - type: match_block_property
+                            properties:
+                              layers: 5
+                      - type: set_count
+                        count: 4
+                        add: false
+                        conditions:
+                          - type: match_block_property
+                            properties:
+                              layers: 4
+                      - type: set_count
+                        count: 3
+                        add: false
+                        conditions:
+                          - type: match_block_property
+                            properties:
+                              layers: 3
+                      - type: set_count
+                        count: 2
+                        add: false
+                        conditions:
+                          - type: match_block_property
+                            properties:
+                              layers: 2
+                      - type: explosion_decay
           states:
             properties:
               layers:

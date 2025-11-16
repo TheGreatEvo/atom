@@ -117,20 +117,24 @@ class LeatherBedBlockEntity(
                 currentStroke++
 
                 val prog = (currentStroke.toFloat() / strokeCount * 100).toInt()
-                ActionBarManager.sendStatus(player, "§7Scraping leather... §e$prog%")
-                player.sendActionBar(component {
-                    text("$prog% ") with textYellow
-                    text("[") with textDarkGray
-                    var total = 20
-                    var bars = total * (prog / 100.0)
-                    repeat(bars.toInt()) {
-                        text("|") with textGreen
+                val str = buildString {
+                    append("<yellow>$prog%</yellow> ")
+                    append("<dark_gray>[")
+                    append("<green>")
+                    val total = 20
+                    val bars = (total * (prog / 100.0)).toInt()
+                    repeat(bars) {
+                        append("|")
                     }
-                    repeat(total - bars.toInt()) {
-                        text("|") with textGray
+                    append("</green><gray>")
+                    repeat(total - bars) {
+                        append("|")
                     }
-                    text("]") with textDarkGray
-                })
+                    append("</gray>")
+                    append("]")
+                    append("<dark_gray>")
+                }
+                ActionBarManager.sendStatus(player, str)
             }
 
 
@@ -167,7 +171,7 @@ class LeatherBedBlockEntity(
 
 
         player.playSound(player.location, Sound.BLOCK_WOOL_BREAK, 1.0f, 1.0f)
-        ActionBarManager.send(player, "§aScraped the leather successfully!")
+        ActionBarManager.send(player, "<green>Scraped the leather successfully!</green>")
 
         PlayerDataAPI.incrementInt(player, "leather_scraping.count", 0)
     }

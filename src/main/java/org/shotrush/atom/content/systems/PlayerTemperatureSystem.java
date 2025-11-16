@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.shotrush.atom.core.api.annotation.RegisterSystem;
+import org.shotrush.atom.core.api.combat.TemperatureEffectsAPI;
 import org.shotrush.atom.core.util.ActionBarManager;
 
 @RegisterSystem(
@@ -123,10 +124,8 @@ public class PlayerTemperatureSystem implements Listener {
         
         ActionBarManager manager = ActionBarManager.getInstance();
         if (manager == null) return;
-        
-        String tempDisplay = String.format("%.1f°C", temp);
-        String color = org.shotrush.atom.core.api.combat.TemperatureEffectsAPI.getBodyTempColor(temp);
-        String message = "§7Body: " + color + tempDisplay;
+
+        String message = "<gray>Body:</gray> " + TemperatureEffectsAPI.getBodyTempDisplay(temp);
         manager.setMessage(player, "body_temp", message);
     }
     

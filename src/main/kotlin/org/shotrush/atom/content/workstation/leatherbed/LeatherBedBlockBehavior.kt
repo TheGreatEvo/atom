@@ -78,9 +78,9 @@ class LeatherBedBlockBehavior(block: CustomBlock) : InteractiveSurface(block) {
         return Vector3f(-0.05f, 0.75f, 0.60f)
     }
 
-    override fun getFullMessage(): String = "§cLeather bed is full!"
+    override fun getFullMessage(): String = "<red>Leather bed is full!</red>"
 
-    override fun getEmptyMessage(): String = "§cPlace leather first!"
+    override fun getEmptyMessage(): String = "<red>Place leather first!</red>"
 
     override fun getItemDisplayRotation(item: PlacedItem): AxisAngle4f {
 

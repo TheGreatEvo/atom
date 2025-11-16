@@ -1,10 +1,10 @@
 lang:
   en:
-    item.sharpened_flint.name: Sharpened Flint
+    item.sharpened_rock.name: Sharpened Pebble
     item.flint_knife.name: Flint Knife
     item.flint_knife.lore_1: A sharp cutting tool
-    item.flint_knife.lore_2: Made from high quality flint
-    item.flint_spear.name: Flint Spear
+    item.flint_knife.lore_2: Made from high quality floor rock
+    item.flint_spear.name: Stone Spear
     item.flint_spear.lore_1: A simple spear
     item.flint_spear.lore_2: for hunting and combat
 

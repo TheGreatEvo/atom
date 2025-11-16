@@ -11,12 +11,12 @@ import org.shotrush.atom.core.api.annotation.RegisterSystem;
 
 import java.util.Objects;
 
-@RegisterSystem(
-    id = "skin_listener",
-    priority = 1,
-    toggleable = true,
-    description = "Applies default skins to players on join"
-)
+//@RegisterSystem(
+//    id = "skin_listener",
+//    priority = 1,
+//    toggleable = true,
+//    description = "Applies default skins to players on join"
+//)
 public class SkinListener implements Listener {
     
     public SkinListener(Plugin plugin) {

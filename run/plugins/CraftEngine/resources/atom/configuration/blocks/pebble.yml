@@ -11,7 +11,7 @@ items:
       components:
         minecraft:consumable: {
           consume_seconds: 10000,
-          animation: "bow"
+          animation: "brush"
         }
     model:
       template: default:model/simplified_generated

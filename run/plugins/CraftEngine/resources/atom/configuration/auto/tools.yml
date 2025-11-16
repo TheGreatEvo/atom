@@ -1013,6 +1013,71 @@ lang:
     item.tool_head.steel.saw.name: Steel Saw Blade
     item.tool.steel.saw.name: Steel Saw
 recipes:
+  atom:stone_pickaxe:
+    type: shaped
+    pattern:
+      - H
+      - V
+      - S
+    ingredients:
+      H: atom:stone_pickaxe_head
+      V: minecraft:vine
+      S: minecraft:stick
+    result:
+      id: minecraft:stone_pickaxe
+      count: 1
+  atom:stone_shovel:
+    type: shaped
+    pattern:
+      - H
+      - V
+      - S
+    ingredients:
+      H: atom:stone_shovel_head
+      V: minecraft:vine
+      S: minecraft:stick
+    result:
+      id: minecraft:stone_shovel
+      count: 1
+  atom:stone_hoe:
+    type: shaped
+    pattern:
+      - H
+      - V
+      - S
+    ingredients:
+      H: atom:stone_hoe_head
+      V: minecraft:vine
+      S: minecraft:stick
+    result:
+      id: minecraft:stone_hoe
+      count: 1
+  atom:stone_sword:
+    type: shaped
+    pattern:
+      - H
+      - V
+      - S
+    ingredients:
+      H: atom:stone_sword_head
+      V: minecraft:vine
+      S: minecraft:stick
+    result:
+      id: minecraft:stone_sword
+      count: 1
+  atom:stone_axe:
+    type: shaped
+    pattern:
+      - H
+      - V
+      - S
+    ingredients:
+      H: atom:stone_axe_head
+      V: minecraft:vine
+      S: minecraft:stick
+    result:
+      id: minecraft:stone_axe
+      count: 1
   atom:stone_hammer:
     type: shaped
     pattern:
@@ -1051,6 +1116,61 @@ recipes:
       S: minecraft:stick
     result:
       id: atom:stone_saw
+      count: 1
+  atom:iron_pickaxe:
+    type: shaped
+    pattern:
+      - H
+      - S
+    ingredients:
+      H: atom:iron_pickaxe_head
+      S: minecraft:stick
+    result:
+      id: minecraft:iron_pickaxe
+      count: 1
+  atom:iron_shovel:
+    type: shaped
+    pattern:
+      - H
+      - S
+    ingredients:
+      H: atom:iron_shovel_head
+      S: minecraft:stick
+    result:
+      id: minecraft:iron_shovel
+      count: 1
+  atom:iron_hoe:
+    type: shaped
+    pattern:
+      - H
+      - S
+    ingredients:
+      H: atom:iron_hoe_head
+      S: minecraft:stick
+    result:
+      id: minecraft:iron_hoe
+      count: 1
+  atom:iron_sword:
+    type: shaped
+    pattern:
+      - H
+      - S
+    ingredients:
+      H: atom:iron_sword_head
+      S: minecraft:stick
+    result:
+      id: minecraft:iron_sword
+      count: 1
+  atom:iron_axe:
+    type: shaped
+    pattern:
+      - H
+      - S
+    ingredients:
+      H: atom:iron_axe_head
+      S: minecraft:stick
+    result:
+      id: minecraft:iron_axe
       count: 1
   atom:iron_hammer:
     type: shaped

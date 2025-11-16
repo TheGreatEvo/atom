@@ -1,10 +1,9 @@
 recipes:
-  atom:vines:
-    type: shapeless
-    ingredients:
-      - atom:straw
-      - atom:straw
-      - atom:straw
+  atom:bricks_from_campfire_clay:
+    type: campfire_cooking
+    category: misc
+    time: 2000
+    ingredient: minecraft:clay_ball
     result:
-      id: minecraft:vine
+      id: minecraft:brick
       count: 1
