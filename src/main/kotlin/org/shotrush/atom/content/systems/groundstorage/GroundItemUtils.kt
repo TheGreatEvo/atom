@@ -220,6 +220,15 @@ object GroundItemUtils {
     }
     
     /**
+     * Find all ground items on the same block as the given location
+     * @param location The location to check
+     * @return List of ItemFrames on the same block
+     */
+    fun findAllGroundItems(location: Location): List<ItemFrame> {
+        return findGroundItemsOnBlock(location)
+    }
+    
+    /**
      * Set the item contents of a ground item frame
      * @param frame The ItemFrame to modify
      * @param newItem The new ItemStack to place in the frame (null or AIR to clear)

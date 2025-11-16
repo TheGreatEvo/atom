@@ -340,4 +340,13 @@ object GroundItemDisplayUtils {
         val ageMinutes = (System.currentTimeMillis() - spawnTime) / (1000 * 60)
         return ageMinutes >= maxAgeMinutes
     }
+    
+    /**
+     * Find all ground item displays on the same block as the given location
+     * @param location The location to check
+     * @return List of ItemDisplays on the same block
+     */
+    fun findAllGroundItems(location: Location): List<ItemDisplay> {
+        return findGroundItemsOnBlock(location)
+    }
 }
