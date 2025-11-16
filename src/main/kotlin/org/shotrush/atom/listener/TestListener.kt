@@ -2,6 +2,7 @@ package org.shotrush.atom.listener
 
 import com.github.shynixn.mccoroutine.folia.entityDispatcher
 import com.github.shynixn.mccoroutine.folia.registerSuspendingEvents
+import net.momirealms.craftengine.bukkit.item.recipe.RecipeEventListener
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerInteractEvent
@@ -22,7 +23,7 @@ object TestListener : Listener {
         if (Molds.isFilledMold(item)) {
             val (mold, head) = Molds.emptyMold(item)
             event.player.inventory.remove(item.clone().apply { amount = 1 })
-            event.player.inventory.addItem(mold)
+            if (!mold.isEmpty) event.player.inventory.addItem(mold)
             event.player.inventory.addItem(head)
         }
     }

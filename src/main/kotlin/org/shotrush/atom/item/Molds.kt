@@ -91,10 +91,10 @@ object Molds {
 
     fun getMoldType(stack: ItemStack): MoldType {
         val key = stack.getNamespacedKey()
-        if(key.startsWith("atom:wax_")) return MoldType.Wax
-        if(key.startsWith("atom:fired_")) return MoldType.Fired
-        if(key.startsWith("atom:clay_")) return MoldType.Clay
-        if(key.startsWith("atom:filled_")) {
+        if (key.startsWith("atom:wax_")) return MoldType.Wax
+        if (key.startsWith("atom:fired_")) return MoldType.Fired
+        if (key.startsWith("atom:clay_")) return MoldType.Clay
+        if (key.startsWith("atom:filled_")) {
             val moldTypeId = stack.persistentDataContainer.getString("mold_type") ?: error("No mold type found!")
             val moldType = MoldType.byId(moldTypeId)
             return moldType
@@ -104,7 +104,7 @@ object Molds {
 
     fun getMoldShape(stack: ItemStack): MoldShape {
         val key = stack.getNamespacedKey()
-        if(key.matches(FullRegex)) {
+        if (key.matches(FullRegex)) {
             val regex = FullRegex.find(key)!!
             val moldShapeId = regex.groupValues[2]
             return MoldShape.byMold(moldShapeId)
@@ -122,8 +122,12 @@ object Molds {
         val moldShape = MoldShape.byId(moldShapeId)
         val material = Material.byId(materialId)
 
-        val emptyMold = getMold(moldShape, moldType).buildItemStack()
-        val toolHead = if(moldShape == MoldShape.Ingot) {
+        val emptyMold = if (moldType == MoldType.Wax) {
+            ItemStack.empty()
+        } else {
+            getMold(moldShape, moldType).buildItemStack()
+        }
+        val toolHead = if (moldShape == MoldShape.Ingot) {
             getIngot(material)
         } else {
             getToolHead(moldShape, material).buildItemStack()
