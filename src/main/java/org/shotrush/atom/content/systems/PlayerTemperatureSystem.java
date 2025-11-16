@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.plugin.Plugin;
 
 import java.util.HashMap;
@@ -61,6 +62,16 @@ public class PlayerTemperatureSystem implements Listener {
         org.shotrush.atom.core.api.player.PlayerDataAPI.setDouble(player, "temperature.body", temp);
         
         playerTemperatures.remove(playerId);
+    }
+    
+    @EventHandler
+    public void onPlayerDeath(PlayerDeathEvent event) {
+        Player player = event.getEntity();
+        UUID playerId = player.getUniqueId();
+        
+        // Reset temperature to normal on death
+        playerTemperatures.put(playerId, NORMAL_TEMP);
+        org.shotrush.atom.core.api.player.PlayerDataAPI.setDouble(player, "temperature.body", NORMAL_TEMP);
     }
     
     private void startTemperatureTickForPlayer(Player player) {
