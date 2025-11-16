@@ -172,8 +172,6 @@ class LeatherBedBlockEntity(
 
         player.playSound(player.location, Sound.BLOCK_WOOL_BREAK, 1.0f, 1.0f)
         ActionBarManager.send(player, "<green>Scraped the leather successfully!</green>")
-
-        PlayerDataAPI.incrementInt(player, "leather_scraping.count", 0)
     }
 
     private fun playScrapingEffects(player: Player) {
