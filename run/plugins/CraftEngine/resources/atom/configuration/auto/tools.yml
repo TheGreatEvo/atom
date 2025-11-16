@@ -1,6 +1,10 @@
 items:
   atom:stone_pickaxe_head:
     material: paper
+    model:
+      template: default:model/simplified_generated
+      arguments:
+        path: minecraft:item/tool/head/stone_pickaxe
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -8,12 +12,18 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_foraging>
     data:
       item-name: <!i><white><l10n:item.tool_head.stone.pickaxe.name>
+  minecraft:stone_pickaxe:
+    client-bound-data:
+      lore:
+        - <!i><gray><l10n:item.tool.common.lore>
+        - ""
+        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_foraging>
+  atom:stone_shovel_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/stone_pickaxe
-  atom:stone_shovel_head:
-    material: paper
+        path: minecraft:item/tool/head/stone_shovel
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -21,12 +31,18 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_foraging>
     data:
       item-name: <!i><white><l10n:item.tool_head.stone.shovel.name>
+  minecraft:stone_shovel:
+    client-bound-data:
+      lore:
+        - <!i><gray><l10n:item.tool.common.lore>
+        - ""
+        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_foraging>
+  atom:stone_hoe_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/stone_shovel
-  atom:stone_hoe_head:
-    material: paper
+        path: minecraft:item/tool/head/stone_hoe
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -34,12 +50,18 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_foraging>
     data:
       item-name: <!i><white><l10n:item.tool_head.stone.hoe.name>
+  minecraft:stone_hoe:
+    client-bound-data:
+      lore:
+        - <!i><gray><l10n:item.tool.common.lore>
+        - ""
+        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_foraging>
+  atom:stone_sword_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/stone_hoe
-  atom:stone_sword_head:
-    material: paper
+        path: minecraft:item/tool/head/stone_sword
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -47,12 +69,18 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_foraging>
     data:
       item-name: <!i><white><l10n:item.tool_head.stone.sword.name>
+  minecraft:stone_sword:
+    client-bound-data:
+      lore:
+        - <!i><gray><l10n:item.tool.common.lore>
+        - ""
+        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_foraging>
+  atom:stone_axe_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/stone_sword
-  atom:stone_axe_head:
-    material: paper
+        path: minecraft:item/tool/head/stone_axe
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -60,12 +88,18 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_foraging>
     data:
       item-name: <!i><white><l10n:item.tool_head.stone.axe.name>
+  minecraft:stone_axe:
+    client-bound-data:
+      lore:
+        - <!i><gray><l10n:item.tool.common.lore>
+        - ""
+        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_foraging>
+  atom:stone_hammer_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/stone_axe
-  atom:stone_hammer_head:
-    material: paper
+        path: minecraft:item/tool/head/stone_hammer
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -73,12 +107,12 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_foraging>
     data:
       item-name: <!i><white><l10n:item.tool_head.stone.hammer.name>
+  atom:stone_hammer:
+    material: iron_pickaxe
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/stone_hammer
-  atom:stone_hammer:
-    material: iron_pickaxe
+        path: minecraft:item/tool/stone_hammer
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
@@ -86,12 +120,12 @@ items:
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_foraging>
     data:
       item-name: <!i><white><l10n:item.tool.stone.hammer.name>
+  atom:stone_knife_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/stone_hammer
-  atom:stone_knife_head:
-    material: paper
+        path: minecraft:item/tool/head/stone_knife
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -99,12 +133,12 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_foraging>
     data:
       item-name: <!i><white><l10n:item.tool_head.stone.knife.name>
+  atom:stone_knife:
+    material: iron_sword
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/stone_knife
-  atom:stone_knife:
-    material: iron_sword
+        path: minecraft:item/tool/stone_knife
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
@@ -112,12 +146,12 @@ items:
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_foraging>
     data:
       item-name: <!i><white><l10n:item.tool.stone.knife.name>
+  atom:stone_saw_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/stone_knife
-  atom:stone_saw_head:
-    material: paper
+        path: minecraft:item/tool/head/stone_saw
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -125,12 +159,12 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_foraging>
     data:
       item-name: <!i><white><l10n:item.tool_head.stone.saw.name>
+  atom:stone_saw:
+    material: iron_axe
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/stone_saw
-  atom:stone_saw:
-    material: iron_axe
+        path: minecraft:item/tool/stone_saw
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
@@ -138,12 +172,12 @@ items:
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_foraging>
     data:
       item-name: <!i><white><l10n:item.tool.stone.saw.name>
+  atom:iron_pickaxe_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/stone_saw
-  atom:iron_pickaxe_head:
-    material: paper
+        path: minecraft:item/tool/head/iron_pickaxe
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -151,12 +185,18 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_iron>
     data:
       item-name: <!i><white><l10n:item.tool_head.iron.pickaxe.name>
+  minecraft:iron_pickaxe:
+    client-bound-data:
+      lore:
+        - <!i><gray><l10n:item.tool.common.lore>
+        - ""
+        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
+  atom:iron_shovel_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/iron_pickaxe
-  atom:iron_shovel_head:
-    material: paper
+        path: minecraft:item/tool/head/iron_shovel
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -164,12 +204,18 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_iron>
     data:
       item-name: <!i><white><l10n:item.tool_head.iron.shovel.name>
+  minecraft:iron_shovel:
+    client-bound-data:
+      lore:
+        - <!i><gray><l10n:item.tool.common.lore>
+        - ""
+        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
+  atom:iron_hoe_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/iron_shovel
-  atom:iron_hoe_head:
-    material: paper
+        path: minecraft:item/tool/head/iron_hoe
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -177,12 +223,18 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_iron>
     data:
       item-name: <!i><white><l10n:item.tool_head.iron.hoe.name>
+  minecraft:iron_hoe:
+    client-bound-data:
+      lore:
+        - <!i><gray><l10n:item.tool.common.lore>
+        - ""
+        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
+  atom:iron_sword_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/iron_hoe
-  atom:iron_sword_head:
-    material: paper
+        path: minecraft:item/tool/head/iron_sword
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -190,12 +242,18 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_iron>
     data:
       item-name: <!i><white><l10n:item.tool_head.iron.sword.name>
+  minecraft:iron_sword:
+    client-bound-data:
+      lore:
+        - <!i><gray><l10n:item.tool.common.lore>
+        - ""
+        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
+  atom:iron_axe_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/iron_sword
-  atom:iron_axe_head:
-    material: paper
+        path: minecraft:item/tool/head/iron_axe
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -203,12 +261,18 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_iron>
     data:
       item-name: <!i><white><l10n:item.tool_head.iron.axe.name>
+  minecraft:iron_axe:
+    client-bound-data:
+      lore:
+        - <!i><gray><l10n:item.tool.common.lore>
+        - ""
+        - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
+  atom:iron_hammer_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/iron_axe
-  atom:iron_hammer_head:
-    material: paper
+        path: minecraft:item/tool/head/iron_hammer
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -216,12 +280,12 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_iron>
     data:
       item-name: <!i><white><l10n:item.tool_head.iron.hammer.name>
+  atom:iron_hammer:
+    material: iron_pickaxe
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/iron_hammer
-  atom:iron_hammer:
-    material: iron_pickaxe
+        path: minecraft:item/tool/iron_hammer
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
@@ -229,12 +293,12 @@ items:
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
     data:
       item-name: <!i><white><l10n:item.tool.iron.hammer.name>
+  atom:iron_knife_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/iron_hammer
-  atom:iron_knife_head:
-    material: paper
+        path: minecraft:item/tool/head/iron_knife
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -242,12 +306,12 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_iron>
     data:
       item-name: <!i><white><l10n:item.tool_head.iron.knife.name>
+  atom:iron_knife:
+    material: iron_sword
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/iron_knife
-  atom:iron_knife:
-    material: iron_sword
+        path: minecraft:item/tool/iron_knife
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
@@ -255,12 +319,12 @@ items:
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
     data:
       item-name: <!i><white><l10n:item.tool.iron.knife.name>
+  atom:iron_saw_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/iron_knife
-  atom:iron_saw_head:
-    material: paper
+        path: minecraft:item/tool/head/iron_saw
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -268,12 +332,12 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_iron>
     data:
       item-name: <!i><white><l10n:item.tool_head.iron.saw.name>
+  atom:iron_saw:
+    material: iron_axe
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/iron_saw
-  atom:iron_saw:
-    material: iron_axe
+        path: minecraft:item/tool/iron_saw
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
@@ -281,12 +345,12 @@ items:
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
     data:
       item-name: <!i><white><l10n:item.tool.iron.saw.name>
+  atom:copper_pickaxe_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/iron_saw
-  atom:copper_pickaxe_head:
-    material: paper
+        path: minecraft:item/tool/head/copper_pickaxe
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -294,12 +358,12 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.tool_head.copper.pickaxe.name>
+  atom:copper_pickaxe:
+    material: iron_pickaxe
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/copper_pickaxe
-  atom:copper_pickaxe:
-    material: iron_pickaxe
+        path: minecraft:item/tool/copper_pickaxe
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
@@ -307,12 +371,12 @@ items:
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.tool.copper.pickaxe.name>
+  atom:copper_shovel_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/copper_pickaxe
-  atom:copper_shovel_head:
-    material: paper
+        path: minecraft:item/tool/head/copper_shovel
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -320,12 +384,12 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.tool_head.copper.shovel.name>
+  atom:copper_shovel:
+    material: iron_shovel
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/copper_shovel
-  atom:copper_shovel:
-    material: iron_shovel
+        path: minecraft:item/tool/copper_shovel
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
@@ -333,12 +397,12 @@ items:
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.tool.copper.shovel.name>
+  atom:copper_hoe_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/copper_shovel
-  atom:copper_hoe_head:
-    material: paper
+        path: minecraft:item/tool/head/copper_hoe
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -346,12 +410,12 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.tool_head.copper.hoe.name>
+  atom:copper_hoe:
+    material: iron_hoe
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/copper_hoe
-  atom:copper_hoe:
-    material: iron_hoe
+        path: minecraft:item/tool/copper_hoe
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
@@ -359,12 +423,12 @@ items:
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.tool.copper.hoe.name>
+  atom:copper_sword_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/copper_hoe
-  atom:copper_sword_head:
-    material: paper
+        path: minecraft:item/tool/head/copper_sword
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -372,12 +436,12 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.tool_head.copper.sword.name>
+  atom:copper_sword:
+    material: iron_sword
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/copper_sword
-  atom:copper_sword:
-    material: iron_sword
+        path: minecraft:item/tool/copper_sword
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
@@ -385,12 +449,12 @@ items:
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.tool.copper.sword.name>
+  atom:copper_axe_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/copper_sword
-  atom:copper_axe_head:
-    material: paper
+        path: minecraft:item/tool/head/copper_axe
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -398,12 +462,12 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.tool_head.copper.axe.name>
+  atom:copper_axe:
+    material: iron_axe
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/copper_axe
-  atom:copper_axe:
-    material: iron_axe
+        path: minecraft:item/tool/copper_axe
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
@@ -411,12 +475,12 @@ items:
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.tool.copper.axe.name>
+  atom:copper_hammer_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/copper_axe
-  atom:copper_hammer_head:
-    material: paper
+        path: minecraft:item/tool/head/copper_hammer
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -424,12 +488,12 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.tool_head.copper.hammer.name>
+  atom:copper_hammer:
+    material: iron_pickaxe
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/copper_hammer
-  atom:copper_hammer:
-    material: iron_pickaxe
+        path: minecraft:item/tool/copper_hammer
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
@@ -437,12 +501,12 @@ items:
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.tool.copper.hammer.name>
+  atom:copper_knife_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/copper_hammer
-  atom:copper_knife_head:
-    material: paper
+        path: minecraft:item/tool/head/copper_knife
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -450,12 +514,12 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.tool_head.copper.knife.name>
+  atom:copper_knife:
+    material: iron_sword
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/copper_knife
-  atom:copper_knife:
-    material: iron_sword
+        path: minecraft:item/tool/copper_knife
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
@@ -463,12 +527,12 @@ items:
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.tool.copper.knife.name>
+  atom:copper_saw_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/copper_knife
-  atom:copper_saw_head:
-    material: paper
+        path: minecraft:item/tool/head/copper_saw
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -476,12 +540,12 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.tool_head.copper.saw.name>
+  atom:copper_saw:
+    material: iron_axe
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/copper_saw
-  atom:copper_saw:
-    material: iron_axe
+        path: minecraft:item/tool/copper_saw
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
@@ -489,12 +553,12 @@ items:
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.tool.copper.saw.name>
+  atom:bronze_pickaxe_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/copper_saw
-  atom:bronze_pickaxe_head:
-    material: paper
+        path: minecraft:item/tool/head/bronze_pickaxe
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -502,12 +566,12 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_bronze>
     data:
       item-name: <!i><white><l10n:item.tool_head.bronze.pickaxe.name>
+  atom:bronze_pickaxe:
+    material: iron_pickaxe
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/bronze_pickaxe
-  atom:bronze_pickaxe:
-    material: iron_pickaxe
+        path: minecraft:item/tool/bronze_pickaxe
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
@@ -515,12 +579,12 @@ items:
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_bronze>
     data:
       item-name: <!i><white><l10n:item.tool.bronze.pickaxe.name>
+  atom:bronze_shovel_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/bronze_pickaxe
-  atom:bronze_shovel_head:
-    material: paper
+        path: minecraft:item/tool/head/bronze_shovel
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -528,12 +592,12 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_bronze>
     data:
       item-name: <!i><white><l10n:item.tool_head.bronze.shovel.name>
+  atom:bronze_shovel:
+    material: iron_shovel
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/bronze_shovel
-  atom:bronze_shovel:
-    material: iron_shovel
+        path: minecraft:item/tool/bronze_shovel
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
@@ -541,12 +605,12 @@ items:
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_bronze>
     data:
       item-name: <!i><white><l10n:item.tool.bronze.shovel.name>
+  atom:bronze_hoe_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/bronze_shovel
-  atom:bronze_hoe_head:
-    material: paper
+        path: minecraft:item/tool/head/bronze_hoe
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -554,12 +618,12 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_bronze>
     data:
       item-name: <!i><white><l10n:item.tool_head.bronze.hoe.name>
+  atom:bronze_hoe:
+    material: iron_hoe
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/bronze_hoe
-  atom:bronze_hoe:
-    material: iron_hoe
+        path: minecraft:item/tool/bronze_hoe
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
@@ -567,12 +631,12 @@ items:
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_bronze>
     data:
       item-name: <!i><white><l10n:item.tool.bronze.hoe.name>
+  atom:bronze_sword_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/bronze_hoe
-  atom:bronze_sword_head:
-    material: paper
+        path: minecraft:item/tool/head/bronze_sword
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -580,12 +644,12 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_bronze>
     data:
       item-name: <!i><white><l10n:item.tool_head.bronze.sword.name>
+  atom:bronze_sword:
+    material: iron_sword
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/bronze_sword
-  atom:bronze_sword:
-    material: iron_sword
+        path: minecraft:item/tool/bronze_sword
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
@@ -593,12 +657,12 @@ items:
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_bronze>
     data:
       item-name: <!i><white><l10n:item.tool.bronze.sword.name>
+  atom:bronze_axe_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/bronze_sword
-  atom:bronze_axe_head:
-    material: paper
+        path: minecraft:item/tool/head/bronze_axe
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -606,12 +670,12 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_bronze>
     data:
       item-name: <!i><white><l10n:item.tool_head.bronze.axe.name>
+  atom:bronze_axe:
+    material: iron_axe
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/bronze_axe
-  atom:bronze_axe:
-    material: iron_axe
+        path: minecraft:item/tool/bronze_axe
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
@@ -619,12 +683,12 @@ items:
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_bronze>
     data:
       item-name: <!i><white><l10n:item.tool.bronze.axe.name>
+  atom:bronze_hammer_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/bronze_axe
-  atom:bronze_hammer_head:
-    material: paper
+        path: minecraft:item/tool/head/bronze_hammer
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -632,12 +696,12 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_bronze>
     data:
       item-name: <!i><white><l10n:item.tool_head.bronze.hammer.name>
+  atom:bronze_hammer:
+    material: iron_pickaxe
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/bronze_hammer
-  atom:bronze_hammer:
-    material: iron_pickaxe
+        path: minecraft:item/tool/bronze_hammer
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
@@ -645,12 +709,12 @@ items:
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_bronze>
     data:
       item-name: <!i><white><l10n:item.tool.bronze.hammer.name>
+  atom:bronze_knife_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/bronze_hammer
-  atom:bronze_knife_head:
-    material: paper
+        path: minecraft:item/tool/head/bronze_knife
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -658,12 +722,12 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_bronze>
     data:
       item-name: <!i><white><l10n:item.tool_head.bronze.knife.name>
+  atom:bronze_knife:
+    material: iron_sword
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/bronze_knife
-  atom:bronze_knife:
-    material: iron_sword
+        path: minecraft:item/tool/bronze_knife
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
@@ -671,12 +735,12 @@ items:
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_bronze>
     data:
       item-name: <!i><white><l10n:item.tool.bronze.knife.name>
+  atom:bronze_saw_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/bronze_knife
-  atom:bronze_saw_head:
-    material: paper
+        path: minecraft:item/tool/head/bronze_saw
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -684,12 +748,12 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_bronze>
     data:
       item-name: <!i><white><l10n:item.tool_head.bronze.saw.name>
+  atom:bronze_saw:
+    material: iron_axe
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/bronze_saw
-  atom:bronze_saw:
-    material: iron_axe
+        path: minecraft:item/tool/bronze_saw
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
@@ -697,12 +761,12 @@ items:
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_bronze>
     data:
       item-name: <!i><white><l10n:item.tool.bronze.saw.name>
+  atom:steel_pickaxe_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/bronze_saw
-  atom:steel_pickaxe_head:
-    material: paper
+        path: minecraft:item/tool/head/steel_pickaxe
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -710,12 +774,12 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_iron>
     data:
       item-name: <!i><white><l10n:item.tool_head.steel.pickaxe.name>
+  atom:steel_pickaxe:
+    material: iron_pickaxe
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/steel_pickaxe
-  atom:steel_pickaxe:
-    material: iron_pickaxe
+        path: minecraft:item/tool/steel_pickaxe
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
@@ -723,12 +787,12 @@ items:
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
     data:
       item-name: <!i><white><l10n:item.tool.steel.pickaxe.name>
+  atom:steel_shovel_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/steel_pickaxe
-  atom:steel_shovel_head:
-    material: paper
+        path: minecraft:item/tool/head/steel_shovel
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -736,12 +800,12 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_iron>
     data:
       item-name: <!i><white><l10n:item.tool_head.steel.shovel.name>
+  atom:steel_shovel:
+    material: iron_shovel
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/steel_shovel
-  atom:steel_shovel:
-    material: iron_shovel
+        path: minecraft:item/tool/steel_shovel
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
@@ -749,12 +813,12 @@ items:
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
     data:
       item-name: <!i><white><l10n:item.tool.steel.shovel.name>
+  atom:steel_hoe_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/steel_shovel
-  atom:steel_hoe_head:
-    material: paper
+        path: minecraft:item/tool/head/steel_hoe
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -762,12 +826,12 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_iron>
     data:
       item-name: <!i><white><l10n:item.tool_head.steel.hoe.name>
+  atom:steel_hoe:
+    material: iron_hoe
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/steel_hoe
-  atom:steel_hoe:
-    material: iron_hoe
+        path: minecraft:item/tool/steel_hoe
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
@@ -775,12 +839,12 @@ items:
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
     data:
       item-name: <!i><white><l10n:item.tool.steel.hoe.name>
+  atom:steel_sword_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/steel_hoe
-  atom:steel_sword_head:
-    material: paper
+        path: minecraft:item/tool/head/steel_sword
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -788,12 +852,12 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_iron>
     data:
       item-name: <!i><white><l10n:item.tool_head.steel.sword.name>
+  atom:steel_sword:
+    material: iron_sword
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/steel_sword
-  atom:steel_sword:
-    material: iron_sword
+        path: minecraft:item/tool/steel_sword
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
@@ -801,12 +865,12 @@ items:
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
     data:
       item-name: <!i><white><l10n:item.tool.steel.sword.name>
+  atom:steel_axe_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/steel_sword
-  atom:steel_axe_head:
-    material: paper
+        path: minecraft:item/tool/head/steel_axe
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -814,12 +878,12 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_iron>
     data:
       item-name: <!i><white><l10n:item.tool_head.steel.axe.name>
+  atom:steel_axe:
+    material: iron_axe
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/steel_axe
-  atom:steel_axe:
-    material: iron_axe
+        path: minecraft:item/tool/steel_axe
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
@@ -827,12 +891,12 @@ items:
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
     data:
       item-name: <!i><white><l10n:item.tool.steel.axe.name>
+  atom:steel_hammer_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/steel_axe
-  atom:steel_hammer_head:
-    material: paper
+        path: minecraft:item/tool/head/steel_hammer
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -840,12 +904,12 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_iron>
     data:
       item-name: <!i><white><l10n:item.tool_head.steel.hammer.name>
+  atom:steel_hammer:
+    material: iron_pickaxe
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/steel_hammer
-  atom:steel_hammer:
-    material: iron_pickaxe
+        path: minecraft:item/tool/steel_hammer
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
@@ -853,12 +917,12 @@ items:
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
     data:
       item-name: <!i><white><l10n:item.tool.steel.hammer.name>
+  atom:steel_knife_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/steel_hammer
-  atom:steel_knife_head:
-    material: paper
+        path: minecraft:item/tool/head/steel_knife
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -866,12 +930,12 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_iron>
     data:
       item-name: <!i><white><l10n:item.tool_head.steel.knife.name>
+  atom:steel_knife:
+    material: iron_sword
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/steel_knife
-  atom:steel_knife:
-    material: iron_sword
+        path: minecraft:item/tool/steel_knife
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
@@ -879,12 +943,12 @@ items:
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
     data:
       item-name: <!i><white><l10n:item.tool.steel.knife.name>
+  atom:steel_saw_head:
+    material: paper
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/steel_knife
-  atom:steel_saw_head:
-    material: paper
+        path: minecraft:item/tool/head/steel_saw
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool_head.common.lore>
@@ -892,12 +956,12 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_iron>
     data:
       item-name: <!i><white><l10n:item.tool_head.steel.saw.name>
+  atom:steel_saw:
+    material: iron_axe
     model:
       template: default:model/simplified_generated
       arguments:
-        path: minecraft:item/tool/head/steel_saw
-  atom:steel_saw:
-    material: iron_axe
+        path: minecraft:item/tool/steel_saw
     client-bound-data:
       lore:
         - <!i><gray><l10n:item.tool.common.lore>
@@ -905,14 +969,10 @@ items:
         - <!i><white><image:atom:badge_tool> <image:atom:badge_age_iron>
     data:
       item-name: <!i><white><l10n:item.tool.steel.saw.name>
-    model:
-      template: default:model/simplified_generated
-      arguments:
-        path: minecraft:item/tool/steel_saw
 categories:
   atom:tools:
     name: <!i><white><l10n:category.tools.name></white>
-    hidden: true
+    hidden: false
     lore:
       - <!i><gray><l10n:category.tools.lore>
     icon: atom:copper_pickaxe
@@ -947,9 +1007,20 @@ categories:
       - atom:stone_hammer
       - atom:stone_knife
       - atom:stone_saw
+      - minecraft:iron_axe
+      - minecraft:iron_hoe
+      - minecraft:iron_pickaxe
+      - minecraft:iron_shovel
+      - minecraft:iron_sword
+      - minecraft:stone_axe
+      - minecraft:stone_hoe
+      - minecraft:stone_pickaxe
+      - minecraft:stone_shovel
+      - minecraft:stone_sword
+    priority: 53
   atom:tool_heads:
     name: <!i><white><l10n:category.tool_heads.name></white>
-    hidden: true
+    hidden: false
     lore:
       - <!i><gray><l10n:category.tool_heads.lore>
     icon: atom:copper_pickaxe_head
@@ -994,6 +1065,7 @@ categories:
       - atom:stone_saw_head
       - atom:stone_shovel_head
       - atom:stone_sword_head
+    priority: 52
 translations:
   en:
     category.tools.name: Tools
