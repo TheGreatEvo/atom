@@ -1,5 +1,7 @@
 package org.shotrush.atom.content.workstation.leatherbed
 
+import com.github.shynixn.mccoroutine.folia.launch
+import com.github.shynixn.mccoroutine.folia.regionDispatcher
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -41,7 +43,7 @@ class LeatherBedBlockBehavior(block: CustomBlock) : InteractiveSurface(block) {
         private val activeProcessing = mutableMapOf<Player, Job>()
         internal val stabilizingLeather = mutableMapOf<BlockPos, Job>()
         internal val curingStartTimes = mutableMapOf<BlockPos, Long>()
-        internal var CURING_TIME_MS = 10 * 60 * 1000L
+        internal var CURING_TIME_MS = 10 * 60 * 1000L // 10 minutes default
 
         fun isScrapingTool(item: ItemStack): Boolean {
             return item.matches("atom:sharpened_rock") || item.matches("atom:knife")
@@ -83,12 +85,12 @@ class LeatherBedBlockBehavior(block: CustomBlock) : InteractiveSurface(block) {
     override fun getEmptyMessage(): String = "<red>Place leather first!</red>"
 
     override fun getItemDisplayRotation(item: PlacedItem): AxisAngle4f {
-
+        // Lay flat on the bed
         return AxisAngle4f((Math.PI / 2).toFloat(), 0f, 0f, 0f)
     }
 
     override fun getItemDisplayScale(item: PlacedItem): Vector3f {
-
+        // Full size for leather
         return Vector3f(1f, 1f, 1f)
     }
 
@@ -135,27 +137,30 @@ class LeatherBedBlockBehavior(block: CustomBlock) : InteractiveSurface(block) {
         activeProcessing.values.forEach { it.cancel() }
         activeProcessing.clear()
 
-
+        // Cancel any ongoing curing processes
         blockPos?.let { pos ->
             stabilizingLeather[pos]?.cancel()
             stabilizingLeather.remove(pos)
             curingStartTimes.remove(pos)
 
-
+            // Clear persistence
+            val data = WorkstationDataManager.getWorkstationData(pos, "leather_bed")
+            data.curingStartTime = null
+            WorkstationDataManager.saveData()
         }
 
         super.onRemoved()
     }
 
-    private fun startStabilization(pos: BlockPos) {
-
+    fun startStabilization(pos: BlockPos) {
+        // Cancel any existing job
         stabilizingLeather[pos]?.cancel()
 
-
+        // Get current workstation data
         val workstationData = WorkstationDataManager.getWorkstationData(pos, "leather_bed")
         val currentItem = workstationData.placedItems.lastOrNull()
 
-
+        // Verify we have vanilla leather to cure
         if (currentItem == null || currentItem.item.type != Material.LEATHER) {
             Atom.instance.logger.info("StartStabilization: No vanilla leather found at $pos")
             return
@@ -163,51 +168,45 @@ class LeatherBedBlockBehavior(block: CustomBlock) : InteractiveSurface(block) {
 
         Atom.instance.logger.info("Starting leather stabilization at $pos")
 
-
+        // Record start time
         val startTime = System.currentTimeMillis()
         curingStartTimes[pos] = startTime
         workstationData.curingStartTime = startTime
         WorkstationDataManager.saveData()
 
+        // Get location for region dispatcher
+        val world = Bukkit.getWorld("world") ?: return
+        val location = org.bukkit.Location(
+            world,
+            pos.x().toDouble() + 0.5,
+            pos.y().toDouble() + 0.5,
+            pos.z().toDouble() + 0.5
+        )
 
-        val job = GlobalScope.launch {
+        // Schedule completion using Folia region dispatcher
+        val job = Atom.instance.launch(Atom.instance.regionDispatcher(location)) {
             delay(CURING_TIME_MS)
 
-
+            // Verify leather is still there and complete the process
             val updatedData = WorkstationDataManager.getWorkstationData(pos, "leather_bed")
             val oldLeatherItem = updatedData.placedItems.lastOrNull()
 
             if (oldLeatherItem != null && oldLeatherItem.item.type == Material.LEATHER) {
                 Atom.instance.logger.info("Completing leather stabilization at $pos")
 
-
+                // Create cured leather
                 val animals = listOf(
-                    "cow",
-                    "pig",
-                    "sheep",
-                    "chicken",
-                    "rabbit",
-                    "horse",
-                    "donkey",
-                    "mule",
-                    "llama",
-                    "goat",
-                    "cat",
-                    "wolf",
-                    "fox",
-                    "panda",
-                    "polar_bear",
-                    "ocelot",
-                    "camel"
+                    "cow", "pig", "sheep", "chicken", "rabbit", "horse", "donkey", "mule",
+                    "llama", "goat", "cat", "wolf", "fox", "panda", "polar_bear", "ocelot", "camel"
                 )
                 val randomAnimal = animals.random()
                 val curedLeatherId = "atom:animal_leather_cured_$randomAnimal"
 
                 CraftEngineItems.byId(Key.of(curedLeatherId))?.let { curedItem ->
-
+                    // Create the cured leather item
                     val curedLeather = curedItem.buildItemStack()
 
-
+                    // Update the placed item
                     updatedData.placedItems.clear()
                     val newPlacedItem = PlacedItem(
                         item = curedLeather,
@@ -217,28 +216,25 @@ class LeatherBedBlockBehavior(block: CustomBlock) : InteractiveSurface(block) {
                     )
                     updatedData.placedItems.add(newPlacedItem)
 
-
+                    // Update the visual display
                     newPlacedItem.displayUUID?.let { uuid ->
                         (Bukkit.getEntity(uuid) as? org.bukkit.entity.ItemDisplay)?.let { display ->
+                            display.setItemStack(curedLeather)
 
-                            Bukkit.getScheduler().runTask(Atom.instance!!, Runnable {
-                                display.setItemStack(curedLeather)
-
-                                display.location.world?.playSound(display.location, Sound.ITEM_TRIDENT_HIT, 1.0f, 1.5f)
-                                display.location.world?.spawnParticle(
-                                    Particle.HAPPY_VILLAGER,
-                                    display.location,
-                                    10,
-                                    0.3,
-                                    0.3,
-                                    0.3,
-                                    0.0
-                                )
-                            })
+                            display.location.world?.playSound(display.location, Sound.ITEM_TRIDENT_HIT, 1.0f, 1.5f)
+                            display.location.world?.spawnParticle(
+                                Particle.HAPPY_VILLAGER,
+                                display.location,
+                                10,
+                                0.3,
+                                0.3,
+                                0.3,
+                                0.0
+                            )
                         }
                     }
 
-
+                    // Save the updated data
                     WorkstationDataManager.updatePlacedItems(pos, updatedData.placedItems)
                     WorkstationDataManager.saveData()
 
@@ -251,7 +247,7 @@ class LeatherBedBlockBehavior(block: CustomBlock) : InteractiveSurface(block) {
             stabilizingLeather.remove(pos)
             curingStartTimes.remove(pos)
 
-
+            // Clear persistence
             val data = WorkstationDataManager.getWorkstationData(pos, "leather_bed")
             data.curingStartTime = null
             WorkstationDataManager.saveData()
@@ -261,7 +257,7 @@ class LeatherBedBlockBehavior(block: CustomBlock) : InteractiveSurface(block) {
     }
 }
 
-
+// Extension functions for managing curing processes
 fun LeatherBedBlockBehavior.Companion.accelerateCuring(pos: BlockPos): Boolean {
     val job = stabilizingLeather[pos]
     if (job == null) {
@@ -269,37 +265,22 @@ fun LeatherBedBlockBehavior.Companion.accelerateCuring(pos: BlockPos): Boolean {
         return false
     }
 
-
+    // Cancel the delayed job
     job.cancel()
     stabilizingLeather.remove(pos)
     curingStartTimes.remove(pos)
 
-
+    // Complete immediately
     val workstationData = WorkstationDataManager.getWorkstationData(pos, "leather_bed")
     val oldLeatherItem = workstationData.placedItems.lastOrNull()
 
     Atom.instance.logger.info("Accelerating cure at $pos, item type: ${oldLeatherItem?.item?.type}")
 
     if (oldLeatherItem != null && oldLeatherItem.item.type == Material.LEATHER) {
-
+        // Create cured leather
         val animals = listOf(
-            "cow",
-            "pig",
-            "sheep",
-            "chicken",
-            "rabbit",
-            "horse",
-            "donkey",
-            "mule",
-            "llama",
-            "goat",
-            "cat",
-            "wolf",
-            "fox",
-            "panda",
-            "polar_bear",
-            "ocelot",
-            "camel"
+            "cow", "pig", "sheep", "chicken", "rabbit", "horse", "donkey", "mule",
+            "llama", "goat", "cat", "wolf", "fox", "panda", "polar_bear", "ocelot", "camel"
         )
         val randomAnimal = animals.random()
         val curedLeatherId = "atom:animal_leather_cured_$randomAnimal"
@@ -307,7 +288,7 @@ fun LeatherBedBlockBehavior.Companion.accelerateCuring(pos: BlockPos): Boolean {
         CraftEngineItems.byId(Key.of(curedLeatherId))?.let { curedItem ->
             val curedLeather = curedItem.buildItemStack()
 
-
+            // Update the placed item
             workstationData.placedItems.clear()
             val newPlacedItem = PlacedItem(
                 item = curedLeather,
@@ -317,7 +298,7 @@ fun LeatherBedBlockBehavior.Companion.accelerateCuring(pos: BlockPos): Boolean {
             )
             workstationData.placedItems.add(newPlacedItem)
 
-
+            // Update the visual display
             newPlacedItem.displayUUID?.let { uuid ->
                 (Bukkit.getEntity(uuid) as? org.bukkit.entity.ItemDisplay)?.let { display ->
                     display.setItemStack(curedLeather)
@@ -335,7 +316,7 @@ fun LeatherBedBlockBehavior.Companion.accelerateCuring(pos: BlockPos): Boolean {
                 }
             }
 
-
+            // Save the updated data
             WorkstationDataManager.updatePlacedItems(pos, workstationData.placedItems)
             WorkstationDataManager.saveData()
             return true
@@ -356,25 +337,41 @@ fun LeatherBedBlockBehavior.Companion.setCuringTime(timeMs: Long) {
     CURING_TIME_MS = timeMs
 }
 
-
 fun LeatherBedBlockBehavior.Companion.resumeCuringProcesses() {
     Atom.instance.logger.info("Resuming leather curing processes...")
 
+    // Get world reference safely
+    val world = Bukkit.getWorld("world")
+    if (world == null) {
+        Atom.instance.logger.warning("World not loaded yet, cannot resume leather curing")
+        return
+    }
 
     WorkstationDataManager.getAllWorkstations().forEach { (_, data) ->
         if (data.type == "leather_bed" && data.curingStartTime != null) {
             val pos = data.position
+
+            // Verify block is still a leather bed before resuming
+            val block = world.getBlockAt(pos.x(), pos.y(), pos.z())
+            val state = net.momirealms.craftengine.bukkit.api.CraftEngineBlocks.getCustomBlockState(block)
+            if (state == null || !state.owner()
+                    .matchesKey(net.momirealms.craftengine.core.util.Key.of("atom:leather_bed"))
+            ) {
+                Atom.instance.logger.info("Block at $pos is no longer a leather bed, skipping resume")
+                data.curingStartTime = null
+                WorkstationDataManager.saveData()
+                return@forEach
+            }
+
             val elapsedTime = System.currentTimeMillis() - data.curingStartTime!!
             val remainingTime = CURING_TIME_MS - elapsedTime
 
             if (remainingTime > 0) {
-
                 Atom.instance.logger.info("Resuming curing at $pos with ${remainingTime / 1000}s remaining")
                 curingStartTimes[pos] = data.curingStartTime!!
 
                 val job = GlobalScope.launch {
                     delay(remainingTime)
-
 
                     val updatedData = WorkstationDataManager.getWorkstationData(pos, "leather_bed")
                     val oldLeatherItem = updatedData.placedItems.lastOrNull()
@@ -391,7 +388,6 @@ fun LeatherBedBlockBehavior.Companion.resumeCuringProcesses() {
 
                 stabilizingLeather[pos] = job
             } else {
-
                 Atom.instance.logger.info("Completing overdue curing at $pos")
                 val oldLeatherItem = data.placedItems.lastOrNull()
                 if (oldLeatherItem != null && oldLeatherItem.item.type == Material.LEATHER) {
@@ -407,26 +403,11 @@ fun LeatherBedBlockBehavior.Companion.resumeCuringProcesses() {
 private fun LeatherBedBlockBehavior.Companion.completeCuring(
     pos: BlockPos,
     workstationData: WorkstationDataManager.WorkstationData,
-    oldLeatherItem: PlacedItem,
+    oldLeatherItem: PlacedItem
 ) {
     val animals = listOf(
-        "cow",
-        "pig",
-        "sheep",
-        "chicken",
-        "rabbit",
-        "horse",
-        "donkey",
-        "mule",
-        "llama",
-        "goat",
-        "cat",
-        "wolf",
-        "fox",
-        "panda",
-        "polar_bear",
-        "ocelot",
-        "camel"
+        "cow", "pig", "sheep", "chicken", "rabbit", "horse", "donkey", "mule",
+        "llama", "goat", "cat", "wolf", "fox", "panda", "polar_bear", "ocelot", "camel"
     )
     val randomAnimal = animals.random()
     val curedLeatherId = "atom:animal_leather_cured_$randomAnimal"
@@ -434,7 +415,7 @@ private fun LeatherBedBlockBehavior.Companion.completeCuring(
     CraftEngineItems.byId(Key.of(curedLeatherId))?.let { curedItem ->
         val curedLeather = curedItem.buildItemStack()
 
-
+        // Update the placed item
         workstationData.placedItems.clear()
         val newPlacedItem = PlacedItem(
             item = curedLeather,
@@ -444,33 +425,28 @@ private fun LeatherBedBlockBehavior.Companion.completeCuring(
         )
         workstationData.placedItems.add(newPlacedItem)
 
-
+        // Update the visual display
         newPlacedItem.displayUUID?.let { uuid ->
             (Bukkit.getEntity(uuid) as? org.bukkit.entity.ItemDisplay)?.let { display ->
+                display.setItemStack(curedLeather)
 
-                Bukkit.getScheduler().runTask(Atom.instance!!, Runnable {
-                    display.setItemStack(curedLeather)
-
-                    display.location.world?.playSound(display.location, Sound.ITEM_TRIDENT_HIT, 1.0f, 1.5f)
-                    display.location.world?.spawnParticle(
-                        Particle.HAPPY_VILLAGER,
-                        display.location,
-                        10,
-                        0.3,
-                        0.3,
-                        0.3,
-                        0.0
-                    )
-                })
+                display.location.world?.playSound(display.location, Sound.ITEM_TRIDENT_HIT, 1.0f, 1.5f)
+                display.location.world?.spawnParticle(
+                    Particle.HAPPY_VILLAGER,
+                    display.location,
+                    10,
+                    0.3,
+                    0.3,
+                    0.3,
+                    0.0
+                )
             }
         }
 
-
+        // Save the updated data
         WorkstationDataManager.updatePlacedItems(pos, workstationData.placedItems)
         WorkstationDataManager.saveData()
 
         Atom.instance.logger.info("Leather cured successfully at $pos to $curedLeatherId")
     }
 }
-
-

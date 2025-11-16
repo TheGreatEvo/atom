@@ -8,6 +8,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
 import net.momirealms.craftengine.bukkit.api.CraftEngineItems
 import net.momirealms.craftengine.bukkit.item.BukkitItemManager
+import net.momirealms.craftengine.core.block.CustomBlock
 import net.momirealms.craftengine.core.block.ImmutableBlockState
 import net.momirealms.craftengine.core.block.entity.BlockEntity
 import net.momirealms.craftengine.core.block.properties.Property
@@ -18,6 +19,7 @@ import net.momirealms.craftengine.core.world.BlockPos
 import net.momirealms.craftengine.core.world.ChunkPos
 import net.momirealms.craftengine.core.world.Vec3d
 import net.momirealms.craftengine.libraries.nbt.CompoundTag
+import org.bukkit.Bukkit
 import org.bukkit.Color
 import org.bukkit.GameMode
 import org.bukkit.Location
@@ -92,6 +94,7 @@ class LeatherBedBlockEntity(
         }
 
     fun hasItem(): Boolean = !storedItem.isEmpty
+
     fun startScraping(player: Player, item: ItemStack) {
         val atom = Atom.Companion.instance
         atom.launch(atom.regionDispatcher(location)) {
@@ -123,55 +126,60 @@ class LeatherBedBlockEntity(
                     append("<green>")
                     val total = 20
                     val bars = (total * (prog / 100.0)).toInt()
-                    repeat(bars) {
-                        append("|")
-                    }
+                    repeat(bars) { append("|") }
                     append("</green><gray>")
-                    repeat(total - bars) {
-                        append("|")
-                    }
-                    append("</gray>")
-                    append("]")
-                    append("<dark_gray>")
+                    repeat(total - bars) { append("|") }
+                    append("</gray>]<dark_gray>")
                 }
                 ActionBarManager.sendStatus(player, str)
             }
 
-
+            // Complete if all strokes done
             if (currentStroke >= strokeCount) {
                 finishScraping(player, item)
             }
 
             ActionBarManager.clearStatus(player)
         }
-
     }
 
     private fun finishScraping(player: Player, tool: ItemStack) {
         val center = dropLocation
-
         val storedProduct = Items.getAnimalProductFromItem(storedItem)
 
         if (storedProduct == AnimalProduct.RawLeather) {
             val animalType = Items.getAnimalFromProduct(storedItem)
 
+            // Drop meat
             center.world.dropItemNaturally(
                 center,
                 Items.getAnimalProduct(animalType, AnimalProduct.RawMeat).buildItemStack()
             )
-            storedItem = Items.getAnimalProduct(animalType, AnimalProduct.Leather).buildItemStack()
+
+            // Convert to vanilla leather and start curing
+            storedItem = ItemStack(org.bukkit.Material.LEATHER, 1)
+
+            // Trigger the curing process through the behavior using region dispatcher
+            val atom = Atom.instance
+            atom.launch(atom.regionDispatcher(location)) {
+                val behavior = LeatherBedBlockBehavior(blockState().owner().value())
+                behavior.startStabilization(pos())
+            }
+
+            ActionBarManager.send(player, "<green>Scraped the meat off! Leather will now stabilize over time...</green>")
         } else {
+            // Just drop the item if it's not raw leather
             center.world.dropItemNaturally(center, storedItem)
             storedItem = ItemStack.empty()
+            ActionBarManager.send(player, "<green>Removed the leather from the bed</green>")
         }
 
+        // Damage the tool
         if (SharpenedFlint.isSharpenedFlint(tool)) {
             SharpenedFlint.damageItem(tool, player, 0.3)
         }
 
-
         player.playSound(player.location, Sound.BLOCK_WOOL_BREAK, 1.0f, 1.0f)
-        ActionBarManager.send(player, "<green>Scraped the leather successfully!</green>")
     }
 
     private fun playScrapingEffects(player: Player) {
@@ -197,6 +205,7 @@ class LeatherBedBlockEntity(
         val subtract = player.gameMode != GameMode.CREATIVE
         if (!Items.isAnimalProduct(item)) return InteractionResult.FAIL
         val product = Items.getAnimalProductFromItem(item)
+
         if (product == AnimalProduct.Leather) {
             val clone = item.clone()
             if (subtract) item.subtract(1)
@@ -224,6 +233,6 @@ class LeatherBedBlockEntity(
     }
 
     fun tick() {
-
+        // Tick logic if needed
     }
 }
