@@ -239,6 +239,13 @@ function buildMold(def: Mold, variant: MoldVariant) {
         l10nMold(variant, def.id),
         lore.filter((l): l is string => l !== null),
         moldTexture(def, variant),
+        {
+            additionalData: {
+                components: {
+                    "max-stack-size": 1,
+                },
+            },
+        },
     );
 }
 
@@ -290,6 +297,13 @@ function buildFilledMold(def: Mold, variant: "fired" | "wax") {
         l10nMold(variant, def.id),
         lore.filter((l): l is string => l !== null),
         filledMoldModel(def, variant),
+        {
+            additionalData: {
+                components: {
+                    "max-stack-size": 1,
+                },
+            },
+        },
     );
 }
 

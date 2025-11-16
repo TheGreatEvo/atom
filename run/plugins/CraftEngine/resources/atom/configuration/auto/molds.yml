@@ -15,6 +15,8 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.clay.axe_head.name>
+      components:
+        max-stack-size: 1
   atom:fired_mold_axe_head:
     material: brick
     model:
@@ -30,6 +32,8 @@ items:
         - <!i><white><image:atom:badge_utility> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.fired.axe_head.name>
+      components:
+        max-stack-size: 1
   atom:wax_mold_axe_head:
     material: brick
     model:
@@ -45,6 +49,8 @@ items:
         - <!i><white><image:atom:badge_utility> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.wax.axe_head.name>
+      components:
+        max-stack-size: 1
   atom:clay_mold_hammer_head:
     material: clay_ball
     model:
@@ -61,6 +67,8 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.clay.hammer_head.name>
+      components:
+        max-stack-size: 1
   atom:fired_mold_hammer_head:
     material: brick
     model:
@@ -76,6 +84,8 @@ items:
         - <!i><white><image:atom:badge_utility> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.fired.hammer_head.name>
+      components:
+        max-stack-size: 1
   atom:wax_mold_hammer_head:
     material: brick
     model:
@@ -91,6 +101,8 @@ items:
         - <!i><white><image:atom:badge_utility> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.wax.hammer_head.name>
+      components:
+        max-stack-size: 1
   atom:clay_mold_ingot:
     material: clay_ball
     model:
@@ -107,6 +119,8 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.clay.ingot.name>
+      components:
+        max-stack-size: 1
   atom:fired_mold_ingot:
     material: brick
     model:
@@ -122,6 +136,8 @@ items:
         - <!i><white><image:atom:badge_utility> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.fired.ingot.name>
+      components:
+        max-stack-size: 1
   atom:wax_mold_ingot:
     material: brick
     model:
@@ -137,6 +153,8 @@ items:
         - <!i><white><image:atom:badge_utility> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.wax.ingot.name>
+      components:
+        max-stack-size: 1
   atom:clay_mold_knife_blade:
     material: clay_ball
     model:
@@ -153,6 +171,8 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.clay.knife_blade.name>
+      components:
+        max-stack-size: 1
   atom:fired_mold_knife_blade:
     material: brick
     model:
@@ -168,6 +188,8 @@ items:
         - <!i><white><image:atom:badge_utility> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.fired.knife_blade.name>
+      components:
+        max-stack-size: 1
   atom:wax_mold_knife_blade:
     material: brick
     model:
@@ -183,6 +205,8 @@ items:
         - <!i><white><image:atom:badge_utility> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.wax.knife_blade.name>
+      components:
+        max-stack-size: 1
   atom:clay_mold_pickaxe_head:
     material: clay_ball
     model:
@@ -199,6 +223,8 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.clay.pickaxe_head.name>
+      components:
+        max-stack-size: 1
   atom:fired_mold_pickaxe_head:
     material: brick
     model:
@@ -214,6 +240,8 @@ items:
         - <!i><white><image:atom:badge_utility> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.fired.pickaxe_head.name>
+      components:
+        max-stack-size: 1
   atom:wax_mold_pickaxe_head:
     material: brick
     model:
@@ -229,6 +257,8 @@ items:
         - <!i><white><image:atom:badge_utility> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.wax.pickaxe_head.name>
+      components:
+        max-stack-size: 1
   atom:clay_mold_saw_blade:
     material: clay_ball
     model:
@@ -245,6 +275,8 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.clay.saw_blade.name>
+      components:
+        max-stack-size: 1
   atom:fired_mold_saw_blade:
     material: brick
     model:
@@ -260,6 +292,8 @@ items:
         - <!i><white><image:atom:badge_utility> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.fired.saw_blade.name>
+      components:
+        max-stack-size: 1
   atom:wax_mold_saw_blade:
     material: brick
     model:
@@ -275,6 +309,8 @@ items:
         - <!i><white><image:atom:badge_utility> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.wax.saw_blade.name>
+      components:
+        max-stack-size: 1
   atom:clay_mold_shovel_head:
     material: clay_ball
     model:
@@ -291,6 +327,8 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.clay.shovel_head.name>
+      components:
+        max-stack-size: 1
   atom:fired_mold_shovel_head:
     material: brick
     model:
@@ -306,6 +344,8 @@ items:
         - <!i><white><image:atom:badge_utility> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.fired.shovel_head.name>
+      components:
+        max-stack-size: 1
   atom:wax_mold_shovel_head:
     material: brick
     model:
@@ -321,6 +361,8 @@ items:
         - <!i><white><image:atom:badge_utility> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.wax.shovel_head.name>
+      components:
+        max-stack-size: 1
   atom:clay_mold_sword_blade:
     material: clay_ball
     model:
@@ -337,6 +379,8 @@ items:
         - <!i><white><image:atom:badge_material> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.clay.sword_blade.name>
+      components:
+        max-stack-size: 1
   atom:fired_mold_sword_blade:
     material: brick
     model:
@@ -352,6 +396,8 @@ items:
         - <!i><white><image:atom:badge_utility> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.fired.sword_blade.name>
+      components:
+        max-stack-size: 1
   atom:wax_mold_sword_blade:
     material: brick
     model:
@@ -367,6 +413,8 @@ items:
         - <!i><white><image:atom:badge_utility> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.wax.sword_blade.name>
+      components:
+        max-stack-size: 1
   atom:filled_fired_mold_axe_head:
     material: brick
     model:
@@ -391,6 +439,8 @@ items:
         - <!i><white><image:atom:badge_utility> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.fired.axe_head.name>
+      components:
+        max-stack-size: 1
   atom:filled_wax_mold_axe_head:
     material: brick
     model:
@@ -415,6 +465,8 @@ items:
         - <!i><white><image:atom:badge_utility> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.wax.axe_head.name>
+      components:
+        max-stack-size: 1
   atom:filled_fired_mold_hammer_head:
     material: brick
     model:
@@ -439,6 +491,8 @@ items:
         - <!i><white><image:atom:badge_utility> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.fired.hammer_head.name>
+      components:
+        max-stack-size: 1
   atom:filled_wax_mold_hammer_head:
     material: brick
     model:
@@ -463,6 +517,8 @@ items:
         - <!i><white><image:atom:badge_utility> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.wax.hammer_head.name>
+      components:
+        max-stack-size: 1
   atom:filled_fired_mold_ingot:
     material: brick
     model:
@@ -487,6 +543,8 @@ items:
         - <!i><white><image:atom:badge_utility> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.fired.ingot.name>
+      components:
+        max-stack-size: 1
   atom:filled_wax_mold_ingot:
     material: brick
     model:
@@ -511,6 +569,8 @@ items:
         - <!i><white><image:atom:badge_utility> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.wax.ingot.name>
+      components:
+        max-stack-size: 1
   atom:filled_fired_mold_knife_blade:
     material: brick
     model:
@@ -535,6 +595,8 @@ items:
         - <!i><white><image:atom:badge_utility> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.fired.knife_blade.name>
+      components:
+        max-stack-size: 1
   atom:filled_wax_mold_knife_blade:
     material: brick
     model:
@@ -559,6 +621,8 @@ items:
         - <!i><white><image:atom:badge_utility> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.wax.knife_blade.name>
+      components:
+        max-stack-size: 1
   atom:filled_fired_mold_pickaxe_head:
     material: brick
     model:
@@ -583,6 +647,8 @@ items:
         - <!i><white><image:atom:badge_utility> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.fired.pickaxe_head.name>
+      components:
+        max-stack-size: 1
   atom:filled_wax_mold_pickaxe_head:
     material: brick
     model:
@@ -607,6 +673,8 @@ items:
         - <!i><white><image:atom:badge_utility> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.wax.pickaxe_head.name>
+      components:
+        max-stack-size: 1
   atom:filled_fired_mold_saw_blade:
     material: brick
     model:
@@ -631,6 +699,8 @@ items:
         - <!i><white><image:atom:badge_utility> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.fired.saw_blade.name>
+      components:
+        max-stack-size: 1
   atom:filled_wax_mold_saw_blade:
     material: brick
     model:
@@ -655,6 +725,8 @@ items:
         - <!i><white><image:atom:badge_utility> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.wax.saw_blade.name>
+      components:
+        max-stack-size: 1
   atom:filled_fired_mold_shovel_head:
     material: brick
     model:
@@ -679,6 +751,8 @@ items:
         - <!i><white><image:atom:badge_utility> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.fired.shovel_head.name>
+      components:
+        max-stack-size: 1
   atom:filled_wax_mold_shovel_head:
     material: brick
     model:
@@ -703,6 +777,8 @@ items:
         - <!i><white><image:atom:badge_utility> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.wax.shovel_head.name>
+      components:
+        max-stack-size: 1
   atom:filled_fired_mold_sword_blade:
     material: brick
     model:
@@ -727,6 +803,8 @@ items:
         - <!i><white><image:atom:badge_utility> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.fired.sword_blade.name>
+      components:
+        max-stack-size: 1
   atom:filled_wax_mold_sword_blade:
     material: brick
     model:
@@ -751,6 +829,8 @@ items:
         - <!i><white><image:atom:badge_utility> <image:atom:badge_age_copper>
     data:
       item-name: <!i><white><l10n:item.mold.wax.sword_blade.name>
+      components:
+        max-stack-size: 1
 categories:
   atom:molds:
     name: <!i><white><l10n:category.molds.name></white>
