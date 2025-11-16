@@ -1,5 +1,11 @@
 package org.shotrush.atom.content.systems.groundstorage
 
+import com.github.shynixn.mccoroutine.folia.entityDispatcher
+import com.github.shynixn.mccoroutine.folia.launch
+import com.github.shynixn.mccoroutine.folia.ticks
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
 import net.momirealms.craftengine.bukkit.entity.data.ItemDisplayEntityData
 import net.momirealms.craftengine.core.entity.Billboard
 import net.momirealms.craftengine.core.entity.ItemDisplayContext
@@ -24,6 +30,7 @@ import org.bukkit.util.Vector
 import org.bukkit.util.Transformation
 import org.joml.AxisAngle4f
 import org.joml.Vector3f
+import org.shotrush.atom.Atom
 import org.shotrush.atom.core.api.annotation.RegisterSystem
 import org.shotrush.atom.core.data.PersistentData
 import java.util.*
@@ -42,7 +49,7 @@ import kotlin.random.Random
     toggleable = true,
     enabledByDefault = true
 )
-class GroundItemDisplayHandler(private val plugin: Plugin) : Listener {
+class GroundItemDisplayHandler(private val plugin: Atom) : Listener {
 
     companion object {
         private const val GROUND_ITEM_KEY = "ground_item_display"
@@ -55,7 +62,7 @@ class GroundItemDisplayHandler(private val plugin: Plugin) : Listener {
     }
 
     private val pendingItems = mutableSetOf<UUID>()
-    private val conversionTasks = mutableMapOf<UUID, Int>()
+    private val conversionTasks = mutableMapOf<UUID, Job>()
 
     @EventHandler
     fun onItemSpawn(event: ItemSpawnEvent) {
@@ -64,18 +71,15 @@ class GroundItemDisplayHandler(private val plugin: Plugin) : Listener {
         
         // Mark item for conversion
         pendingItems.add(item.uniqueId)
+
+        val job = plugin.launch(plugin.entityDispatcher(event.entity)) {
+            while(event.entity.isValid) {
+                delay(5.ticks)
+                checkItemForConversion(event.entity)
+            }
+        }
         
-        // Schedule conversion check
-        val taskId = plugin.server.scheduler.scheduleSyncRepeatingTask(
-            plugin,
-            {
-                checkItemForConversion(item)
-            },
-            5L, // Start checking after 5 ticks
-            5L  // Check every 5 ticks
-        )
-        
-        conversionTasks[item.uniqueId] = taskId
+        conversionTasks[item.uniqueId] = job
     }
 
     private fun checkItemForConversion(item: Item) {
@@ -147,7 +151,7 @@ class GroundItemDisplayHandler(private val plugin: Plugin) : Listener {
     private fun cleanupPendingItem(itemId: UUID) {
         pendingItems.remove(itemId)
         conversionTasks[itemId]?.let { taskId ->
-            plugin.server.scheduler.cancelTask(taskId)
+            taskId.cancel()
             conversionTasks.remove(itemId)
         }
     }
@@ -363,7 +367,7 @@ class GroundItemDisplayHandler(private val plugin: Plugin) : Listener {
     fun cleanup() {
         // Cancel all pending conversion tasks
         conversionTasks.values.forEach { taskId ->
-            plugin.server.scheduler.cancelTask(taskId)
+            taskId.cancel()
         }
         conversionTasks.clear()
         pendingItems.clear()
