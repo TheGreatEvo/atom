@@ -4,6 +4,7 @@ import net.momirealms.craftengine.bukkit.api.CraftEngineBlocks
 import net.momirealms.craftengine.core.util.Key
 import org.bukkit.Location
 import org.bukkit.Material
+import org.bukkit.Sound
 import org.bukkit.block.Block
 import org.bukkit.entity.ItemFrame
 import org.bukkit.inventory.ItemStack
@@ -12,10 +13,16 @@ import org.shotrush.atom.core.data.PersistentData
 
 /**
  * Utility class for working with ground items from external systems
+ * @deprecated Use GroundItemDisplayUtils instead for ItemDisplay-based ground items
  */
+@Deprecated(
+    message = "Use GroundItemDisplayUtils instead for ItemDisplay-based ground items",
+    replaceWith = ReplaceWith("GroundItemDisplayUtils", "org.shotrush.atom.content.systems.groundstorage.GroundItemDisplayUtils")
+)
 object GroundItemUtils {
     
     private const val GROUND_ITEM_KEY = "ground_item_frame"
+    private const val GROUND_ITEM_DISPLAY_KEY = "ground_item_display"
     
     /**
      * Find all ground items within a specified radius of a location
@@ -28,6 +35,20 @@ object GroundItemUtils {
             .filterIsInstance<ItemFrame>()
             .filter { frame ->
                 PersistentData.isFlagged(frame, GROUND_ITEM_KEY)
+            }
+    }
+
+    /**
+     * Find all ground item displays within a specified radius of a location
+     * @param center The center location to search from
+     * @param radius The search radius in blocks
+     * @return List of ItemDisplays that are ground items
+     */
+    fun findGroundItemDisplaysInRadius(center: Location, radius: Double = 1.5): List<org.bukkit.entity.ItemDisplay> {
+        return center.world.getNearbyEntities(center, radius, radius, radius)
+            .filterIsInstance<org.bukkit.entity.ItemDisplay>()
+            .filter { display ->
+                PersistentData.isFlagged(display, GROUND_ITEM_DISPLAY_KEY)
             }
     }
     
@@ -104,6 +125,15 @@ object GroundItemUtils {
     fun isGroundItem(frame: ItemFrame): Boolean {
         return PersistentData.isFlagged(frame, GROUND_ITEM_KEY)
     }
+
+    /**
+     * Check if an ItemDisplay is a ground item
+     * @param display The ItemDisplay to check
+     * @return true if it's a ground item, false otherwise
+     */
+    fun isGroundItem(display: org.bukkit.entity.ItemDisplay): Boolean {
+        return PersistentData.isFlagged(display, GROUND_ITEM_DISPLAY_KEY)
+    }
     
     /**
      * Remove a ground item and drop its contents
@@ -120,6 +150,23 @@ object GroundItemUtils {
             }
         }
         frame.remove()
+    }
+
+    /**
+     * Remove a ground item display and drop its contents
+     * @param display The ItemDisplay to remove
+     * @param dropNaturally Whether to drop the item naturally or at exact location
+     */
+    fun removeGroundItem(display: org.bukkit.entity.ItemDisplay, dropNaturally: Boolean = true) {
+        val item = getGroundItem(display)
+        if (item != null) {
+            if (dropNaturally) {
+                display.world.dropItemNaturally(display.location, item)
+            } else {
+                display.world.dropItem(display.location, item)
+            }
+        }
+        display.remove()
     }
     
     /**
@@ -219,6 +266,71 @@ object GroundItemUtils {
         val previousItem = getGroundItem(frame)
         frame.setItem(ItemStack(Material.AIR), playSound)
         return previousItem
+    }
+    
+    /**
+     * Find ground item displays containing specific materials within a radius
+     * @param center The center location to search from
+     * @param radius The search radius in blocks
+     * @param materials The materials to search for
+     * @return List of ItemDisplays containing the specified materials
+     */
+    fun findGroundItemDisplaysWithMaterials(
+        center: Location,
+        radius: Double,
+        materials: Set<Material>
+    ): List<org.bukkit.entity.ItemDisplay> {
+        return findGroundItemDisplaysInRadius(center, radius)
+            .filter { display ->
+                val item = getGroundItem(display)
+                item != null && materials.contains(item.type)
+            }
+    }
+
+    /**
+     * Find the closest ground item display to a location within a radius
+     * @param center The center location to search from
+     * @param radius The search radius in blocks
+     * @return The closest ItemDisplay or null if none found
+     */
+    fun findClosestGroundItemDisplay(center: Location, radius: Double = 1.5): org.bukkit.entity.ItemDisplay? {
+        return findGroundItemDisplaysInRadius(center, radius)
+            .minByOrNull { display -> display.location.distance(center) }
+    }
+
+    /**
+     * Get the item from a ground item display
+     * @param display The ItemDisplay to get the item from
+     * @return ItemStack if the display contains an item, null otherwise
+     */
+    fun getGroundItem(display: org.bukkit.entity.ItemDisplay): ItemStack? {
+        val item = display.itemStack
+        return if (item.type != Material.AIR) item else null
+    }
+
+    /**
+     * Set the item contents of a ground item display
+     * @param display The ItemDisplay to modify
+     * @param newItem The new ItemStack to display (null or AIR to clear)
+     * @param playSound Whether to play a sound effect when changing the item
+     * @return true if the item was successfully changed, false if not a ground item
+     */
+    fun setGroundItem(display: org.bukkit.entity.ItemDisplay, newItem: ItemStack?, playSound: Boolean = true): Boolean {
+        if (!isGroundItem(display)) return false
+        
+        val itemToSet = when {
+            newItem == null -> ItemStack(Material.AIR)
+            newItem.type == Material.AIR -> ItemStack(Material.AIR)
+            else -> newItem.clone().apply { amount = 1 }
+        }
+        
+        display.setItemStack(itemToSet)
+        
+        if (playSound && itemToSet.type != Material.AIR) {
+            display.world.playSound(display.location, Sound.ENTITY_ITEM_FRAME_ADD_ITEM, 0.5f, 1.0f)
+        }
+        
+        return true
     }
     
     /**

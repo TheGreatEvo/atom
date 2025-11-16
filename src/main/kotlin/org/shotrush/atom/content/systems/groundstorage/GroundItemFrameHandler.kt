@@ -29,9 +29,9 @@ import org.shotrush.atom.core.data.PersistentData
 @RegisterSystem(
     id = "ground_item_frame_handler",
     priority = 15,
-    description = "Place items on ground with random rotation",
+    description = "Place items on ground with random rotation [DEPRECATED - Use GroundItemDisplayHandler]",
     toggleable = true,
-    enabledByDefault = true
+    enabledByDefault = false
 )
 class GroundItemFrameHandler(private val plugin: Plugin) : Listener {
 
@@ -40,42 +40,41 @@ class GroundItemFrameHandler(private val plugin: Plugin) : Listener {
     }
     
 
-    @EventHandler
-    fun onPlayerInteract(event: PlayerInteractEvent) {
-        if (event.action != Action.RIGHT_CLICK_BLOCK || event.hand != EquipmentSlot.HAND) return
-        
-        val block = event.clickedBlock ?: return
-        val player = event.player
-        val hand = player.inventory.itemInMainHand
-        
-        if (event.blockFace != BlockFace.UP || !player.isSneaking || hand.type == Material.AIR) return
-        if (!block.type.isSolid) return
-        
-        event.isCancelled = true
-        val location = block.location.add(0.5, 1.0625, 0.5) 
-        
-        
-        createGroundItem(location, hand, player)
-    }
-
-    private fun createGroundItem(location: Location, hand: ItemStack, player: Player) {
-        location.world.spawn(location, ItemFrame::class.java).apply {
-            setFacingDirection(BlockFace.UP, true)
-            isVisible = false
-            isFixed = false
-            setItem(hand.clone().apply { amount = 1 }, false)
-            PersistentData.flag(this, GROUND_ITEM_KEY)
-            
-            rotation = Rotation.values()[Random.nextInt(Rotation.values().size)]
-        }
-        location.world.playSound(location, Sound.ENTITY_ITEM_PICKUP, 0.5f, 0.8f)
-        consumeItem(player, hand)
-    }
-
-
-    private fun consumeItem(player: Player, item: ItemStack) {
-        if (item.amount > 1) item.amount-- else player.inventory.setItemInMainHand(null)
-    }
+    // Right-click placement mechanic disabled - use GroundItemDisplayHandler instead
+    // @EventHandler
+    // fun onPlayerInteract(event: PlayerInteractEvent) {
+    //     if (event.action != Action.RIGHT_CLICK_BLOCK || event.hand != EquipmentSlot.HAND) return
+    //
+    //     val block = event.clickedBlock ?: return
+    //     val player = event.player
+    //     val hand = player.inventory.itemInMainHand
+    //
+    //     if (event.blockFace != BlockFace.UP || !player.isSneaking || hand.type == Material.AIR) return
+    //     if (!block.type.isSolid) return
+    //
+    //     event.isCancelled = true
+    //     val location = block.location.add(0.5, 1.0625, 0.5)
+    //
+    //     createGroundItem(location, hand, player)
+    // }
+    //
+    // private fun createGroundItem(location: Location, hand: ItemStack, player: Player) {
+    //     location.world.spawn(location, ItemFrame::class.java).apply {
+    //         setFacingDirection(BlockFace.UP, true)
+    //         isVisible = false
+    //         isFixed = false
+    //         setItem(hand.clone().apply { amount = 1 }, false)
+    //         PersistentData.flag(this, GROUND_ITEM_KEY)
+    //
+    //         rotation = Rotation.values()[Random.nextInt(Rotation.values().size)]
+    //     }
+    //     location.world.playSound(location, Sound.ENTITY_ITEM_PICKUP, 0.5f, 0.8f)
+    //     consumeItem(player, hand)
+    // }
+    //
+    // private fun consumeItem(player: Player, item: ItemStack) {
+    //     if (item.amount > 1) item.amount-- else player.inventory.setItemInMainHand(null)
+    // }
 
     @EventHandler
     fun onFrameBreak(event: HangingBreakEvent) {
