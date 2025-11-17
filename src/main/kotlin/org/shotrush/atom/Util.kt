@@ -34,6 +34,11 @@ fun ItemStack.matches(key: String) = getNamespacedKey() == key
 fun ItemStack.matches(namespace: String, path: String) = getNamespacedKey() == "$namespace:$path"
 fun ItemStack.matches(item: CustomItem<ItemStack>) = item.isItem(this)
 
+fun Block.getNamespacedKey(): String = if(CraftEngineBlocks.isCustomBlock(this)) {
+    CraftEngineBlocks.getCustomBlockState(this)?.owner()?.value()?.id()?.toString() ?: type.key.toString()
+} else {
+    type.key.toString()
+}
 fun Block.matches(key: Key) =
     (CraftEngineBlocks.getCustomBlockState(this)?.owner()?.matchesKey(key) ?: type.key.toString()) == key.toString()
 fun Block.matches(key: String) = matches(Key.of(key))

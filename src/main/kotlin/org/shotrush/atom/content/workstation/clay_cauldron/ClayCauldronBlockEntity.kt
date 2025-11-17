@@ -1,6 +1,5 @@
 package org.shotrush.atom.content.workstation.clay_cauldron
 
-import net.minecraft.world.level.block.CampfireBlock
 import net.momirealms.craftengine.bukkit.api.CraftEngineItems
 import net.momirealms.craftengine.bukkit.item.BukkitItemManager
 import net.momirealms.craftengine.core.block.ImmutableBlockState
@@ -16,11 +15,10 @@ import org.bukkit.inventory.ItemStack
 import org.shotrush.atom.content.base.AtomBlockEntity
 import org.shotrush.atom.content.workstation.Workstations
 import org.shotrush.atom.getItemStack
-import org.shotrush.atom.getNamespacedKey
 import org.shotrush.atom.item.Material
-import org.shotrush.atom.item.MoldShape
 import org.shotrush.atom.item.MoldType
 import org.shotrush.atom.item.Molds
+import org.shotrush.atom.item.ToolShape
 import org.shotrush.atom.matches
 import org.shotrush.atom.putItemStack
 
@@ -180,7 +178,7 @@ class ClayCauldronBlockEntity(
         }
     }
 
-    fun fillMold(player: Player, item: ItemStack, type: MoldType, shape: MoldShape): InteractionResult {
+    fun fillMold(player: Player, item: ItemStack, type: MoldType, shape: ToolShape): InteractionResult {
         if (fluid == null) return InteractionResult.PASS
         if (fluidStored < FLUID_PER_INGOT) return InteractionResult.PASS
         item.amount--

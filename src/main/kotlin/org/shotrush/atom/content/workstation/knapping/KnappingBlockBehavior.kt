@@ -5,10 +5,7 @@ import dev.triumphteam.gui.paper.kotlin.builder.buildGui
 import dev.triumphteam.gui.paper.kotlin.builder.chestContainer
 import dev.triumphteam.nova.getValue
 import dev.triumphteam.nova.mutableListStateOf
-import dev.triumphteam.nova.setValue
-import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.format.NamedTextColor
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.momirealms.craftengine.core.block.BlockBehavior
 import net.momirealms.craftengine.core.block.CustomBlock
@@ -31,7 +28,7 @@ import org.shotrush.atom.content.workstation.Workstations
 import org.shotrush.atom.getNamespacedKey
 import org.shotrush.atom.isCustomItem
 import org.shotrush.atom.item.Items
-import org.shotrush.atom.item.MoldShape
+import org.shotrush.atom.item.ToolShape
 import org.shotrush.atom.item.MoldType
 import org.shotrush.atom.item.Molds
 
@@ -54,7 +51,7 @@ class KnappingBlockBehavior(block: CustomBlock) : AbstractBlockBehavior(block), 
     fun openUI(
         ui: KnappingUIItem,
         player: Player,
-        transformer: (shape: MoldShape) -> ItemStack,
+        transformer: (shape: ToolShape) -> ItemStack,
         invert: Boolean = false,
         onCraftComplete: (() -> Unit)? = null,
     ) {

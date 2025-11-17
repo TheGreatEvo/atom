@@ -185,7 +185,7 @@ public class ThirstSystem implements Listener {
         int gained = newThirst - currentThirst;
 
         if (gained > 0) {
-            ActionBarManager.send(player, "<aqua>+<white" + gained + "</white> Thirst</aqua>");
+            ActionBarManager.send(player, "<aqua>+<gray>" + gained + "</gray> Thirst</aqua>");
         }
 
         player.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 200, 0, false, false));
@@ -202,7 +202,7 @@ public class ThirstSystem implements Listener {
         int gained = newThirst - currentThirst;
 
         if (gained > 0) {
-            ActionBarManager.send(player, "<aqua>+<white" + gained + "</white> Thirst</aqua> <gray>(Purified)</gray>");
+            ActionBarManager.send(player, "<aqua>+<gray>" + gained + "</gray> Thirst</aqua> <gray>(Purified)</gray>");
         }
     }
 

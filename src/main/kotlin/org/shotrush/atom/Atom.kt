@@ -29,6 +29,7 @@ import org.shotrush.atom.core.storage.DataStorage
 import org.shotrush.atom.core.workstations.WorkstationManager
 import org.shotrush.atom.listener.PlayerChatListener
 import org.shotrush.atom.listener.PlayerDataTrackingListener
+import org.shotrush.atom.listener.PlayerMiningListener
 import org.shotrush.atom.listener.TestListener
 
 class Atom : SuspendingJavaPlugin() {
@@ -73,6 +74,7 @@ class Atom : SuspendingJavaPlugin() {
 
         TestListener.register(this)
         PlayerDataTrackingListener.register(this)
+        PlayerMiningListener.register(this)
 //        PlayerChatListener.register(this)
         setupCommands()
         logger.info("Atom plugin has been enabled!")

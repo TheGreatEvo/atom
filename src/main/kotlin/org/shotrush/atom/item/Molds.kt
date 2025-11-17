@@ -17,11 +17,11 @@ import org.bukkit.persistence.PersistentDataType
 import org.shotrush.atom.getNamespacedKey
 
 object Molds {
-    fun getMold(tool: MoldShape, variant: MoldType): CustomItem<ItemStack> {
+    fun getMold(tool: ToolShape, variant: MoldType): CustomItem<ItemStack> {
         return CraftEngineItems.byId(Key.of("atom", "${variant.id}_mold_${tool.mold}"))!!
     }
 
-    fun getToolHead(tool: MoldShape, material: Material): CustomItem<ItemStack> {
+    fun getToolHead(tool: ToolShape, material: Material): CustomItem<ItemStack> {
         val key = "${material.id}_${tool.id}_head"
         return CraftEngineItems.byId(Key.of("atom", key)) ?: error("No tool head found for $key")
     }
@@ -32,7 +32,7 @@ object Molds {
         return CraftEngineItems.byId(Key.of("atom", "ingot_${material.id}"))!!.buildItemStack()
     }
 
-    fun getFilledMold(shape: MoldShape, variant: MoldType, material: Material): ItemStack {
+    fun getFilledMold(shape: ToolShape, variant: MoldType, material: Material): ItemStack {
         if (variant != MoldType.Wax && variant != MoldType.Fired) throw IllegalArgumentException("Only Wax and Fired molds can be filled!")
         val item = CraftEngineItems.byId(Key.of("atom", "filled_${variant.id}_mold_${shape.mold}"))!!
         val stack = item.buildItemStack()
@@ -92,12 +92,12 @@ object Molds {
         throw IllegalArgumentException("Item is not a mold!")
     }
 
-    fun getMoldShape(stack: ItemStack): MoldShape {
+    fun getMoldShape(stack: ItemStack): ToolShape {
         val key = stack.getNamespacedKey()
         if (key.matches(FullRegex)) {
             val regex = FullRegex.find(key)!!
             val moldShapeId = regex.groupValues[2]
-            return MoldShape.byMold(moldShapeId)
+            return ToolShape.byMold(moldShapeId)
         }
         error("Item is not a mold!")
     }
@@ -109,7 +109,7 @@ object Molds {
         val materialId = stack.persistentDataContainer.getString("mold_fill") ?: error("No material found!")
 
         val moldType = MoldType.byId(moldTypeId)
-        val moldShape = MoldShape.byId(moldShapeId)
+        val moldShape = ToolShape.byId(moldShapeId)
         val material = Material.byId(materialId)
 
         val emptyMold = if (moldType == MoldType.Wax) {
@@ -117,7 +117,7 @@ object Molds {
         } else {
             getMold(moldShape, moldType).buildItemStack()
         }
-        val toolHead = if (moldShape == MoldShape.Ingot) {
+        val toolHead = if (moldShape == ToolShape.Ingot) {
             getIngot(material)
         } else {
             getToolHead(moldShape, material).buildItemStack()

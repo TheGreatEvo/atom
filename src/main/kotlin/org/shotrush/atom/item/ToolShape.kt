@@ -1,6 +1,6 @@
 package org.shotrush.atom.item
 
-enum class MoldShape(val id: String, val mold: String, val vanillaItem: org.bukkit.Material? = null) {
+enum class ToolShape(val id: String, val mold: String, val vanillaItem: org.bukkit.Material? = null) {
     Axe("axe", "axe_head"),
     Hoe("hoe", "hoe_head"),
     Hammer("hammer", "hammer_head"),
@@ -12,8 +12,8 @@ enum class MoldShape(val id: String, val mold: String, val vanillaItem: org.bukk
     Ingot("ingot", "ingot");
 
     companion object {
-        val ShapeById = MoldShape.entries.associateBy { it.id }
-        val ShapeByMold = MoldShape.entries.associateBy { it.mold }
+        val ShapeById = ToolShape.entries.associateBy { it.id }
+        val ShapeByMold = ToolShape.entries.associateBy { it.mold }
 
         fun byId(id: String) = ShapeById[id] ?: error("No such MoldShape: $id")
         fun byMold(mold: String) = ShapeByMold[mold] ?: error("No such MoldShape: $mold")
