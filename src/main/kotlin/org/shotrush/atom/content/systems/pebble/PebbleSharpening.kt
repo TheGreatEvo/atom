@@ -111,11 +111,15 @@ class PebbleSharpening(private val plugin: Plugin) : Listener {
                 )
                 center.world?.playSound(center, Sound.ITEM_FIRECHARGE_USE, 1.0f, 1.0f)
                 center.world?.spawnParticle(Particle.CRIT, center, 20, 0.3, 0.3, 0.3, 0.02)
+                Atom.instance.launch(Atom.instance.regionDispatcher(block.location)) {
+                    block.type = Material.COBBLESTONE
+                }
                 ActionBarManager.send(player, "stone_sharpen" ,"<green>Stone sharpened!</green>")
             } else {
+                player.inventory.addItem(ItemStack(Material.GUNPOWDER))
                 center.world?.playSound(center, Sound.BLOCK_STONE_BREAK, 0.5f, 2.0f)
                 center.world?.spawnParticle(Particle.SMOKE, center, 10, 0.2, 0.2, 0.2, 0.02)
-                ActionBarManager.send(player, "stone_sharpen" ,"<red>Failed to sharpen the stone. Try again!</red>")
+                ActionBarManager.send(player, "stone_sharpen" ,"<red>The pebble crumbled to dust!</red>")
             }
         }
         return
