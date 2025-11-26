@@ -1,5 +1,6 @@
 package org.shotrush.atom.content.systems;
 
+import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -26,6 +27,10 @@ public class ItemHeatSystem implements Listener {
     public static ItemHeatSystem instance;
     private final org.bukkit.plugin.Plugin plugin;
     private static final NamespacedKey HEAT_MODIFIER_KEY = new NamespacedKey("atom", "heat_modifier");
+    private static final NamespacedKey CLAY_DRYING_START_KEY = new NamespacedKey("atom", "clay_drying_start_time");
+    private static final long CLAY_DRY_TIME_MS = 30000L;
+    // private static final long CLAY_DRY_TIME_MS = 900000L; Actual Production Time
+    private static final int CLAY_MIN_LIGHT_LEVEL = 12;
     
     private static final Map<UUID, Map<Integer, Double>> playerItemHeatCache = new HashMap<>();
     private static final Map<UUID, ItemStack> lastKnownItems = new HashMap<>();
@@ -298,14 +303,10 @@ public class ItemHeatSystem implements Listener {
 
             double ambientTemp = EnvironmentalFactorAPI.getAmbientTemperature(loc);
             double heatDifference = ambientTemp - currentHeat;
-            
-            // Special handling for filled molds
+
             if (org.shotrush.atom.item.Molds.INSTANCE.isFilledMold(itemStack)) {
-                // Slower cooling for molds (0.005 instead of 0.1)
                 double heatChange = heatDifference * 0.005;
                 double newHeat = currentHeat + heatChange;
-                
-                // Persistence logic for cooling
                 ItemMeta meta = itemStack.getItemMeta();
                 Long startTime = null;
                 if (meta != null) {
@@ -473,94 +474,161 @@ public class ItemHeatSystem implements Listener {
                 task.cancel();
                 return;
             }
-            
+
             ItemStack itemStack = itemDisplay.getItemStack();
             if (itemStack == null || itemStack.getType() == Material.AIR) {
                 task.cancel();
                 return;
             }
-            
+
             double currentHeat = getItemHeat(itemStack);
             org.bukkit.Location loc = itemDisplay.getLocation();
 
             double ambientTemp = EnvironmentalFactorAPI.getAmbientTemperature(loc);
             double heatDifference = ambientTemp - currentHeat;
-            
-            // Special handling for filled molds
+
             if (org.shotrush.atom.item.Molds.INSTANCE.isFilledMold(itemStack)) {
-                // Slower cooling for molds
-                double heatChange = heatDifference * 0.005;
-                double newHeat = currentHeat + heatChange;
-                
-                // Persistence logic for cooling
-                ItemMeta meta = itemStack.getItemMeta();
-                Long startTime = null;
-                if (meta != null) {
-                    startTime = meta.getPersistentDataContainer().get(COOLING_START_KEY, org.bukkit.persistence.PersistentDataType.LONG);
-                    if (startTime == null) {
-                        startTime = System.currentTimeMillis();
-                        meta.getPersistentDataContainer().set(COOLING_START_KEY, org.bukkit.persistence.PersistentDataType.LONG, startTime);
-                        itemStack.setItemMeta(meta);
-                        // Update the display with the modified item
-                        itemDisplay.setItemStack(itemStack);
-                    }
-                }
-                
-                setItemHeat(itemStack, newHeat);
-                itemDisplay.setItemStack(itemStack);
-                
-                // Visual effects
-                if (currentHeat > 50) {
-                    loc.getWorld().spawnParticle(org.bukkit.Particle.SMOKE, loc, 1, 0.1, 0.1, 0.1, 0.01);
-                    // Use startTime to determine tick-like intervals for sound
-                    long elapsedTicks = (System.currentTimeMillis() - (startTime != null ? startTime : 0)) / 50;
-                    if (elapsedTicks % 100 == 0) { // Every 5 seconds approx
-                        loc.getWorld().playSound(loc, org.bukkit.Sound.BLOCK_FIRE_EXTINGUISH, 0.1f, 0.5f);
-                    }
-                }
-                
-                long elapsedMillis = System.currentTimeMillis() - (startTime != null ? startTime : System.currentTimeMillis());
-                
-                // 30 seconds = 30000 ms
-                if (elapsedMillis >= 30000) {
-                    try {
-                        kotlin.Pair<ItemStack, ItemStack> result = org.shotrush.atom.item.Molds.INSTANCE.emptyMold(itemStack);
-                        
-                        // Drop empty mold
-                        if (result.getFirst() != null && result.getFirst().getType() != Material.AIR) {
-                            itemDisplay.getWorld().dropItem(loc, result.getFirst());
-                        }
-                        
-                        // Drop tool head
-                        if (result.getSecond() != null && result.getSecond().getType() != Material.AIR) {
-                            itemDisplay.getWorld().dropItem(loc, result.getSecond());
-                        }
-                        
-                        // Effects
-                        loc.getWorld().playSound(loc, org.bukkit.Sound.ENTITY_ITEM_BREAK, 1.0f, 1.0f);
-                        loc.getWorld().spawnParticle(org.bukkit.Particle.LAVA, loc, 5, 0.1, 0.1, 0.1, 0.0);
-                        
-                        itemDisplay.remove();
-                        task.cancel();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        task.cancel();
-                    }
-                }
+                handleFilledMoldCooling(itemDisplay, itemStack, loc, currentHeat, heatDifference, task);
                 return;
             }
-            
-            // Standard Item Logic
+            if (itemStack.getType() == Material.CLAY_BALL) {
+                handleClayDrying(itemDisplay, itemStack, loc, task);
+                return;
+            }
+
             double heatChange = heatDifference * 0.05;
             double newHeat = currentHeat + heatChange;
-            
+
             newHeat = Math.max(-100, Math.min(500, newHeat));
-            
+
             if (Math.abs(newHeat - currentHeat) > 0.5) {
                 setItemHeat(itemStack, newHeat);
                 itemDisplay.setItemStack(itemStack);
             }
         }, 20L, 20L);
+    }
+
+    private static void handleFilledMoldCooling(org.bukkit.entity.ItemDisplay itemDisplay, ItemStack itemStack,
+                                                org.bukkit.Location loc, double currentHeat,
+                                                double heatDifference, ScheduledTask task) {
+        double heatChange = heatDifference * 0.005;
+        double newHeat = currentHeat + heatChange;
+
+        ItemMeta meta = itemStack.getItemMeta();
+        Long startTime = null;
+        if (meta != null) {
+            startTime = meta.getPersistentDataContainer().get(COOLING_START_KEY, org.bukkit.persistence.PersistentDataType.LONG);
+            if (startTime == null) {
+                startTime = System.currentTimeMillis();
+                meta.getPersistentDataContainer().set(COOLING_START_KEY, org.bukkit.persistence.PersistentDataType.LONG, startTime);
+                itemStack.setItemMeta(meta);
+                itemDisplay.setItemStack(itemStack);
+            }
+        }
+
+        setItemHeat(itemStack, newHeat);
+        itemDisplay.setItemStack(itemStack);
+
+        if (currentHeat > 50) {
+            loc.getWorld().spawnParticle(org.bukkit.Particle.SMOKE, loc, 1, 0.1, 0.1, 0.1, 0.01);
+            long elapsedTicks = (System.currentTimeMillis() - (startTime != null ? startTime : 0)) / 50;
+            if (elapsedTicks % 100 == 0) {
+                loc.getWorld().playSound(loc, org.bukkit.Sound.BLOCK_FIRE_EXTINGUISH, 0.1f, 0.5f);
+            }
+        }
+
+        long elapsedMillis = System.currentTimeMillis() - (startTime != null ? startTime : System.currentTimeMillis());
+
+        if (elapsedMillis >= 30000) {
+            try {
+                kotlin.Pair<ItemStack, ItemStack> result = org.shotrush.atom.item.Molds.INSTANCE.emptyMold(itemStack);
+
+                if (result.getFirst() != null && result.getFirst().getType() != Material.AIR) {
+                    itemDisplay.getWorld().dropItem(loc, result.getFirst());
+                }
+
+                if (result.getSecond() != null && result.getSecond().getType() != Material.AIR) {
+                    itemDisplay.getWorld().dropItem(loc, result.getSecond());
+                }
+
+                loc.getWorld().playSound(loc, org.bukkit.Sound.ENTITY_ITEM_BREAK, 1.0f, 1.0f);
+                loc.getWorld().spawnParticle(org.bukkit.Particle.LAVA, loc, 5, 0.1, 0.1, 0.1, 0.0);
+
+                itemDisplay.remove();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private static void handleClayDrying(org.bukkit.entity.ItemDisplay itemDisplay, ItemStack itemStack,
+                                         org.bukkit.Location loc, ScheduledTask task) {
+        org.bukkit.block.Block block = loc.getBlock();
+        org.bukkit.World world = loc.getWorld();
+
+        boolean isInSunlight = block.getLightFromSky() >= CLAY_MIN_LIGHT_LEVEL &&
+                world.getTime() >= 0 && world.getTime() <= 12000 &&
+                !world.hasStorm();
+
+        ItemMeta meta = itemStack.getItemMeta();
+        if (meta == null) return;
+
+        Long startTime = meta.getPersistentDataContainer().get(CLAY_DRYING_START_KEY, org.bukkit.persistence.PersistentDataType.LONG);
+
+        if (!isInSunlight) {
+
+            if (world.getGameTime() % 40L == 0L) {
+                world.spawnParticle(org.bukkit.Particle.SMOKE, loc.clone().add(0.0, 0.3, 0.0), 1, 0.1, 0.1, 0.1, 0.01);
+            }
+
+
+            if (startTime != null) {
+                meta.getPersistentDataContainer().remove(CLAY_DRYING_START_KEY);
+                itemStack.setItemMeta(meta);
+                itemDisplay.setItemStack(itemStack);
+            }
+            return;
+        }
+
+        if (startTime == null) {
+            startTime = System.currentTimeMillis();
+            meta.getPersistentDataContainer().set(CLAY_DRYING_START_KEY, org.bukkit.persistence.PersistentDataType.LONG, startTime);
+            itemStack.setItemMeta(meta);
+            itemDisplay.setItemStack(itemStack);
+        }
+
+        long elapsedMillis = System.currentTimeMillis() - startTime;
+        float progress = (float) elapsedMillis / (float) CLAY_DRY_TIME_MS;
+
+        if (world.getGameTime() % 20L == 0L) {
+            int particleCount = (int) (2 + (progress * 5));
+            world.spawnParticle(org.bukkit.Particle.DUST_PLUME, loc.clone().add(0.0, 0.3, 0.0),
+                    particleCount, 0.1, 0.1, 0.1, 0.01);
+
+            if (progress > 0.7f) {
+                world.spawnParticle(org.bukkit.Particle.FLAME, loc.clone().add(0.0, 0.3, 0.0),
+                        1, 0.05, 0.05, 0.05, 0.0);
+            }
+        }
+
+        if (elapsedMillis >= CLAY_DRY_TIME_MS) {
+            convertClayToBrick(itemDisplay, itemStack, loc);
+        }
+    }
+
+    private static void convertClayToBrick(org.bukkit.entity.ItemDisplay itemDisplay, ItemStack clayItem, org.bukkit.Location loc) {
+        org.bukkit.World world = loc.getWorld();
+        int amount = clayItem.getAmount();
+
+        world.playSound(loc, org.bukkit.Sound.BLOCK_FIRE_EXTINGUISH, 0.7f, 1.5f);
+        world.spawnParticle(org.bukkit.Particle.FLAME, loc, 15, 0.2, 0.2, 0.2, 0.02);
+        world.spawnParticle(org.bukkit.Particle.SMOKE, loc, 10, 0.2, 0.2, 0.2, 0.01);
+
+        ItemStack brick = new ItemStack(Material.BRICK, amount);
+        itemDisplay.setItemStack(brick);
+
+        org.shotrush.atom.Atom.instance.getLogger().info("Converted clay to brick at " +
+                loc.getBlockX() + ", " + loc.getBlockY() + ", " + loc.getBlockZ());
     }
     
     public static void startDroppedItemFireTracking(org.bukkit.entity.Item item) {

@@ -157,7 +157,7 @@ class CampfireSystem(private val plugin: Plugin) : Listener {
         }
 
         // Lighting with pebble when unlit
-        if (item.matches("atom:pebble") && !data.isLit) {
+        if (item.matches("atom:fire_starter") && !data.isLit) {
             // simulate multiple strikes with progress
             val strikesNeeded = 10 + Random.nextInt(6)
             startStrikeTask(player, block.location, strikesNeeded) {

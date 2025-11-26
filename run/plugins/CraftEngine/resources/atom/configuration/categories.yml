@@ -20,6 +20,7 @@ categories:
       - 'atom:flint_spear'
       - 'atom:straw'
       - 'atom:pressure_flaker'
+      - 'atom:fire_starter'
   atom:copper:
     priority: 50
     name: <!i><white><l10n:category.copper.name></white>
